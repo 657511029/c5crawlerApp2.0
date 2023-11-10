@@ -270,13 +270,7 @@ public class RankView extends ConstraintLayout {
             for(Rank_jewelry rankJewelry: rank_jewelryList){
                 dataList.add(rankJewelry);
             }
-        } catch (ScriptException e) {
-            throw new RuntimeException(e);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (NoSuchMethodException e) {
+        }   catch (IOException e) {
             throw new RuntimeException(e);
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);

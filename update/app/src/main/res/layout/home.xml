@@ -19,7 +19,51 @@
 <!--        app:layout_constraintTop_toBottomOf="@+id/home_topBar"-->
 <!--        app:layout_constraintVertical_bias="0.947"/>-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/home_topBar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="72dp"-->
+<!--        android:background="@color/white"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/home_topBar_item1"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:layout_marginLeft="10px"-->
+<!--            android:background="@drawable/border"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/home_title1"-->
+<!--            android:textColor="@color/home_topBar_item"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.05"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/home_topBar_item2"-->
+<!--            android:layout_width="70dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:background="@drawable/border"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/home_title2"-->
+<!--            android:textColor="@color/home_topBar_item"-->
+<!--            android:layout_marginLeft="10px"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/home_topBar_item1"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            />-->
+
+<!--       -->
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <LinearLayout
         android:id="@+id/home_topBar"
         android:layout_width="match_parent"
         android:layout_height="72dp"
@@ -34,56 +78,26 @@
             android:id="@+id/home_topBar_item1"
             android:layout_width="100dp"
             android:layout_height="45dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="@string/home_title1"
-            android:textColor="@color/home_topBar_item"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.05"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/home_topBar_item" />
 
         <TextView
             android:id="@+id/home_topBar_item2"
             android:layout_width="100dp"
             android:layout_height="45dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/border"
             android:gravity="center"
             android:text="@string/home_title2"
-            android:textColor="@color/home_topBar_item"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textColor="@color/home_topBar_item" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/home_topBar_item3"-->
-        <!--            android:layout_width="100dp"-->
-        <!--            android:layout_height="45dp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:text="@string/home_title3"-->
-        <!--            android:textColor="@color/home_topBar_item"-->
-        <!--            android:background="@drawable/border"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.95"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/home_topBar_item4"-->
-        <!--            android:layout_width="75dp"-->
-        <!--            android:layout_height="50dp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:text="@string/home_title4"-->
-        <!--            android:textColor="@color/home_topBar_item"-->
-        <!--            android:background="@drawable/border"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="0.92"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

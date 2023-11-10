@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.update.entity.Hangknife_jewelry;
 import com.example.update.entity.Jewelry;
 import com.example.update.entity.Rank_jewelry;
 
@@ -120,7 +121,7 @@ public class HomeApi {
         return BitmapFactory.decodeStream(url.openStream());
     }
 
-    public static List<Rank_jewelry> getRankJewelryList(Context context,String platform,String type,String sort,String mode,String day) throws ScriptException, JSONException, IOException, NoSuchMethodException, NoSuchAlgorithmException {
+    public static List<Rank_jewelry> getRankJewelryList(Context context,String platform,String type,String sort,String mode,String day) throws IOException, NoSuchAlgorithmException {
 
         List<Rank_jewelry> rankJewelryList = new ArrayList<>();
         String httpUrl = "https://www.muxicat.com/api/ranking/item";
@@ -208,7 +209,7 @@ public class HomeApi {
 
     }
 
-    public static String getSign(String timestamp) throws IOException, ScriptException, JSONException, NoSuchMethodException, NoSuchAlgorithmException {
+    public static String getSign(String timestamp) throws IOException, NoSuchAlgorithmException {
         String str = timestamp;
         byte[] digest = null;
         MessageDigest md5 = MessageDigest.getInstance("md5");
@@ -218,6 +219,74 @@ public class HomeApi {
         return new BigInteger(1, digest).toString(16);
     }
 
+    public static List<Hangknife_jewelry> getHangknifeJewelryList(String min,String max,String change){
+
+        List<Hangknife_jewelry> hangknife_jewelries = new ArrayList<>();
+        String httpUrl = "https://www.muxicat.com/api/ranking/hangknife";
+        BufferedReader reader = null;
+        String result = null;
+        StringBuffer sbf = new StringBuffer();
+        try {
+            URL url = new URL(httpUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36 Edg/119.0.0.0");
+            connection.setRequestProperty("Referer", "https://www.muxicat.com/csgo/hangknife");
+            connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+            String timestamp = String.valueOf(new Date().getTime());
+            connection.setRequestProperty("Timestamp", timestamp);
+            String sign = getSign(timestamp);
+            connection.setRequestProperty("Sign", sign);
+            connection.connect();
+            /* 4. 处理输入输出 */
+            // 写入参数到请求中
+            Map subscribeMessage = new HashMap<String, Object>();
+            subscribeMessage.put("min", min);
+            subscribeMessage.put("max", max);
+            subscribeMessage.put("change", change);
+
+            JSONObject subscribeMessageJson = new JSONObject(subscribeMessage);
+            String params = subscribeMessageJson.toString();
+            OutputStream out = connection.getOutputStream();
+            out.write(params.getBytes());
+            out.flush();
+            out.close();
+            if(connection.getResponseCode() == 200) {
+                InputStream is = connection.getInputStream();
+                reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                String strRead = null;
+                while ((strRead = reader.readLine()) != null) {
+                    sbf.append(strRead);
+                    sbf.append("\r\n");
+                }
+                is.close();
+                reader.close();
+                result = sbf.toString();
+                JSONObject obj = new JSONObject(result);
+                if(obj.getInt("code") != 0){
+                    return hangknife_jewelries;
+                }
+                JSONArray items = obj.getJSONArray("data");
+                for(int i = 0;i < items.length();i++){
+                    JSONArray item = items.getJSONArray(i);
+                    Hangknife_jewelry hangknifeJewelry = new Hangknife_jewelry();
+                    hangknifeJewelry.setJewelryName(item.getString(0));
+                    hangknifeJewelry.setTrade_count_day(item.getInt(1));
+                    hangknifeJewelry.setMin_sell(item.getString(2));
+                    hangknifeJewelry.setFast_scale(item.getString(3));
+                    hangknife_jewelries.add(hangknifeJewelry);
+                }
+            }
+            return hangknife_jewelries;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return hangknife_jewelries;
+        }
+
+    }
 
 }
 
