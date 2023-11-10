@@ -1,0 +1,14 @@
+<resources>
+    <declare-styleable name="HeaderBar">
+        <attr name="title_text_color" format="color"></attr>
+        <attr name="title_text" format="string"></attr>
+        <attr name="show_views">
+            <flag name="left_text" value="0x01" />
+            <flag name="left_img" value="0x02" />
+            <flag name="right_text" value="0x04" />
+            <flag name="right_img" value="0x08" />
+            <flag name="center_text" value="0x10" />
+            <flag name="center_img" value="0x20" />
+        </attr>
+    </declare-styleable>
+</resources>

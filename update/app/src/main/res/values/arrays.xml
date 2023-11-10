@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="shipper_platform">
+        <item>Buff</item>
+        <item>悠悠有品</item>
+    </string-array>
+    <string-array name="shipper_type">
+        <item>出售价格</item>
+        <item>出售数量</item>
+    </string-array>
+    <string-array name="shipper_sort">
+        <item>差额</item>
+        <item>比例</item>
+        <item>无对比</item>
+    </string-array>
+    <string-array name="shipper_mode">
+        <item>正序</item>
+        <item>倒序</item>
+    </string-array>
+    <string-array name="shipper_day">
+        <item>一天</item>
+        <item>一周</item>
+        <item>一月</item>
+        <item>三月</item>
+    </string-array>
+
+</resources>

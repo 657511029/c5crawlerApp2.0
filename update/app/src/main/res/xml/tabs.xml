@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        drawable="@drawable/ic_home_black_foreground"
+        text="@string/home" />
+
+    <tab
+        drawable="@drawable/ic_inventory_black_foreground"
+        text="@string/inventory" />
+
+    <tab
+        drawable="@drawable/ic_collection_black_foreground"
+        text="@string/collection" />
+
+    <tab
+        drawable="@drawable/ic_info_black_foreground"
+        text="@string/info" />
+
+<!--    <tab-->
+<!--        drawable="@drawable/ic_home_black_foreground"-->
+<!--        text="@string/home" />-->
+</tabs>

@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Update" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:dropDownListViewStyle">@style/XSpinnerStyle</item>
+    </style>
+
+    <style name="Theme.Update" parent="Base.Theme.Update" />
+
+    <style name="XSpinnerStyle" parent="android:Widget.ListView.DropDown">
+        <!-- 分隔线颜色 -->
+        <item name="android:divider">@color/black</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+    <style name="spinner_style" parent="Base.Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/spinner_raow_selector</item>
+    </style>
+</resources>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rank">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rank_spinners"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.127">
+
+        <Spinner
+            android:id="@+id/spinner_platform"
+            android:layout_width="97dp"
+            android:layout_height="30dp"
+            android:background="#E5E5E5"
+            android:dropDownVerticalOffset="30dp"
+            android:entries="@array/shipper_platform"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <Spinner
+            android:id="@+id/spinner_type"
+            android:layout_width="97dp"
+            android:layout_height="30dp"
+            android:background="#E5E5E5"
+            android:dropDownVerticalOffset="30dp"
+            android:entries="@array/shipper_type"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+
+        <Spinner
+            android:id="@+id/spinner_sort"
+            android:layout_width="97dp"
+            android:layout_height="30dp"
+            android:background="#E5E5E5"
+            android:dropDownVerticalOffset="30dp"
+            android:entries="@array/shipper_sort"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2" />
+
+
+        <Spinner
+            android:id="@+id/spinner_mode"
+            android:layout_width="97dp"
+            android:layout_height="30dp"
+            android:background="#E5E5E5"
+            android:dropDownVerticalOffset="30dp"
+            android:entries="@array/shipper_mode"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <Spinner
+            android:id="@+id/spinner_day"
+            android:layout_width="97dp"
+            android:layout_height="30dp"
+            android:background="#E5E5E5"
+            android:dropDownVerticalOffset="30dp"
+            android:entries="@array/shipper_day"
+            android:spinnerMode="dropdown"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.75" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/rank_list_refresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rank_spinners"
+        app:layout_constraintVertical_bias="0.0">
+        <ListView
+            android:id="@+id/rank_list_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:dividerHeight="5dp"
+            android:listSelector="@android:color/transparent"
+            />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
