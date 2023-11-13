@@ -36,6 +36,7 @@ import com.example.update.view.ListViewAdapter;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +69,8 @@ public class RankView extends ConstraintLayout {
 
 
     private Spinner spinner_day;
+
+    private Spinner spinner_assort;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -125,7 +128,7 @@ public class RankView extends ConstraintLayout {
             public void onRefresh() {
                 spinnerCount++;
                 setAllEnabled(false);
-                if(spinnerCount < 5){
+                if(spinnerCount < 6){
                     return;
                 }
                 rank_jewelryList.clear();
@@ -169,8 +172,8 @@ public class RankView extends ConstraintLayout {
         spinner_value_map = new HashMap<>();
         spinner_value_map.put("Buff","1");
         spinner_value_map.put("悠悠有品","2");
-        spinner_value_map.put("出售价格","min_sell");
-        spinner_value_map.put("出售数量","sell_count");
+        spinner_value_map.put("出售价格","1");
+        spinner_value_map.put("出售数量","2");
         spinner_value_map.put("差额","1");
         spinner_value_map.put("比例","2");
         spinner_value_map.put("无对比","3");
@@ -180,6 +183,23 @@ public class RankView extends ConstraintLayout {
         spinner_value_map.put("一周","7");
         spinner_value_map.put("一月","30");
         spinner_value_map.put("三月","90");
+        spinner_value_map.put("全部","0");
+         spinner_value_map.put("印花","1");
+        spinner_value_map.put("手套","2");
+        spinner_value_map.put("匕首","3");
+        spinner_value_map.put("枪皮","4");
+        spinner_value_map.put("探员","5");
+        spinner_value_map.put("武器箱","6");
+        spinner_value_map.put("布章","7");
+        spinner_value_map.put("其他","8");
+        spinner_value_map.put("印花(普通)","9");
+        spinner_value_map.put("印花(闪耀)","10");
+        spinner_value_map.put("印花(全息)","11");
+        spinner_value_map.put("印花(金色)","12");
+        spinner_value_map.put("印花(2021)","13");
+        spinner_value_map.put("印花(2022里约)","14");
+        spinner_value_map.put("印花(2022安特卫普)","15");
+        spinner_value_map.put("印花(2023)","16");
     }
     @SuppressLint("ResourceType")
     private void initSpinner(){
@@ -194,6 +214,7 @@ public class RankView extends ConstraintLayout {
         spinner_sort = rankView.findViewById(R.id.spinner_sort);
         spinner_mode = rankView.findViewById(R.id.spinner_mode);
         spinner_day = rankView.findViewById(R.id.spinner_day);
+        spinner_assort = rankView.findViewById(R.id.spinner_assort);
         //设置下拉框的数组适配器
 //        sp.setAdapter(starAdapter);
         //设置下拉框默认的显示第一项
@@ -203,9 +224,20 @@ public class RankView extends ConstraintLayout {
         spinner_sort.setOnItemSelectedListener(new MySelectedListener());
         spinner_mode.setOnItemSelectedListener(new MySelectedListener());
         spinner_day.setOnItemSelectedListener(new MySelectedListener());
+        spinner_assort.setOnItemSelectedListener(new MySelectedListener());
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
 
+            // Get private mPopup member variable and try cast to ListPopupWindow
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner_assort);
 
-
+            // Set popupWindow height to 500px
+            popupWindow.setHeight(500);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
     }
 
     private void setAllEnabled(boolean enabled){
@@ -214,6 +246,7 @@ public class RankView extends ConstraintLayout {
         spinner_sort.setEnabled(enabled);
         spinner_mode.setEnabled(enabled);
         spinner_day.setEnabled(enabled);
+        spinner_assort.setEnabled(enabled);
     }
     class MySelectedListener implements AdapterView.OnItemSelectedListener {
 
@@ -221,7 +254,7 @@ public class RankView extends ConstraintLayout {
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             spinnerCount++;
             setAllEnabled(false);
-            if(spinnerCount < 5){
+            if(spinnerCount < 6){
                 return;
             }
             rank_jewelryList.clear();
@@ -265,7 +298,9 @@ public class RankView extends ConstraintLayout {
                         spinner_value_map.get(spinner_type.getSelectedItem().toString()),
                         spinner_value_map.get(spinner_sort.getSelectedItem().toString()),
                         spinner_value_map.get(spinner_mode.getSelectedItem().toString()),
-                        spinner_value_map.get(spinner_day.getSelectedItem().toString()));
+                        spinner_value_map.get(spinner_day.getSelectedItem().toString()),
+                        spinner_value_map.get(spinner_assort.getSelectedItem().toString())
+                );
             }
             for(Rank_jewelry rankJewelry: rank_jewelryList){
                 dataList.add(rankJewelry);

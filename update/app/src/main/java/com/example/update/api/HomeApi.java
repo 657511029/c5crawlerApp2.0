@@ -121,7 +121,7 @@ public class HomeApi {
         return BitmapFactory.decodeStream(url.openStream());
     }
 
-    public static List<Rank_jewelry> getRankJewelryList(Context context,String platform,String type,String sort,String mode,String day) throws IOException, NoSuchAlgorithmException {
+    public static List<Rank_jewelry> getRankJewelryList(Context context,String platform,String type,String sort,String mode,String day,String assort) throws IOException, NoSuchAlgorithmException {
 
         List<Rank_jewelry> rankJewelryList = new ArrayList<>();
         String httpUrl = "https://www.muxicat.com/api/ranking/item";
@@ -150,6 +150,7 @@ public class HomeApi {
             subscribeMessage.put("sort", sort);
             subscribeMessage.put("mode", mode);
             subscribeMessage.put("day", day);
+            subscribeMessage.put("assort",assort);
 
             JSONObject subscribeMessageJson = new JSONObject(subscribeMessage);
             String params = subscribeMessageJson.toString();
@@ -219,7 +220,7 @@ public class HomeApi {
         return new BigInteger(1, digest).toString(16);
     }
 
-    public static List<Hangknife_jewelry> getHangknifeJewelryList(String min,String max,String change){
+    public static List<Hangknife_jewelry> getHangknifeJewelryList(String min,String max,String change) throws IOException, NoSuchAlgorithmException {
 
         List<Hangknife_jewelry> hangknife_jewelries = new ArrayList<>();
         String httpUrl = "https://www.muxicat.com/api/ranking/hangknife";
@@ -273,7 +274,7 @@ public class HomeApi {
                     JSONArray item = items.getJSONArray(i);
                     Hangknife_jewelry hangknifeJewelry = new Hangknife_jewelry();
                     hangknifeJewelry.setJewelryName(item.getString(0));
-                    hangknifeJewelry.setTrade_count_day(item.getInt(1));
+                    hangknifeJewelry.setTrade_count_day(String.valueOf(item.getInt(1)));
                     hangknifeJewelry.setMin_sell(item.getString(2));
                     hangknifeJewelry.setFast_scale(item.getString(3));
                     hangknife_jewelries.add(hangknifeJewelry);

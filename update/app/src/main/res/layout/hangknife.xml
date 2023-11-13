@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/hangknife">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/hangknife_edits"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:background="@drawable/shape_rank_spinners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.127">
+
+        <EditText
+            android:id="@+id/hangknife_edits_min"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:hint="最低价格"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textColorHint="#95A1AA"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/hangknife_edits_max"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:hint="最高价格"
+            android:inputType="number"
+
+            android:singleLine="true"
+            android:textColorHint="#95A1AA"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/hangknife_edits_change"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:hint="日交易量"
+            android:inputType="number"
+
+            android:singleLine="true"
+            android:textColorHint="#95A1AA"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/hangknife_edits_search"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:text="查询"
+            android:textColor="@color/black"
+            android:background="@drawable/shape_button_type1"
+            android:minHeight="0dp"
+            android:minWidth="0dp"
+            android:paddingHorizontal="2dp"
+            android:paddingVertical="2dp"
+            android:gravity="center"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/hangknife_list_refresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hangknife_edits"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ListView
+            android:id="@+id/hangknife_list_result"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:dividerHeight="5dp"
+            android:listSelector="@android:color/transparent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

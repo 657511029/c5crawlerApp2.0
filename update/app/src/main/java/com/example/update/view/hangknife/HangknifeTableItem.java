@@ -1,13 +1,10 @@
-package com.example.update.view.rank;
+package com.example.update.view.hangknife;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -16,8 +13,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.update.R;
 
 
-public class  RankTableItem extends ConstraintLayout {
-    private static final String TAG = RankTableItem.class.getSimpleName();
+public class  HangknifeTableItem extends ConstraintLayout {
+    private static final String TAG = com.example.update.view.rank.RankTableItem.class.getSimpleName();
 
     private Context context;
     private  String element;
@@ -27,19 +24,19 @@ public class  RankTableItem extends ConstraintLayout {
 
 
 
-    public RankTableItem(Context context) {
+    public HangknifeTableItem(Context context) {
         super(context);
         this.context = context;
         initView(context);
 
     }
-    public RankTableItem(Context context, @Nullable AttributeSet attrs) {
+    public HangknifeTableItem(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         initView(context);
         initAttrs(context,attrs);
     }
-    public RankTableItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HangknifeTableItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
         this.context = context;
         initView(context);
@@ -47,14 +44,14 @@ public class  RankTableItem extends ConstraintLayout {
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public RankTableItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public HangknifeTableItem(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs);
         this.context = context;
         initView(context);
         initAttrs(context,attrs);
     }
     private void initView(Context context) {
-       RankTableItem rankTableItem = (RankTableItem) LayoutInflater.from(context).inflate(R.layout.rank_table_item, this,true);
+        HangknifeTableItem hangknifeTableItem = (HangknifeTableItem) LayoutInflater.from(context).inflate(R.layout.hangknife_table_item, this,true);
     }
 
     public void setName(String leftName,String rightName){
@@ -79,3 +76,4 @@ public class  RankTableItem extends ConstraintLayout {
     }
 
 }
+

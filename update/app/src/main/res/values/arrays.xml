@@ -23,5 +23,24 @@
         <item>一月</item>
         <item>三月</item>
     </string-array>
+    <string-array name="shipper_assort">
+        <item>全部</item>
+        <item>印花</item>
+        <item>手套</item>
+        <item>匕首</item>
+        <item>枪皮</item>
+        <item>探员</item>
+        <item>武器箱</item>
+        <item>布章</item>
+        <item>其他</item>
+        <item>印花(普通)</item>
+        <item>印花(闪耀)</item>
+        <item>印花(全息)</item>
+        <item>印花(金色)</item>
+        <item>印花(2021)</item>
+        <item>印花(2022里约)</item>
+        <item>印花(2022安特卫普)</item>
+        <item>印花(2023)</item>
+    </string-array>
 
 </resources>

@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.update.R;
+import com.example.update.view.hangknife.HangknifeView;
 import com.example.update.view.rank.RankView;
 
 import java.util.ArrayList;
@@ -42,6 +43,8 @@ public class HomeView extends ConstraintLayout {
     private JewelryListView jewelryListView;
 
     private RankView rankView;
+
+    private HangknifeView hangknifeView;
 
     public HomeView(Context context) {
         super(context);
@@ -77,10 +80,14 @@ public class HomeView extends ConstraintLayout {
         rankView = new RankView(context);
         rankView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+        hangknifeView  = new HangknifeView(context);
+        hangknifeView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+
         homeView.addView(jewelryListView);
         home_topBar_items = new ArrayList<>();
         home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item1));
         home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item2));
+        home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item3));
 //        home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item3));
         home_main_item = jewelryListView;
         home_main_itemId = R.id.home_topBar_item1;
@@ -138,6 +145,9 @@ public class HomeView extends ConstraintLayout {
         else if(id == R.id.home_topBar_item2){
             chooseItem2(R.id.home_topBar_item2);
         }
+        else if(id == R.id.home_topBar_item3){
+            chooseItem3(R.id.home_topBar_item3);
+        }
     }
 
     private void chooseItem1(int id){
@@ -154,6 +164,15 @@ public class HomeView extends ConstraintLayout {
 //        jewelryListView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        homeView.addView(jewelryListView);
         home_main_item =  rankView;
+        home_main_itemId = id;
+    }
+    private void chooseItem3(int id){
+        homeView.removeView(home_main_item);
+        homeView.addView(hangknifeView);
+//        JewelryListView jewelryListView = new JewelryListView(context);
+//        jewelryListView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        homeView.addView(jewelryListView);
+        home_main_item =  hangknifeView;
         home_main_itemId = id;
     }
     private void initAttrs(Context context, AttributeSet attrs) {

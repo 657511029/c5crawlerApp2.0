@@ -3,7 +3,7 @@ package com.example.update.entity;
 public class Hangknife_jewelry {
     private String jewelryName;
 
-    private int trade_count_day;
+    private String trade_count_day;
 
     private String min_sell;
 
@@ -17,13 +17,7 @@ public class Hangknife_jewelry {
         this.jewelryName = jewelryName;
     }
 
-    public int getTrade_count_day() {
-        return trade_count_day;
-    }
 
-    public void setTrade_count_day(int trade_count_day) {
-        this.trade_count_day = trade_count_day;
-    }
 
     public String getMin_sell() {
         return min_sell;
@@ -39,5 +33,13 @@ public class Hangknife_jewelry {
 
     public void setFast_scale(String fast_scale) {
         this.fast_scale = fast_scale;
+    }
+
+    public String getTrade_count_day() {
+        return trade_count_day;
+    }
+
+    public void setTrade_count_day(String trade_count_day) {
+        this.trade_count_day = trade_count_day;
     }
 }
