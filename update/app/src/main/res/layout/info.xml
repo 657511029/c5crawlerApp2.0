@@ -44,6 +44,32 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/info_top_person"
+            android:layout_width="match_parent"
+            android:layout_height="95dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_top_tool"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/info_top_person_user"
+                android:layout_width="187dp"
+                android:layout_height="60dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.077"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.171" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/info_top_functions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,11 +97,11 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/info_top_function_2"
+                android:id="@+id/info_top_function_modifyInfo"
                 android:layout_width="128dp"
                 android:layout_height="60dp"
                 android:gravity="center"
-                android:text="待开发"
+                android:text="信息维护"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 app:layout_constraintBottom_toBottomOf="parent"

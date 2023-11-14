@@ -33,6 +33,8 @@ dependencies {
 //    implementation("org.graalvm.sdk:graal-sdk:21.0.0")
 //    implementation("org.graalvm.js:js:21.0.0")
 //    implementation("org.openjdk.nashorn:nashorn-core:15.4.1")
+    implementation(files("libs\\jsoup-1.16.1.jar"))
+    implementation(files("libs\\jedis-2.9.0.jar"))
     implementation("io.apisense:rhino-android:1.1.1")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
     implementation("com.github.iammert:ReadableBottomBar:0.2")
