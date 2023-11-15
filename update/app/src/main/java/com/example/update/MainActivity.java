@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,9 +64,31 @@ public class MainActivity extends AppCompatActivity {
                 ConstraintLayout.LayoutParams layoutParams_info = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 infoView.setLayoutParams(layoutParams_info);
 
+                Intent intent = getIntent();
+                int point = intent.getIntExtra("point",0);
                 constraintLayout.addView(homeView);
                 mainPoint = 0;
                 mainView = homeView;
+//                readableBottomBar.selectItem(point);
+//                switch (point){
+//                    case 0:
+//                        constraintLayout.addView(homeView);
+//                        mainPoint = 0;
+//                        mainView = homeView;
+//                        break;
+//                    case 1:
+//                        toastMessage("工程师正在努力建设中");
+//                        break;
+//                    case 2:
+//                        toastMessage("工程师正在努力建设中");
+//                        break;
+//                    case 3:
+//                        constraintLayout.addView(infoView);
+//                        mainPoint = 3;
+//                        mainView = infoView;
+//                        break;
+//                }
+
 
             }
         });

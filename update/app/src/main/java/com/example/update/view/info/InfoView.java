@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.update.R;
+import com.example.update.SettingActivity;
 import com.example.update.api.InfoApi;
 
 
@@ -113,11 +114,12 @@ public class InfoView extends ConstraintLayout {
         });
     }
     private void initSetting(){
-        info_top_function_tracking.setOnClickListener(new OnClickListener() {
+        info_top_tool_setting.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                
-                toastMessage("工程师正在努力开发");
+                Intent intent = new Intent(context, SettingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }

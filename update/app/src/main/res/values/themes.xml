@@ -4,6 +4,7 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:dropDownListViewStyle">@style/XSpinnerStyle</item>
+
     </style>
 
     <style name="Theme.Update" parent="Base.Theme.Update" />
@@ -15,5 +16,14 @@
     </style>
     <style name="spinner_style" parent="Base.Widget.AppCompat.Spinner">
         <item name="android:background">@drawable/spinner_raow_selector</item>
+    </style>
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/back_icon_color</item>
+        <item name="android:textColorSecondary">@color/back_icon_color</item>
+        <item name="android:actionBarSize">50dp</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!--        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>-->
     </style>
 </resources>
