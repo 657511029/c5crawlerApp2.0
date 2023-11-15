@@ -51,9 +51,18 @@ public class SettingActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
                String function_name = ((TextView) view).getText().toString();
                if(function_name.equals(function_list[0])){
-                   Intent intent = new Intent(SettingActivity.this,ModifyInfoActivity.class);
-                   startActivity(intent);
-                   return;
+                   if(userExist()){
+                       Intent intent = new Intent(SettingActivity.this,ModifyInfoActivity.class);
+                       startActivity(intent);
+                       return;
+                   }else {
+                       new AlertDialog.Builder(SettingActivity.this)
+                               .setMessage("账号尚未登录")
+                               .setPositiveButton("确定", null)
+                               .show();
+                       return;
+                   }
+
                }
                if(function_name.equals(function_list[1])){
                    toastMessage("工程师正在努力开发中");
