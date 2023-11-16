@@ -26,6 +26,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.update.R;
 import com.example.update.SettingActivity;
+import com.example.update.TrackingActivity;
 import com.example.update.api.InfoApi;
 
 
@@ -101,7 +102,9 @@ public class InfoView extends ConstraintLayout {
                     toastMessage("尚未登录");
                     return;
                 }
-                toastMessage("工程师正在努力开发");
+                Intent intent = new Intent(context, TrackingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
             }
         });
     }

@@ -5,8 +5,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.update.service.FloatingWindowService;
+import com.example.update.service.TrackingService;
 import com.example.update.view.HomeView;
 import com.example.update.view.JewelryListView;
 import com.example.update.view.info.InfoView;
@@ -43,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initData();
         initComponent();
-
-        readableBottomBar.selectItem(1);
+        initNotificationChannel();
     }
     private void initData(){
         context = getApplicationContext();
@@ -128,6 +132,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    @Override
+    protected void onDestroy() {
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        //获取Editor对象的引用
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //将获取过来的值放入文件
+        editor.putString("track", "false");
+        editor.commit();
+        Intent intent = new Intent(this, FloatingWindowService.class);
+        Intent intent2 = new Intent(this, TrackingService.class);
+        stopService(intent);
+        stopService(intent2);
+        super.onDestroy();
+    }
 
     private void toastMessage(String message){
         runOnUiThread(new Runnable() {
@@ -137,5 +155,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void initNotificationChannel(){
+        Context context = getApplicationContext();
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(NOTIFICATION_SERVICE);
+        String highChannelId = "重要通知渠道";
+        if(notificationManager.getNotificationChannel(highChannelId) == null){
+            NotificationChannel highChannel = new NotificationChannel(highChannelId,"捡漏通知", NotificationManager.IMPORTANCE_HIGH);
+            highChannel.setDescription("捡漏通知");
+            notificationManager.createNotificationChannel(highChannel);
+        }
+        String defaultChannelId = "默认通知渠道";
+        if(notificationManager.getNotificationChannel(defaultChannelId) == null){
+            NotificationChannel defaultChannel = new NotificationChannel(defaultChannelId,"运行通知", NotificationManager.IMPORTANCE_DEFAULT);
+            defaultChannel.setDescription("运行通知");
+            notificationManager.createNotificationChannel(defaultChannel);
+        }
     }
 }
