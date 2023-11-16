@@ -97,11 +97,11 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/info_top_function_modifyInfo"
+                android:id="@+id/info_top_function_2"
                 android:layout_width="128dp"
                 android:layout_height="60dp"
                 android:gravity="center"
-                android:text="信息维护"
+                android:text="待开发"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 app:layout_constraintBottom_toBottomOf="parent"

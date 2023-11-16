@@ -45,7 +45,9 @@ public class InfoView extends ConstraintLayout {
 
     private TextView info_top_person_user;
 
-    private TextView info_top_function_modifyInfo;
+    private TextView info_top_function_2;
+
+    private TextView info_top_function_3;
 
     private LinearLayout login;
 
@@ -81,8 +83,10 @@ public class InfoView extends ConstraintLayout {
         infoView = (InfoView) LayoutInflater.from(context).inflate(R.layout.info, this,true);
         info_top_function_tracking = (TextView) infoView.findViewById(R.id.info_top_function_tracking);
         initTracking();
-        info_top_function_modifyInfo = (TextView)infoView.findViewById(R.id.info_top_function_modifyInfo);
-        initModifyInfo();
+        info_top_function_2 = (TextView)infoView.findViewById(R.id.info_top_function_2);
+        initFunction2();
+        info_top_function_3 = (TextView)infoView.findViewById(R.id.info_top_function_3);
+        initFunction3();
         info_top_tool_setting = (ImageView)infoView.findViewById(R.id.info_top_tool_setting);
         initSetting();
         info_top_person_user = (TextView) infoView.findViewById(R.id.info_top_person_user);
@@ -101,8 +105,20 @@ public class InfoView extends ConstraintLayout {
             }
         });
     }
-    private void initModifyInfo(){
-        info_top_function_modifyInfo.setOnClickListener(new OnClickListener() {
+    private void initFunction2(){
+        info_top_function_2.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!userExist()){
+                    toastMessage("尚未登录");
+                    return;
+                }
+                toastMessage("工程师正在努力开发");
+            }
+        });
+    }
+    private void initFunction3(){
+        info_top_function_3.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!userExist()){

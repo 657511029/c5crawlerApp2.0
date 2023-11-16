@@ -65,7 +65,10 @@ public class SettingActivity extends AppCompatActivity {
 
                }
                if(function_name.equals(function_list[1])){
-                   toastMessage("工程师正在努力开发中");
+                   new AlertDialog.Builder(SettingActivity.this)
+                           .setMessage("产品未开发完全")
+                           .setPositiveButton("确定", null)
+                           .show();
                    return;
                }
                 if(function_name.equals(function_list[2])){
