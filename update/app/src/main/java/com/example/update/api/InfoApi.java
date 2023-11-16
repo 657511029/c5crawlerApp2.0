@@ -98,4 +98,37 @@ public class InfoApi {
             return null;
         }
     }
+
+    public static boolean submitInfo(String user,UserInfo userInfo){
+        try {
+            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+            //如果 Redis 服务设置了密码，需要添加下面这行代码
+            jedis.auth("Lenshanshan521!");
+            //调用ping()方法查看 Redis 服务是否运行
+            if (jedis.ping().equals("PONG")) {
+                if (!jedis.sismember("user", user)) {
+                    return false;
+                }
+                if (!jedis.exists(user)) {
+                    return false;
+                }
+
+                if(jedis.hexists(user,"0-50")){
+                    jedis.hset(user,"0-50",userInfo.getScale1());
+
+                }
+                if(jedis.hexists(user,"50-100")){
+                    jedis.hset(user,"50-100",userInfo.getScale2());
+                }
+                if(jedis.hexists(user,"100-")){
+                    jedis.hset(user,"100-",userInfo.getScale3());
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }catch (Exception e){
+            return false;
+        }
+    }
 }

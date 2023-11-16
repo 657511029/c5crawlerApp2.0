@@ -16,9 +16,13 @@
         android:theme="@style/Theme.Update"
         tools:targetApi="31">
         <activity
-            android:name=".ModifyInfoActivity"
+            android:name=".ModifyInfoItemActivity"
             android:exported="false"
             android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ModifyInfoActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SettingActivity"
             android:exported="true"

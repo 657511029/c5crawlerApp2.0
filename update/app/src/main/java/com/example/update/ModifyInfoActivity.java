@@ -4,7 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
-import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,13 +31,15 @@ public class ModifyInfoActivity extends AppCompatActivity {
 
     private List<Map<String,String>> info_list;
 
+    private String[] info_name_list = {"昵称","uu账户","追踪比例","注销账户"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_modify_info);
         initActionBar("信息维护");
-        initComponent();
     }
 
     private void initListView(){
@@ -49,19 +49,26 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                 String user = sharedPreferences.getString("user","");
                 UserInfo userInfo = InfoApi.getUserInfo(user);
+                if(userInfo == null){
+                    toastMessage("用户不存在");
+                    finish();
+                    return;
+                }
                 info_list = new ArrayList<>();
                 Map map = new HashMap();
-                map.put("昵称",userInfo.getUserName());
+                map.put(info_name_list[0],userInfo.getUserName());
                 info_list.add(map);
                 Map map1 = new HashMap();
-                map1.put("uu账户","保密");
+                map1.put(info_name_list[1],"保密");
                 info_list.add(map1);
                 Map map2 = new HashMap();
-                map2.put("0-50",userInfo.getScale1());
-                map2.put("50-100",userInfo.getScale2());
-                map2.put("100-",userInfo.getScale3());
+                map2.put(info_name_list[2],"0-50: " + userInfo.getScale1() + "\n" + "50-100: " + userInfo.getScale2() + "\n" + "100-: " + userInfo.getScale3() + "\n");
+//                map2.put("0-50",userInfo.getScale1());
+//                map2.put("50-100",userInfo.getScale2());
+//                map2.put("100-",userInfo.getScale3());
                 info_list.add(map2);
-
+                Map map3 = new HashMap();
+                map3.put(info_name_list[3],"");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -72,36 +79,50 @@ public class ModifyInfoActivity extends AppCompatActivity {
                         {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int i, long l) {
-//                                String function_name = ((TextView) view).getText().toString();
-//                                if(function_name.equals(info_list[0])){
-//                                    toastMessage("工程师正在努力开发中");
-//                                    return;
-//                                }
-//                                if(function_name.equals(info_list[1])){
-//                                    toastMessage("工程师正在努力开发中");
-//                                    return;
-//                                }
-//                                if(function_name.equals(info_list[2])){
-//                                    toastMessage("工程师正在努力开发中");
-//                                    return;
-//                                }
-//                                if(function_name.equals(info_list[3])){
-//                                    if(userExist()){
-//                                        new AlertDialog.Builder(ModifyInfoActivity.this)
-//                                                .setMessage("是否注销账号")
-//                                                .setPositiveButton("注销账号", new deleteUserClick())
-//                                                .setNegativeButton("取消", new cancelClick())
-//                                                .show();
-//                                        return;
-//                                    }else {
-//                                        new AlertDialog.Builder(ModifyInfoActivity.this)
-//                                                .setMessage("账号尚未登录")
-//                                                .setPositiveButton("确定", null)
-//                                                .show();
-//                                        return;
-//                                    }
-//
-//                                }
+                                String function_name = ((TextView) view.findViewById(R.id.info_list_item_name)).getText().toString();
+                                if(function_name.equals(info_name_list[0])){
+                                    toastMessage("修改昵称功能尚未开放");
+                                    return;
+                                }
+                                if(function_name.equals(info_name_list[1])){
+                                    toastMessage("uu账户解绑功能尚未开放");
+                                    return;
+                                }
+                                if(function_name.equals(info_name_list[2])){
+                                    if(userExist()){
+                                        Intent intent = new Intent(ModifyInfoActivity.this, ModifyInfoItemActivity.class);
+                                        intent.putExtra("title","修改追踪比例");
+                                        intent.putExtra("tips","请输入大于0的数;\n0.01代表追踪1%利润以上的饰品");
+                                        intent.putExtra("infoName", new String[]{"0-50","50-100","100-"});
+                                        intent.putExtra("infoMessage", new String[]{userInfo.getScale1(),userInfo.getScale2(),userInfo.getScale3()});
+                                        startActivity(intent);
+                                        return;
+                                    }else {
+                                        new AlertDialog.Builder(ModifyInfoActivity.this)
+                                                .setMessage("账号尚未登录")
+                                                .setPositiveButton("确定", null)
+                                                .show();
+                                        return;
+                                    }
+
+                                }
+                                if(function_name.equals(info_name_list[3])){
+                                    if(userExist()){
+                                        new AlertDialog.Builder(ModifyInfoActivity.this)
+                                                .setMessage("是否注销账号")
+                                                .setPositiveButton("注销账号", new deleteUserClick())
+                                                .setNegativeButton("取消", new cancelClick())
+                                                .show();
+                                        return;
+                                    }else {
+                                        new AlertDialog.Builder(ModifyInfoActivity.this)
+                                                .setMessage("账号尚未登录")
+                                                .setPositiveButton("确定", null)
+                                                .show();
+                                        return;
+                                    }
+
+                                }
                             }
                         });
                     }
@@ -121,6 +142,12 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+                        //获取Editor对象的引用
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        //将获取过来的值放入文件
+                        editor.putString("user", "");
+                        editor.commit();
                         Intent intent = new Intent(ModifyInfoActivity.this,MainActivity.class);
                         intent.putExtra("point",3);
                         startActivity(intent);
@@ -164,6 +191,14 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initComponent();
+        //重新获取数据的逻辑，此处根据自己的要求回去
+        //显示信息的界面
+
     }
     class cancelClick implements DialogInterface.OnClickListener {
         @Override

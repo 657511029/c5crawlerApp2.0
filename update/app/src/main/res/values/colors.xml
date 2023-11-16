@@ -8,4 +8,5 @@
     <color name="home_topBar_item_active" >#FF000000</color>
     <color name="home_topBar_item_background_active">#F1F0F0</color>
     <color name="back_icon_color">#3E3E3E</color>
+    <color name="blue_4875C6">#4875C6</color>
 </resources>
