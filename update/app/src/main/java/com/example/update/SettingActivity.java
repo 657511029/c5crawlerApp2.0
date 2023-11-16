@@ -21,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.update.api.InfoApi;
+import com.example.update.service.FloatingWindowService;
+import com.example.update.service.TrackingService;
 import com.example.update.view.HomeView;
 import com.example.update.view.info.InfoView;
 
@@ -154,6 +156,10 @@ public class SettingActivity extends AppCompatActivity {
         @Override
         public void onClick(DialogInterface dialog,int which)
         {
+            Intent intent = new Intent(SettingActivity.this, FloatingWindowService.class);
+            Intent intent2 = new Intent(SettingActivity.this, TrackingService.class);
+            stopService(intent);
+            stopService(intent2);
             loginOut();
         }
     }

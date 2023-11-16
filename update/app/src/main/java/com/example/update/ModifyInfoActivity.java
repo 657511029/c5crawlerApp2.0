@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.example.update.adapter.InfoArrayAdapter;
 import com.example.update.api.InfoApi;
 import com.example.update.entity.UserInfo;
+import com.example.update.service.FloatingWindowService;
+import com.example.update.service.TrackingService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -142,15 +144,20 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Intent intent = new Intent(ModifyInfoActivity.this, FloatingWindowService.class);
+                        Intent intent2 = new Intent(ModifyInfoActivity.this, TrackingService.class);
+                        stopService(intent);
+                        stopService(intent2);
+                        
                         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                         //获取Editor对象的引用
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         //将获取过来的值放入文件
                         editor.putString("user", "");
                         editor.commit();
-                        Intent intent = new Intent(ModifyInfoActivity.this,MainActivity.class);
-                        intent.putExtra("point",3);
-                        startActivity(intent);
+                        Intent intent3 = new Intent(ModifyInfoActivity.this,MainActivity.class);
+                        intent3.putExtra("point",3);
+                        startActivity(intent3);
                     }
                 });
             }
