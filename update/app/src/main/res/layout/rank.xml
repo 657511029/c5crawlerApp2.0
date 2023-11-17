@@ -120,7 +120,6 @@
         android:id="@+id/rank_list_refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -133,7 +132,6 @@
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
             android:dividerHeight="5dp"
-            android:listSelector="@android:color/transparent"
             />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
