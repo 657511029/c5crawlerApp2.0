@@ -101,7 +101,7 @@
                 android:layout_width="128dp"
                 android:layout_height="60dp"
                 android:gravity="center"
-                android:text="待开发"
+                android:text="做T助手"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 app:layout_constraintBottom_toBottomOf="parent"

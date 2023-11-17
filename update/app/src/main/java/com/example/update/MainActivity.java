@@ -114,17 +114,17 @@ public class MainActivity extends AppCompatActivity {
                         constraintLayout.addView(homeView);
                         mainPoint = i;
                         mainView = homeView;
-                        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
                         break;
 
                     case 1:
                         toastMessage("工程师正在努力建设中");
-                        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
                         break;
 
                     case 2:
                         toastMessage("工程师正在努力建设中");
-                        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
                         break;
                     case 3:
                         getWindow().setStatusBarColor(getResources().getColor(R.color.blue_537AC7));
@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
                         constraintLayout.addView(infoView);
                         mainPoint = i;
                         mainView = infoView;
-
                         break;
                 }
             }

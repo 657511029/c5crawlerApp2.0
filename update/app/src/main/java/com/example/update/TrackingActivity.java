@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -20,33 +21,46 @@ import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
+import com.example.update.view.tracking.TrackingJewelryListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrackingActivity extends AppCompatActivity {
 
+    private Context context;
+
     private SwitchCompat tracking_switch;
 
     private List<TextView> tracking_topBar_items;
+
+    private ConstraintLayout tracking_list_container;
 
     private ConstraintLayout tracking_main_item;
 
     private int tracking_main_itemId;
 
+    private TrackingJewelryListView trackingJewelryListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking);
+        initData();
         initActionBar("追踪饰品");
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         initComponent();
+    }
+
+    private void initData(){
+        context = getApplicationContext();
     }
     private void initComponent(){
         runOnUiThread(new Runnable() {
@@ -75,6 +89,11 @@ public class TrackingActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+                tracking_list_container = (ConstraintLayout) findViewById(R.id.tracking_list_container);
+
+                trackingJewelryListView = new TrackingJewelryListView(context);
+                trackingJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                tracking_list_container.addView(trackingJewelryListView);
             }
         });
     }
@@ -188,7 +207,7 @@ public class TrackingActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);//给左上角图标的左边加上一个返回的图标
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_icon_foreground);
             actionBar.setDisplayShowCustomEnabled(true);// 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用
-            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.white)));
         }
     }
     @Override

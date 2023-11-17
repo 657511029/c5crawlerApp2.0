@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Update" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:fitsSystemWindows">true</item>
 
         <item name="android:dropDownListViewStyle">@style/XSpinnerStyle</item>
@@ -30,7 +30,7 @@
 <!--        &lt;!&ndash; 其实为了适配的话这里就设置false 下面设置颜色比较好&ndash;&gt;-->
 <!--        <item name="android:windowTranslucentNavigation">true</item>-->
         <!--Android 5.x  把颜色设置透明 ， 或者直接设置状态栏的颜色与app风格一致也可以-->
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:fitsSystemWindows">true</item>
 <!--        <item name="android:windowContentOverlay">@null</item>-->
         <!--        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>-->
