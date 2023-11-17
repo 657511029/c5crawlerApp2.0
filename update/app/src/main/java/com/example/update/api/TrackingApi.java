@@ -488,15 +488,15 @@ public class TrackingApi {
     }
 
     private static Map<String,Object> compareIgxePrice(String jewelryName,
-                                  double uuBuyPrice,
-                                  int point,
-                                  double  percentage1,
-                                  double  percentage2,
-                                  double  percentage3,
-                                  String token,
-                                  int roundNumber,
-                                  int exceptionNumber,
-                                  int warningExceptionNumber) throws UnsupportedEncodingException {
+                                                       double uuBuyPrice,
+                                                       int point,
+                                                       double  percentage1,
+                                                       double  percentage2,
+                                                       double  percentage3,
+                                                       String token,
+                                                       int roundNumber,
+                                                       int exceptionNumber,
+                                                       int warningExceptionNumber) throws UnsupportedEncodingException {
         BufferedReader reader = null;
         String result = null;
         StringBuffer sbf = new StringBuffer();
@@ -608,5 +608,5 @@ public class TrackingApi {
         return map;
     }
 
-    
+
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ public class ModifyInfoItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_modify_info_item);
         initData();
         initActionBar(title);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         initComponent();
     }
 
@@ -162,6 +164,7 @@ public class ModifyInfoItemActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);//给左上角图标的左边加上一个返回的图标
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_icon_foreground);
             actionBar.setDisplayShowCustomEnabled(true);// 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         }
     }
     @Override

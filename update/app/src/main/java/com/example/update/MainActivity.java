@@ -10,6 +10,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         initData();
         initComponent();
         initNotificationChannel();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
     private void initData(){
         context = getApplicationContext();
@@ -112,20 +114,25 @@ public class MainActivity extends AppCompatActivity {
                         constraintLayout.addView(homeView);
                         mainPoint = i;
                         mainView = homeView;
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
                         break;
 
                     case 1:
                         toastMessage("工程师正在努力建设中");
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
                         break;
 
                     case 2:
                         toastMessage("工程师正在努力建设中");
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.transparent));
                         break;
                     case 3:
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.blue_537AC7));
                         constraintLayout.removeView(mainView);
                         constraintLayout.addView(infoView);
                         mainPoint = i;
                         mainView = infoView;
+
                         break;
                 }
             }

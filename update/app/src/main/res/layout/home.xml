@@ -3,70 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <com.example.update.view.JewelryListView-->
-<!--        android:id="@+id/jewelry_list_container"-->
-<!--        android:layout_width="411dp"-->
-<!--        android:layout_height="580dp"-->
-<!--        android:layout_marginTop="2dp"-->
-<!--        android:layout_marginBottom="68dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/home_topBar"-->
-<!--        app:layout_constraintVertical_bias="0.947"/>-->
-
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/home_topBar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="72dp"-->
-<!--        android:background="@color/white"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/home_topBar_item1"-->
-<!--            android:layout_width="70dp"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:layout_marginLeft="10px"-->
-<!--            android:background="@drawable/border"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/home_title1"-->
-<!--            android:textColor="@color/home_topBar_item"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.05"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            />-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/home_topBar_item2"-->
-<!--            android:layout_width="70dp"-->
-<!--            android:layout_height="45dp"-->
-<!--            android:background="@drawable/border"-->
-<!--            android:gravity="center"-->
-<!--            android:text="@string/home_title2"-->
-<!--            android:textColor="@color/home_topBar_item"-->
-<!--            android:layout_marginLeft="10px"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@+id/home_topBar_item1"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            />-->
-
-<!--       -->
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
     <LinearLayout
         android:id="@+id/home_topBar"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,40 +20,58 @@
 
         <TextView
             android:id="@+id/home_topBar_item1"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/border"
             android:gravity="center"
+            android:paddingHorizontal="20dp"
             android:text="@string/home_title1"
+
             android:textColor="@color/home_topBar_item" />
 
         <TextView
             android:id="@+id/home_topBar_item2"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/border"
             android:gravity="center"
+            android:paddingHorizontal="20dp"
+
             android:text="@string/home_title2"
             android:textColor="@color/home_topBar_item" />
-
+        <!--        android:layout_width="60dp"-->
+        <!--        android:layout_height="40dp"-->
+        <!--        android:layout_marginTop="10dp"-->
+        <!--        android:layout_marginBottom="10dp"-->
+        <!--        android:layout_marginLeft="5dp"-->
         <TextView
             android:id="@+id/home_topBar_item3"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginBottom="14dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/border"
             android:gravity="center"
+
+            android:paddingHorizontal="20dp"
+
             android:text="@string/home_title3"
             android:textColor="@color/home_topBar_item" />
 
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/home_main_container"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_topBar">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

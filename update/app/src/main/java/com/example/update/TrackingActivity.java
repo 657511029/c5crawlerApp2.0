@@ -3,17 +3,23 @@ package com.example.update;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,15 +27,25 @@ import android.widget.TextView;
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TrackingActivity extends AppCompatActivity {
 
     private SwitchCompat tracking_switch;
+
+    private List<TextView> tracking_topBar_items;
+
+    private ConstraintLayout tracking_main_item;
+
+    private int tracking_main_itemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking);
         initActionBar("追踪饰品");
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         initComponent();
     }
     private void initComponent(){
@@ -38,9 +54,55 @@ public class TrackingActivity extends AppCompatActivity {
             public void run() {
                 tracking_switch = (SwitchCompat) findViewById(R.id.tracking_switch);
                 initSwitch();
+                tracking_topBar_items = new ArrayList<>();
+                tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item1));
+                tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item2));
+                tracking_main_itemId = R.id.tracking_topBar_item1;
+                clickItem(R.id.tracking_topBar_item1);
+                setTitleTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent event) {
+                        TextView tracking_topBar_item = (TextView) findViewById(view.getId());
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                view.setBackground(getResources().getDrawable(R.drawable.border_active));
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                view.setBackground(getResources().getDrawable(R.drawable.border));
+                                clickItem(view.getId());
+                                break;
+                        }
+                        return true;
+                    }
+                });
             }
         });
     }
+    private void setTitleTouchListener(View.OnTouchListener onTouchListener) {
+        for(TextView tracking_topBar_item: tracking_topBar_items){
+            tracking_topBar_item.setOnTouchListener(onTouchListener);
+        }
+    }
+
+    private void clickItem(int id){
+        for(TextView tracking_topBar_item: tracking_topBar_items){
+            if(tracking_topBar_item.getId() == id){
+//                home_topBar_item.setTypeface(Typeface.DEFAULT_BOLD);
+                tracking_topBar_item.setTextColor(this.getResources().getColor(R.color.home_topBar_item_active));
+//                home_topBar_item.setBackgroundColor(this.getResources().getColor(R.color.home_topBar_item_background_active));
+                tracking_topBar_item.setTextSize(18);
+            }
+            else {
+//                home_topBar_item.setTypeface(Typeface.DEFAULT);
+                tracking_topBar_item.setTextColor(this.getResources().getColor(R.color.home_topBar_item));
+//                home_topBar_item.setBackgroundColor(this.getResources().getColor(R.color.home_topBar_item_background));
+                tracking_topBar_item.setTextSize(15);
+            }
+        }
+//        chooseItem(id);
+    }
+
+
     private void initSwitch(){
 
         tracking_switch.setChecked(isOpenTracking());
@@ -126,6 +188,7 @@ public class TrackingActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);//给左上角图标的左边加上一个返回的图标
             actionBar.setHomeAsUpIndicator(R.drawable.ic_back_icon_foreground);
             actionBar.setDisplayShowCustomEnabled(true);// 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用
+            actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
         }
     }
     @Override

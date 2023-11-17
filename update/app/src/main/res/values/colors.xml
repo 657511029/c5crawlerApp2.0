@@ -3,10 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#808080</color>
-    <color name="home_topBar_item" >#A9A9A9</color>
-    <color name="home_topBar_item_background">#FFFFFFFF</color>
-    <color name="home_topBar_item_active" >#FF000000</color>
-    <color name="home_topBar_item_background_active">#F1F0F0</color>
+    <color name="home_topBar_item" >#909090</color>
+    <color name="home_topBar_item_background">@android:color/transparent</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="home_topBar_item_active" >#000000</color>
+    <color name="home_topBar_item_background_active">#E3E3E3</color>
     <color name="back_icon_color">#3E3E3E</color>
     <color name="blue_4875C6">#4875C6</color>
+    <color name="blue_537AC7">#537AC7</color>
 </resources>

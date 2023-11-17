@@ -4,49 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/transparent"
     tools:context=".TrackingActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="0.0">
+
         <TextView
             android:id="@+id/tracking_switch_tile"
-            android:text="允许打开追踪饰品开关"
-            android:textSize="16dp"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="允许打开追踪饰品开关"
+            android:textColor="@color/black"
+            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/tracking_switch"
-            app:trackTint="@drawable/switch_track_color"
-            app:trackTintMode="multiply"
-            app:thumbTint="@drawable/switch_thumb_color"
-            app:thumbTintMode="multiply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            app:thumbTint="@drawable/switch_thumb_color"
+            app:thumbTintMode="multiply"
+            app:trackTint="@drawable/switch_track_color"
+            app:trackTintMode="multiply" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0">
+        <TextView
+            android:id="@+id/tracking_topBar_item1"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="@string/tracking_title1"
+            android:textColor="@color/home_topBar_item" />
+
+        <TextView
+            android:id="@+id/tracking_topBar_item2"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:text="@string/tracking_title2"
+            android:textColor="@color/home_topBar_item" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

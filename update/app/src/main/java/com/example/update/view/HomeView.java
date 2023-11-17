@@ -40,6 +40,8 @@ public class HomeView extends ConstraintLayout {
 
     private HomeView homeView;
 
+    private ConstraintLayout home_main_container;
+
     private JewelryListView jewelryListView;
 
     private RankView rankView;
@@ -74,16 +76,21 @@ public class HomeView extends ConstraintLayout {
     }
     private void initView(Context context){
         homeView = (HomeView) LayoutInflater.from(context).inflate(R.layout.home, this,true);
+        home_main_container = (ConstraintLayout)homeView.findViewById(R.id.home_main_container);
         jewelryListView = new JewelryListView(context);
         jewelryListView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+
 
         rankView = new RankView(context);
         rankView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+
         hangknifeView  = new HangknifeView(context);
         hangknifeView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
 
-        homeView.addView(jewelryListView);
+
+        home_main_container.addView(jewelryListView);
         home_topBar_items = new ArrayList<>();
         home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item1));
         home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item2));
@@ -120,13 +127,13 @@ public class HomeView extends ConstraintLayout {
     private void clickItem(int id){
         for(TextView home_topBar_item: home_topBar_items){
             if(home_topBar_item.getId() == id){
-                home_topBar_item.setTypeface(Typeface.DEFAULT_BOLD);
+//                home_topBar_item.setTypeface(Typeface.DEFAULT_BOLD);
                 home_topBar_item.setTextColor(this.getResources().getColor(R.color.home_topBar_item_active));
 //                home_topBar_item.setBackgroundColor(this.getResources().getColor(R.color.home_topBar_item_background_active));
-                home_topBar_item.setTextSize(20);
+                home_topBar_item.setTextSize(18);
             }
             else {
-                home_topBar_item.setTypeface(Typeface.DEFAULT);
+//                home_topBar_item.setTypeface(Typeface.DEFAULT);
                 home_topBar_item.setTextColor(this.getResources().getColor(R.color.home_topBar_item));
 //                home_topBar_item.setBackgroundColor(this.getResources().getColor(R.color.home_topBar_item_background));
                 home_topBar_item.setTextSize(15);
@@ -151,15 +158,15 @@ public class HomeView extends ConstraintLayout {
     }
 
     private void chooseItem1(int id){
-        homeView.removeView(home_main_item);
-        homeView.addView(jewelryListView);
+        home_main_container.removeView(home_main_item);
+        home_main_container.addView(jewelryListView);
         home_main_item = jewelryListView;
         home_main_itemId = id;
     }
 
     private void chooseItem2(int id){
-        homeView.removeView(home_main_item);
-        homeView.addView(rankView);
+        home_main_container.removeView(home_main_item);
+        home_main_container.addView(rankView);
 //        JewelryListView jewelryListView = new JewelryListView(context);
 //        jewelryListView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        homeView.addView(jewelryListView);
@@ -167,8 +174,8 @@ public class HomeView extends ConstraintLayout {
         home_main_itemId = id;
     }
     private void chooseItem3(int id){
-        homeView.removeView(home_main_item);
-        homeView.addView(hangknifeView);
+        home_main_container.removeView(home_main_item);
+        home_main_container.addView(hangknifeView);
 //        JewelryListView jewelryListView = new JewelryListView(context);
 //        jewelryListView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        homeView.addView(jewelryListView);
