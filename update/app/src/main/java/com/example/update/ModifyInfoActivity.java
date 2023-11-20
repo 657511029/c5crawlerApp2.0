@@ -65,7 +65,7 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 map1.put(info_name_list[1],"保密");
                 info_list.add(map1);
                 Map map2 = new HashMap();
-                map2.put(info_name_list[2],"0-50: " + userInfo.getScale1() + "\n" + "50-100: " + userInfo.getScale2() + "\n" + "100-: " + userInfo.getScale3() + "\n");
+                map2.put(info_name_list[2],"0-50: " + userInfo.getScale1() + "\n" + "50-100: " + userInfo.getScale2() + "\n" + "100-500: " + userInfo.getScale3() + "\n"+ "500-: " + userInfo.getScale4() + "\n");
 //                map2.put("0-50",userInfo.getScale1());
 //                map2.put("50-100",userInfo.getScale2());
 //                map2.put("100-",userInfo.getScale3());
@@ -96,8 +96,8 @@ public class ModifyInfoActivity extends AppCompatActivity {
                                         Intent intent = new Intent(ModifyInfoActivity.this, ModifyInfoItemActivity.class);
                                         intent.putExtra("title","修改追踪比例");
                                         intent.putExtra("tips","请输入大于0的数;\n0.01代表追踪1%利润以上的饰品");
-                                        intent.putExtra("infoName", new String[]{"0-50","50-100","100-"});
-                                        intent.putExtra("infoMessage", new String[]{userInfo.getScale1(),userInfo.getScale2(),userInfo.getScale3()});
+                                        intent.putExtra("infoName", new String[]{"0-50","50-100","100-500","500-"});
+                                        intent.putExtra("infoMessage", new String[]{userInfo.getScale1(),userInfo.getScale2(),userInfo.getScale3(),userInfo.getScale4()});
                                         startActivity(intent);
                                         return;
                                     }else {

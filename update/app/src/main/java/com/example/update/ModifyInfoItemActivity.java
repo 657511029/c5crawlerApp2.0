@@ -114,12 +114,20 @@ public class ModifyInfoItemActivity extends AppCompatActivity {
                                 userInfo.setScale2(message);
                                 continue;
                             }
-                            if(name.equals("100-")){
+                            if(name.equals("100-500")){
                                 if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
                                     toastMessage("百分比填写非法，更新失败");
                                     return;
                                 }
                                 userInfo.setScale3(message);
+                                continue;
+                            }
+                            if(name.equals("500-")){
+                                if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                    toastMessage("百分比填写非法，更新失败");
+                                    return;
+                                }
+                                userInfo.setScale4(message);
                                 continue;
                             }
                         }

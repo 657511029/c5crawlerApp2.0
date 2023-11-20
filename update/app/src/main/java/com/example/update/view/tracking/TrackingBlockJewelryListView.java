@@ -23,29 +23,20 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.update.R;
-import com.example.update.api.HomeApi;
 import com.example.update.api.TrackingApi;
 import com.example.update.entity.Jewelry;
-import com.example.update.entity.Rank_jewelry;
-import com.example.update.view.JewelryHomeView;
-import com.example.update.view.ListViewAdapter;
-import com.example.update.view.rank.RankListViewAdapter;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class TrackingJewelryListView extends ConstraintLayout {
+public class TrackingBlockJewelryListView extends ConstraintLayout {
     private static final String TAG = TrackingJewelryListView.class.getSimpleName();
 
     private Context context;
     private  String element;
 
     private int showView;
-    private TrackingJewelryListView trackingJewelryListView;
+    private TrackingBlockJewelryListView trackingBlockJewelryListView;
 
     private TrackingJewelryListViewAdapter trackingJewelryListViewAdapter;
 
@@ -64,20 +55,20 @@ public class TrackingJewelryListView extends ConstraintLayout {
     private List<Jewelry> dataList = new ArrayList<>();
 
 
-    public TrackingJewelryListView(Context context) {
+    public TrackingBlockJewelryListView(Context context) {
         super(context);
         this.context = context;
         initView(context);
 
     }
-    public TrackingJewelryListView(Context context, @Nullable AttributeSet attrs) {
+    public TrackingBlockJewelryListView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         initView(context);
         initAttrs(context,attrs);
 
     }
-    public TrackingJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public TrackingBlockJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
         this.context = context;
         initView(context);
@@ -85,18 +76,18 @@ public class TrackingJewelryListView extends ConstraintLayout {
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public TrackingJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TrackingBlockJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs);
         this.context = context;
         initView(context);
         initAttrs(context,attrs);
     }
     private void initView(Context context) {
-        trackingJewelryListView = (TrackingJewelryListView) LayoutInflater.from(context).inflate(R.layout.tracking_jewelry_list, this,true);
-        tracking_jewelry_list_number = (TextView) trackingJewelryListView.findViewById(R.id.tracking_jewelry_list_number);
-        swipeRefreshLayout = (SwipeRefreshLayout)  trackingJewelryListView.findViewById(R.id.tracking_jewelry_list_refresh);
-        search = (EditText)trackingJewelryListView.findViewById(R.id.tracking_jewelry_list_search);
-        listView = (ListView) trackingJewelryListView.findViewById(R.id.tracking_jewelry_list_result);
+        trackingBlockJewelryListView = (TrackingBlockJewelryListView) LayoutInflater.from(context).inflate(R.layout.tracking_jewelry_list, this,true);
+        tracking_jewelry_list_number = (TextView) trackingBlockJewelryListView.findViewById(R.id.tracking_jewelry_list_number);
+        swipeRefreshLayout = (SwipeRefreshLayout)  trackingBlockJewelryListView.findViewById(R.id.tracking_jewelry_list_refresh);
+        search = (EditText)trackingBlockJewelryListView.findViewById(R.id.tracking_jewelry_list_search);
+        listView = (ListView) trackingBlockJewelryListView.findViewById(R.id.tracking_jewelry_list_result);
         initList();
         initSearch();
         initRefresh();
@@ -117,7 +108,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                         @Override
                         public void run() {
                             getList(searchStr);
-                            trackingJewelryListView.post(new Runnable() {
+                            trackingBlockJewelryListView.post(new Runnable() {
                                 @Override
                                 public void run() {
                                     if (trackingJewelryListViewAdapter != null) {
@@ -154,7 +145,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                     @Override
                     public void run() {
                         getList(searchStr);
-                        trackingJewelryListView.post(new Runnable() {
+                        trackingBlockJewelryListView.post(new Runnable() {
                             @Override
                             public void run() {
                                 if (trackingJewelryListViewAdapter != null) {
@@ -183,7 +174,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
             @Override
             public void run() {
                 getList(searchStr);
-                trackingJewelryListView.post(new Runnable() {
+                trackingBlockJewelryListView.post(new Runnable() {
                     @Override
                     public void run() {
                         if (trackingJewelryListViewAdapter != null) {
@@ -207,12 +198,12 @@ public class TrackingJewelryListView extends ConstraintLayout {
         String user = sharedPreferences.getString("user","");
         if(TextUtils.isEmpty(searchStr)){
             while (jewelryList == null){
-                jewelryList = TrackingApi.getJewelryListBySearch(user,"");
+                jewelryList = TrackingApi.getBlockJewelryListBySearch(user,"");
             }
         }
         else {
             while (jewelryList == null){
-                jewelryList = TrackingApi.getJewelryListBySearch(user,searchStr);
+                jewelryList = TrackingApi.getBlockJewelryListBySearch(user,searchStr);
             }
         }
 
@@ -243,7 +234,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
     }
 
     private void toastMessage(String message){
-        trackingJewelryListView.post(new Runnable() {
+        trackingBlockJewelryListView.post(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
@@ -252,5 +243,6 @@ public class TrackingJewelryListView extends ConstraintLayout {
     }
 
 }
+
 
 

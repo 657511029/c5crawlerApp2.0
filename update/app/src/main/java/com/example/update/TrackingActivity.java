@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
+import com.example.update.view.tracking.TrackingBlockJewelryListView;
 import com.example.update.view.tracking.TrackingJewelryListView;
 
 import java.util.ArrayList;
@@ -48,6 +49,8 @@ public class TrackingActivity extends AppCompatActivity {
     private int tracking_main_itemId;
 
     private TrackingJewelryListView trackingJewelryListView;
+
+    private TrackingBlockJewelryListView trackingBlockJewelryListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +74,7 @@ public class TrackingActivity extends AppCompatActivity {
                 tracking_topBar_items = new ArrayList<>();
                 tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item1));
                 tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item2));
-                tracking_main_itemId = R.id.tracking_topBar_item1;
-                clickItem(R.id.tracking_topBar_item1);
+
                 setTitleTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View view, MotionEvent event) {
@@ -93,7 +95,14 @@ public class TrackingActivity extends AppCompatActivity {
 
                 trackingJewelryListView = new TrackingJewelryListView(context);
                 trackingJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                trackingBlockJewelryListView = new TrackingBlockJewelryListView(context);
+                trackingBlockJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
                 tracking_list_container.addView(trackingJewelryListView);
+                tracking_main_item = trackingJewelryListView;
+                tracking_main_itemId = R.id.tracking_topBar_item1;
+                clickItem(R.id.tracking_topBar_item1);
             }
         });
     }
@@ -118,7 +127,32 @@ public class TrackingActivity extends AppCompatActivity {
                 tracking_topBar_item.setTextSize(15);
             }
         }
-//        chooseItem(id);
+        chooseItem(id);
+    }
+    private void chooseItem(int id){
+        if(id == tracking_main_itemId){
+            return;
+        }
+        if(id == R.id.home_topBar_item1){
+            chooseItem1(R.id.home_topBar_item1);
+        }
+        else if(id == R.id.home_topBar_item2){
+            chooseItem2(R.id.home_topBar_item2);
+        }
+    }
+
+    private void chooseItem1(int id){
+        tracking_list_container.removeView(tracking_main_item);
+        tracking_list_container.addView(trackingJewelryListView);
+        tracking_main_item = trackingJewelryListView;
+        tracking_main_itemId = id;
+    }
+
+    private void chooseItem2(int id){
+        tracking_list_container.removeView(tracking_main_item);
+        tracking_list_container.addView(trackingBlockJewelryListView);
+        tracking_main_item = trackingBlockJewelryListView;
+        tracking_main_itemId = id;
     }
 
 
@@ -181,7 +215,7 @@ public class TrackingActivity extends AppCompatActivity {
                     //获取Editor对象的引用
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     //将获取过来的值放入文件
-                    editor.putString("track", "true");
+                    editor.putString("tracking", "true");
                     editor.commit();
                     controlTracking(true);
                 } else {
@@ -189,7 +223,7 @@ public class TrackingActivity extends AppCompatActivity {
                     //获取Editor对象的引用
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     //将获取过来的值放入文件
-                    editor.putString("track", "false");
+                    editor.putString("tracking", "false");
                     editor.commit();
                     controlTracking(false);
                 }
@@ -246,8 +280,8 @@ public class TrackingActivity extends AppCompatActivity {
     }
     private boolean isOpenTracking(){
         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
-        String user = sharedPreferences.getString("tracking","");
-        if(user.equals("") || user.equals("false")){
+        String tracking = sharedPreferences.getString("tracking","");
+        if(tracking.equals("") || tracking.equals("false")){
             return false;
         }
         return true;

@@ -13,6 +13,8 @@ public class UserInfo {
 
     private String scale3;
 
+    private String scale4;
+
     public String getUserName() {
         return userName;
     }
@@ -59,5 +61,13 @@ public class UserInfo {
 
     public void setUuPassword(String uuPassword) {
         this.uuPassword = uuPassword;
+    }
+
+    public String getScale4() {
+        return scale4;
+    }
+
+    public void setScale4(String scale4) {
+        this.scale4 = scale4;
     }
 }

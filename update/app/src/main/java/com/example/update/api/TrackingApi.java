@@ -1,5 +1,8 @@
 package com.example.update.api;
 
+import android.util.Log;
+
+import com.example.update.entity.Jewelry;
 import com.example.update.entity.NotificationOfTracking;
 import com.example.update.entity.UserInfo;
 
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import redis.clients.jedis.Jedis;
 
@@ -32,6 +36,7 @@ public class TrackingApi {
             Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
             jedis.auth("Lenshanshan521!");
+            jedis.select(255);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -40,27 +45,32 @@ public class TrackingApi {
                 if (!jedis.exists(user)) {
                     return new NotificationOfTracking("Redis服务运行失败\n当前用户不存在", 10002, "Redis服务", "Redis服务",0.00);
                 }
-                if (!jedis.exists(jedis.hget(user,"jewelryMap"))) {
+                if (!jedis.exists(jedis.hget(user,"scale"))) {
+                    return new NotificationOfTracking("Redis服务运行失败\n追踪比例信息出错，请联系管理员", 10002, "Redis服务", "Redis服务",0.00);
+                }
+                if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
                     return new NotificationOfTracking("Redis服务运行失败\n饰品列表出错，请联系管理员", 10002, "Redis服务", "Redis服务",0.00);
                 }
 
                 UserInfo userInfo = new UserInfo();
                 String userName = jedis.hget(user, "username");
-                String password = jedis.hget(user, "password");
-//                double percentage1 = 1 + Double.parseDouble(jedis.hget(user,"0-50"));
-//                double percentage2 = 1 + Double.parseDouble(jedis.hget(user,"50-100"));
-//                double percentage3 = 1 + Double.parseDouble(jedis.hget(user,"100-"));
-                String percentage1 = jedis.hget(user,"0-50");
-                String percentage2 = jedis.hget(user,"50-100");
-                String percentage3 = jedis.hget(user,"100-");
+                String uuAccount = jedis.hget(user,"uuAccount");
+                String password = jedis.hget(user, "uuPassword");
+                String percentage1 = jedis.hget(jedis.hget(user, "scale"),"0-50");
+                String percentage2 = jedis.hget(jedis.hget(user, "scale"),"50-100");
+                String percentage3 = jedis.hget(jedis.hget(user, "scale"),"100-500");
+                String percentage4 = jedis.hget(jedis.hget(user, "scale"),"500-");
 
-                userInfo.setUserName(user);
-                userInfo.setUuAccount(userName);
+                userInfo.setUserName(userName);
+                userInfo.setUuAccount(uuAccount);
                 userInfo.setUuPassword(password);
                 userInfo.setScale1(percentage1);
                 userInfo.setScale2(percentage2);
                 userInfo.setScale3(percentage3);
-                List<String> jewelryIDList = new ArrayList<>(jedis.hkeys(jedis.hget(user,"jewelryMap")));
+                userInfo.setScale4(percentage4);
+                Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
+                List<String> jewelryIDList = new ArrayList<>(sort);
+                jewelryIDList.remove(0);
                 Map<String,Object> map = new HashMap();
                 map.put("userInfo",userInfo);
                 map.put("jewelryIDList",jewelryIDList);
@@ -135,6 +145,7 @@ public class TrackingApi {
                                                  double  percentage1,
                                                  double  percentage2,
                                                  double  percentage3,
+                                                 double  percentage4,
                                                  String token,
                                                  int roundNumber,
                                                  int exceptionNumber,
@@ -150,6 +161,7 @@ public class TrackingApi {
                 percentage1,
                 percentage2,
                 percentage3,
+                percentage4,
                 token,
                 roundNumber,
                 exceptionNumber,
@@ -163,6 +175,7 @@ public class TrackingApi {
                                                           double  percentage1,
                                                           double  percentage2,
                                                           double  percentage3,
+                                                          double  percentage4,
                                                           String token,
                                                           int roundNumber,
                                                           int exceptionNumber,
@@ -218,6 +231,7 @@ public class TrackingApi {
                             percentage1,
                             percentage2,
                             percentage3,
+                            percentage4,
                             token,
                             roundNumber,
                             exceptionNumber,
@@ -263,6 +277,7 @@ public class TrackingApi {
                                                                 double  percentage1,
                                                                 double  percentage2,
                                                                 double  percentage3,
+                                                                double  percentage4,
                                                                 String token,
                                                                 int roundNumber,
                                                                 int exceptionNumber,
@@ -325,6 +340,7 @@ public class TrackingApi {
                             percentage1,
                             percentage2,
                             percentage3,
+                            percentage4,
                             token,
                             roundNumber,
                             exceptionNumber,
@@ -368,6 +384,7 @@ public class TrackingApi {
                                                         double  percentage1,
                                                         double  percentage2,
                                                         double  percentage3,
+                                                        double  percentage4,
                                                         String token,
                                                         int roundNumber,
                                                         int exceptionNumber,
@@ -436,7 +453,14 @@ public class TrackingApi {
                                 new NotificationOfTracking(jewelryName + ": " + price + "  " + uuBuyPrice, point + 20000, "c5饰品捡漏", jewelryName,price)
                         );
                         return map;
-                    }else if(price >= 100 && uuBuyPrice/price >= percentage3){
+                    }else if(price < 500 && price >= 100 && uuBuyPrice/price >= percentage3){
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("exceptionNumber",exceptionNumber);
+                        map.put("NotificationOfTracking",
+                                new NotificationOfTracking(jewelryName + ": " + price + "  " + uuBuyPrice, point + 20000, "c5饰品捡漏", jewelryName,price)
+                        );
+                        return map;
+                    }else if(price >= 500 && uuBuyPrice/price >= percentage4){
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -452,6 +476,7 @@ public class TrackingApi {
                         percentage1,
                         percentage2,
                         percentage3,
+                        percentage4,
                         token,
                         roundNumber,
                         exceptionNumber,
@@ -493,6 +518,7 @@ public class TrackingApi {
                                                        double  percentage1,
                                                        double  percentage2,
                                                        double  percentage3,
+                                                       double  percentage4,
                                                        String token,
                                                        int roundNumber,
                                                        int exceptionNumber,
@@ -566,7 +592,16 @@ public class TrackingApi {
                         );
                         return map;
 
-                    }else if(igxePrice >= 100 && uuBuyPrice/igxePrice >= percentage3){
+                    }
+                    else if(igxePrice < 500 && igxePrice >= 100 && uuBuyPrice/igxePrice >= percentage3) {
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("exceptionNumber",exceptionNumber);
+                        map.put("NotificationOfTracking",
+                                new NotificationOfTracking(jewelryName + ": " + igxePrice + "  " + uuBuyPrice, point + 30000, "igxe饰品捡漏", jewelryName,igxePrice)
+                        );
+                        return map;
+
+                    }else if(igxePrice >= 500 && uuBuyPrice/igxePrice >= percentage4){
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -607,6 +642,155 @@ public class TrackingApi {
         map.put("NotificationOfTracking", null);
         return map;
     }
+
+    public static List<Jewelry> getJewelryList(String user){
+        List<Jewelry> jewelryList = new ArrayList<>();
+        try {
+            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+            //如果 Redis 服务设置了密码，需要添加下面这行代码
+            jedis.auth("Lenshanshan521!");
+            jedis.select(255);
+            //调用ping()方法查看 Redis 服务是否运行
+            if (jedis.ping().equals("PONG")) {
+                if (!jedis.sismember("user", user)) {
+                    return null;
+                }
+                if (!jedis.exists(user)) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"scale"))) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
+                    return null;
+                }
+
+                Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
+                List<String> jewelryIDList = new ArrayList<>(sort);
+                jewelryIDList.remove(0);
+                for(int i = 0;i < jewelryIDList.size();i++){
+                    Jewelry jewelry = new Jewelry();
+                    String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
+                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
+                    if(jewelryName == null){
+                        jewelry.setJewelryName(jewelryIDList.get(i));
+                    }else {
+                        jewelry.setJewelryName(jewelryName);
+                    }
+//                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
+                    jewelryList.add(jewelry);
+                    Log.e("error",String.valueOf(i) + ": " + jewelryIDList.get(i) + ": " + jewelryName);
+                }
+                return jewelryList;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public static List<Jewelry> getJewelryListBySearch(String user,String searchStr){
+        List<Jewelry> jewelryList = new ArrayList<>();
+        try {
+            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+            //如果 Redis 服务设置了密码，需要添加下面这行代码
+            jedis.auth("Lenshanshan521!");
+            jedis.select(255);
+            //调用ping()方法查看 Redis 服务是否运行
+            if (jedis.ping().equals("PONG")) {
+                if (!jedis.sismember("user", user)) {
+                    return null;
+                }
+                if (!jedis.exists(user)) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"scale"))) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
+                    return null;
+                }
+
+                Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
+                List<String> jewelryIDList = new ArrayList<>(sort);
+                jewelryIDList.remove(0);
+                Log.e("jewelryIDList",String.valueOf(jewelryIDList.size()));
+                for(int i = 0;i < jewelryIDList.size();i++){
+                    Jewelry jewelry = new Jewelry();
+                    String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
+                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
+                    if(!jewelryName.contains(searchStr)){
+                        continue;
+                    }
+                    if(jewelryName == null){
+                        jewelry.setJewelryName(jewelryIDList.get(i));
+                    }else {
+                        jewelry.setJewelryName(jewelryName);
+                    }
+//                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
+                    jewelryList.add(jewelry);
+                    Log.e("error",String.valueOf(i) + ": " + jewelryIDList.get(i) + ": " + jewelryName);
+                }
+                return jewelryList;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public static List<Jewelry> getBlockJewelryListBySearch(String user,String searchStr){
+        List<Jewelry> jewelryList = new ArrayList<>();
+        try {
+            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+            //如果 Redis 服务设置了密码，需要添加下面这行代码
+            jedis.auth("Lenshanshan521!");
+            jedis.select(255);
+            //调用ping()方法查看 Redis 服务是否运行
+            if (jedis.ping().equals("PONG")) {
+                if (!jedis.sismember("user", user)) {
+                    return null;
+                }
+                if (!jedis.exists(user)) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"scale"))) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"blockJewelryIDList"))) {
+                    return null;
+                }
+
+                Set<String> sort = jedis.zrange(jedis.hget(user,"blockJewelryIDList"),0,-1);
+                List<String> jewelryIDList = new ArrayList<>(sort);
+                jewelryIDList.remove(0);
+                Log.e("blockJewelryIDList",String.valueOf(jewelryIDList.size()));
+                for(int i = 0;i < jewelryIDList.size();i++){
+                    Jewelry jewelry = new Jewelry();
+                    String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
+                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
+                    if(!jewelryName.contains(searchStr)){
+                        continue;
+                    }
+                    if(jewelryName == null){
+                        jewelry.setJewelryName(jewelryIDList.get(i));
+                    }else {
+                        jewelry.setJewelryName(jewelryName);
+                    }
+//                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
+                    jewelryList.add(jewelry);
+                    Log.e("error",String.valueOf(i) + ": " + jewelryIDList.get(i) + ": " + jewelryName);
+                }
+                return jewelryList;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
 
 
 }

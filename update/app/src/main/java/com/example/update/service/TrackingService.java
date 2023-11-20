@@ -36,6 +36,8 @@ public class TrackingService extends Service {
 
     private double  percentage3;
 
+    private double  percentage4;
+
     private String token;
 
     private int roundNumber;
@@ -72,6 +74,7 @@ public class TrackingService extends Service {
         percentage1 = 1.00;
         percentage2 = 1.00;
         percentage3 = 1.00;
+        percentage4 = 1.00;
         userName = "";
         password = "";
         token = "";
@@ -115,37 +118,6 @@ public class TrackingService extends Service {
         }).start();
     }
     private Object connectRedis() {
-//        try {
-//            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
-//            //如果 Redis 服务设置了密码，需要添加下面这行代码
-//            jedis.auth("Lenshanshan521!");
-//            //调用ping()方法查看 Redis 服务是否运行
-//            if (jedis.ping().equals("PONG")) {
-//                if (!jedis.sismember("user", user)) {
-//                    createNotification("Redis服务运行失败\n当前用户不存在", 10002, "Redis服务", "Redis服务",0.00);
-//                    return;
-//                }
-//                if (!jedis.exists(user)) {
-//                    createNotification("Redis服务运行失败\n当前用户不存在", 10002, "Redis服务", "Redis服务",0.00);
-//                    return;
-//                }
-//                if (!jedis.exists(jedis.hget(user,"jewelryMap"))) {
-//                    createNotification("Redis服务运行失败\n饰品列表出错，请联系管理员", 10002, "Redis服务", "Redis服务",0.00);
-//                    return;
-//                }
-//                userName = jedis.hget(user, "username");
-//                password = jedis.hget(user, "password");
-//                percentage1 = 1 + Double.parseDouble(jedis.hget(user,"0-50"));
-//                percentage2 = 1 + Double.parseDouble(jedis.hget(user,"50-100"));
-//                percentage3 = 1 + Double.parseDouble(jedis.hget(user,"100-"));
-//                jewelryIDList = new ArrayList<>(jedis.hkeys(jedis.hget(user,"jewelryMap")));
-//
-//            } else {
-//                createNotification("Redis服务运行失败", 10002, "Redis服务", "Redis服务",0.00);
-//            }
-//        } catch (Exception e) {
-//            createNotification("Redis服务运行失败", 10002, "Redis服务", "Redis服务",0.00);
-//        }
         Object object = TrackingApi.TrackingConnectRedis(user);
         if(object instanceof NotificationOfTracking){
             NotificationOfTracking notificationOfTracking = (NotificationOfTracking)object;
@@ -164,6 +136,7 @@ public class TrackingService extends Service {
             percentage1 = 1 + Double.parseDouble(userInfo.getScale1());
             percentage2 = 1 + Double.parseDouble(userInfo.getScale2());
             percentage3 = 1 + Double.parseDouble(userInfo.getScale3());
+            percentage4 = 1 + Double.parseDouble(userInfo.getScale4());
             this.jewelryIDList = jewelryIDList;
         }
         return object;
@@ -184,59 +157,7 @@ public class TrackingService extends Service {
                     notificationOfTracking.getPrice());
         }
         return object;
-//        String httpUrl = "https://api.youpin898.com/api/user/Auth/PwdSignIn";
-//        BufferedReader reader = null;
-//        String result = null;
-//        StringBuffer sbf = new StringBuffer();
-//
-//        try {
-//            URL url = new URL(httpUrl);
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("POST");
-//            connection.setDoOutput(true);
-//            connection.setDoInput(true);
-//            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.60");
-//            connection.setRequestProperty("Referer", "https://www.youpin898.com/");
-//            connection.setRequestProperty("Content-Type", "application/json");
-//            connection.connect();
-//
-//            /* 4. 处理输入输出 */
-//            // 写入参数到请求中
-//            Map subscribeMessage = new HashMap<String, Object>();
-//            subscribeMessage.put("UserName", userName);
-//            subscribeMessage.put("UserPwd", password);
-//            subscribeMessage.put("Code", "");
-//            subscribeMessage.put("SessionId", "");
-//            JSONObject subscribeMessageJson = new JSONObject(subscribeMessage);
-//            String params = subscribeMessageJson.toString();
-//            OutputStream out = connection.getOutputStream();
-//            out.write(params.getBytes());
-//            out.flush();
-//            out.close();
-//            if(connection.getResponseCode() == 200) {
-//                InputStream is = connection.getInputStream();
-//                reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-//                String strRead = null;
-//                while ((strRead = reader.readLine()) != null) {
-//                    sbf.append(strRead);
-//                    sbf.append("\r\n");
-//                }
-//                is.close();
-//                reader.close();
-//                result = sbf.toString();
-//                JSONObject obj = new JSONObject(result);
-//                JSONObject data = obj.getJSONObject("Data");
-//                token = data.getString("Token");
-////                createNotification("初始化UU账户成功",0,"UU账户初始化","初始化UU账户成功");
-//            }
-//            else {
-//                createNotification("响应码错误: " + connection.getResponseCode(),10002,"UU账户初始化","响应码错误: " + connection.getResponseCode(),0.00);
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            createNotification("初始化UU账户失败",10002,"UU账户初始化","初始化UU账户失败",0.00);
-//        }
+
     }
 
     private void start(){
@@ -251,6 +172,7 @@ public class TrackingService extends Service {
                         percentage1,
                         percentage2,
                         percentage3,
+                        percentage4,
                         token,
                         roundNumber,
                         exceptionNumber,

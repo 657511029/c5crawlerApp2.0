@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         //获取Editor对象的引用
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //将获取过来的值放入文件
-        editor.putString("track", "false");
+        editor.putString("tracking", "false");
         editor.commit();
         Intent intent = new Intent(this, FloatingWindowService.class);
         Intent intent2 = new Intent(this, TrackingService.class);
