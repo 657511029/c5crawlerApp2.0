@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/tracking_block_jewelry_list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="5dp">
+        <EditText
+            android:id="@+id/tracking_block_jewelry_list_search"
+            android:drawableLeft="@drawable/ic_search_foreground"
+            android:layout_width="240dp"
+            android:layout_height="30dp"
+            android:hint="搜索"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:textSize="14dp"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textColorHint="#8F8F8F"
+            android:background="#F8F8F8"/>
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tracking_block_jewelry_list_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="2dp"
+        android:textSize="12dp"
+        android:text="搜索中"
+        android:textColor="#CD9A2D"
+        android:gravity="center"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tracking_block_jewelry_list_title"
+        app:layout_constraintVertical_bias="0.0"
+        />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/tracking_block_jewelry_list_refresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:paddingHorizontal="20dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tracking_block_jewelry_list_number"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ListView
+            android:id="@+id/tracking_block_jewelry_list_result"
+            android:background="@drawable/shape_refresh_top"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:dividerHeight="1dp"
+            />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

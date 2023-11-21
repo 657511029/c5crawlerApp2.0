@@ -264,6 +264,12 @@ public class TrackingService extends Service {
     @Override
     public void onDestroy() {
         initData();
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        //获取Editor对象的引用
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //将获取过来的值放入文件
+        editor.putString("tracking", "false");
+        editor.commit();
         super.onDestroy();
         createNotification("服务已结束",0,"服务提示","服务已结束",0.00);
         notificationManager.cancelAll();

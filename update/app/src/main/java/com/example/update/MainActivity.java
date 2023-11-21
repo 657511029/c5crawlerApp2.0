@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initData();
         initComponent();
         initNotificationChannel();
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initData(){
         context = getApplicationContext();
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        //获取Editor对象的引用
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //将获取过来的值放入文件
+        editor.putString("tracking", "false");
+        editor.commit();
     }
 
     private void initComponent(){

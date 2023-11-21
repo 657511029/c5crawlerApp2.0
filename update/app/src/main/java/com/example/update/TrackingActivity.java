@@ -69,12 +69,23 @@ public class TrackingActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                tracking_list_container = (ConstraintLayout) findViewById(R.id.tracking_list_container);
+
+                trackingJewelryListView = new TrackingJewelryListView(context);
+                trackingJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                trackingBlockJewelryListView = new TrackingBlockJewelryListView(context);
+                trackingBlockJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+                tracking_list_container.addView(trackingJewelryListView);
                 tracking_switch = (SwitchCompat) findViewById(R.id.tracking_switch);
                 initSwitch();
                 tracking_topBar_items = new ArrayList<>();
                 tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item1));
                 tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item2));
-
+                tracking_main_item = trackingJewelryListView;
+                tracking_main_itemId = R.id.tracking_topBar_item1;
+                clickItem(R.id.tracking_topBar_item1);
                 setTitleTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View view, MotionEvent event) {
@@ -91,18 +102,6 @@ public class TrackingActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-                tracking_list_container = (ConstraintLayout) findViewById(R.id.tracking_list_container);
-
-                trackingJewelryListView = new TrackingJewelryListView(context);
-                trackingJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                trackingBlockJewelryListView = new TrackingBlockJewelryListView(context);
-                trackingBlockJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-                tracking_list_container.addView(trackingJewelryListView);
-                tracking_main_item = trackingJewelryListView;
-                tracking_main_itemId = R.id.tracking_topBar_item1;
-                clickItem(R.id.tracking_topBar_item1);
             }
         });
     }
@@ -133,11 +132,11 @@ public class TrackingActivity extends AppCompatActivity {
         if(id == tracking_main_itemId){
             return;
         }
-        if(id == R.id.home_topBar_item1){
-            chooseItem1(R.id.home_topBar_item1);
+        if(id == R.id.tracking_topBar_item1){
+            chooseItem1(R.id.tracking_topBar_item1);
         }
-        else if(id == R.id.home_topBar_item2){
-            chooseItem2(R.id.home_topBar_item2);
+        else if(id == R.id.tracking_topBar_item2){
+            chooseItem2(R.id.tracking_topBar_item2);
         }
     }
 

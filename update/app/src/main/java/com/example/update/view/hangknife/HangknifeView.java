@@ -57,6 +57,8 @@ public class HangknifeView extends ConstraintLayout {
     private EditText hangknife_edits_max;
 
     private Button hangknife_edits_search;
+
+    private Button hangknife_edits_clean;
     private int showView;
     private HangknifeListViewAdapter hangknifeListViewAdapter;
 
@@ -165,6 +167,8 @@ public class HangknifeView extends ConstraintLayout {
         hangknife_edits_change = hangknifeView.findViewById(R.id.hangknife_edits_change);
         hangknife_edits_search = hangknifeView.findViewById(R.id.hangknife_edits_search);
         hangknife_edits_search.setOnClickListener(new MyClickListener());
+        hangknife_edits_clean = hangknifeView.findViewById(R.id.hangknife_edits_clean);
+        hangknife_edits_clean.setOnClickListener(new MyCleanClickListener());
     }
 
     private void setAllEnabled(boolean enabled){
@@ -216,11 +220,28 @@ public class HangknifeView extends ConstraintLayout {
                 }
             });
             thread.start();
-//            try {
-//                thread.join();
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+        }
+    }
+
+    class MyCleanClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick (View v) {
+            hangknife_edits_min.setText(null);
+            hangknife_edits_max.setText(null);
+            hangknife_edits_change.setText(null);
+
+            setAllEnabled(false);
+            hangknife_jewelryList.clear();
+            dataList.clear();
+
+            if (hangknifeListViewAdapter != null) {
+                hangknifeListViewAdapter.notifyDataSetChanged();
+            } else {
+                hangknifeListViewAdapter = new HangknifeListViewAdapter(context, dataList);
+                listView.setAdapter(hangknifeListViewAdapter);
+            }
+
         }
     }
 
