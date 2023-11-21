@@ -63,7 +63,7 @@ public class TrackingActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        context = getApplicationContext();
+        context = TrackingActivity.this;
     }
     private void initComponent(){
         runOnUiThread(new Runnable() {

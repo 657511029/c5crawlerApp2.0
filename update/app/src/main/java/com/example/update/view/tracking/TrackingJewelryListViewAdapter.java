@@ -59,7 +59,7 @@ public class TrackingJewelryListViewAdapter extends BaseAdapter {
             viewHolder = (TrackingJewelryListViewAdapter.ViewHolder) convertView.getTag();
         }
         Jewelry jewelry = dataList.get(position);
-//        viewHolder.tracking_jewelry_list_item_image.setImageBitmap(jewelry.getBitmap());
+        viewHolder.tracking_jewelry_list_item_image.setImageBitmap(jewelry.getBitmap());
         viewHolder.tracking_jewelry_list_item_name.setText(jewelry.getJewelryName());
 
         return convertView;

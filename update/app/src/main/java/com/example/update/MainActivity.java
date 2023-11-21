@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
     private void initData(){
-        context = getApplicationContext();
+        context = MainActivity.this;
         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
         //获取Editor对象的引用
         SharedPreferences.Editor editor = sharedPreferences.edit();

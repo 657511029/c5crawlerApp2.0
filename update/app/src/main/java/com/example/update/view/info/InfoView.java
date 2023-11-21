@@ -104,6 +104,14 @@ public class InfoView extends ConstraintLayout {
                     toastMessage("尚未登录");
                     return;
                 }
+                if (!Settings.canDrawOverlays(context)) {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
+//            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+//                startActivityForResult(intent, 1);
+                    return;
+                }
                 Intent intent = new Intent(context, TrackingActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
@@ -168,14 +176,7 @@ public class InfoView extends ConstraintLayout {
     }
 
     private void initDialog(){
-        if (!Settings.canDrawOverlays(context)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + context.getPackageName()));
-//            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getPackageName());
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent);
-//                startActivityForResult(intent, 1);
-            return;
-        }
+
         login = (LinearLayout)LayoutInflater.from(context).inflate(R.layout.login,null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         if(userExist()){
@@ -190,7 +191,6 @@ public class InfoView extends ConstraintLayout {
         builder.setPositiveButton("登录",new loginClick());
         builder.setNegativeButton("取消",new cancelClick());
         AlertDialog dialog = builder.create();
-        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
         dialog.show();
     }
 

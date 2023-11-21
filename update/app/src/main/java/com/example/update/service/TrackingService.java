@@ -16,6 +16,7 @@ import com.example.update.R;
 import com.example.update.api.TrackingApi;
 import com.example.update.entity.NotificationOfTracking;
 import com.example.update.entity.UserInfo;
+import com.example.update.receiver.BlockJewelryReceiver;
 import com.example.update.receiver.NotificationClickReceiver;
 import java.util.ArrayList;
 import java.util.List;
@@ -217,12 +218,11 @@ public class TrackingService extends Service {
             intent.putExtra("text",name);
             PendingIntent pi;
 
-//            Intent intent2 = new Intent(this,BlockJewelryReceiver.class);
-//            intent2.putExtra("jewelryID",jewelryIDList.get(point - 1));
-//            intent2.putExtra("jewelryName",name);
-//            intent2.putExtra("point",point);
-//            intent2.putExtra("user",user);
-//            PendingIntent pi2;
+            Intent intent2 = new Intent(this, BlockJewelryReceiver.class);
+            intent2.putExtra("jewelryID",jewelryIDList.get(point%10000 - 1));
+            intent2.putExtra("point",point);
+            intent2.putExtra("user",user);
+            PendingIntent pi2;
 //
 //            Intent intent3 = new Intent(this,PriceNotificationReceiver.class);
 //            intent3.putExtra("jewelryName",name);
@@ -231,17 +231,17 @@ public class TrackingService extends Service {
 //            PendingIntent pi3;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                 pi = PendingIntent.getBroadcast(TrackingService.this, point, intent, PendingIntent.FLAG_IMMUTABLE);
-//                pi2 = PendingIntent.getBroadcast(TrackingService.this,point,intent2,PendingIntent.FLAG_IMMUTABLE);
+                pi2 = PendingIntent.getBroadcast(TrackingService.this,point,intent2,PendingIntent.FLAG_IMMUTABLE);
 //                pi3 = PendingIntent.getBroadcast(TrackingService.this,point,intent3,PendingIntent.FLAG_IMMUTABLE);
             } else {
                 pi = PendingIntent.getBroadcast(TrackingService.this, point, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-//                pi2 = PendingIntent.getBroadcast(TrackingService.this,point,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
+                pi2 = PendingIntent.getBroadcast(TrackingService.this,point,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
 //                pi3 = PendingIntent.getBroadcast(TrackingService.this,point,intent3,PendingIntent.FLAG_UPDATE_CURRENT);
             }
             builder.setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_VIBRATE);
             builder.setContentIntent(pi);
             builder.addAction(R.mipmap.ic_capoo, "复制饰品名称", pi);
-//            builder.addAction(R.mipmap.ic_capoo, "拉黑饰品", pi2);
+            builder.addAction(R.mipmap.ic_capoo, "拉黑饰品", pi2);
 //            builder.addAction(R.mipmap.ic_capoo, "获取详情", pi3);
         }
         Notification notification = builder.build();

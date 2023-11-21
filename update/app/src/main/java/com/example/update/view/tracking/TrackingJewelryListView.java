@@ -1,17 +1,27 @@
 package com.example.update.view.tracking;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,6 +29,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -26,6 +37,7 @@ import com.example.update.R;
 import com.example.update.api.HomeApi;
 import com.example.update.api.TrackingApi;
 import com.example.update.entity.Jewelry;
+import com.example.update.entity.NotificationOfTracking;
 import com.example.update.entity.Rank_jewelry;
 import com.example.update.view.JewelryHomeView;
 import com.example.update.view.ListViewAdapter;
@@ -100,6 +112,76 @@ public class TrackingJewelryListView extends ConstraintLayout {
         initList();
         initSearch();
         initRefresh();
+        initListView();
+    }
+
+    private void initListView(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        final String items[] = {"删除", "拉黑"};
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                int[] location = new  int[2] ;
+                view.getLocationOnScreen(location);
+                int x = location[0];
+                int y = location[1];
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("user", context.MODE_PRIVATE);
+                        String user = sharedPreferences.getString("user","");
+                        if(items[which].equals("拉黑")){
+//                            toastMessage(((TextView)view.findViewById(R.id.tracking_jewelry_list_item_name)).getText().toString() + dataList.get(position).getC5ID());
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Object object = TrackingApi.blockJewelry(user,dataList.get(position).getC5ID());
+                                    if(object instanceof String){
+                                        dataList.remove(position);
+                                        trackingJewelryListView.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (trackingJewelryListViewAdapter != null) {
+                                                    trackingJewelryListViewAdapter.notifyDataSetChanged();
+                                                } else {
+                                                    trackingJewelryListViewAdapter = new TrackingJewelryListViewAdapter(context, dataList);
+                                                    listView.setAdapter(trackingJewelryListViewAdapter);
+                                                }
+                                                tracking_jewelry_list_number.setText("件数:" + dataList.size());
+                                            }
+                                        });
+                                    }
+                                    else if(object instanceof NotificationOfTracking){
+                                        toastMessage(((NotificationOfTracking) object).getMessage());
+                                    }
+                                }
+                            }).start();
+                        }
+                        else if(items[which].equals("删除")){
+                            toastMessage("功能暂未开放");
+                        }
+                    }
+                }).create();
+                Window dialogWindow = dialog.getWindow();
+                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+                dialogWindow.setGravity(Gravity.LEFT | Gravity.TOP);
+                lp.x = x + 300; // 新位置X坐标
+                lp.y = y - 120; // 新位置Y坐标
+                dialogWindow.setAttributes(lp);
+                dialogWindow.setDimAmount(0f);
+                dialog.show();
+                DisplayMetrics dm2 = getResources().getDisplayMetrics();
+                dialog.getWindow().setLayout(dm2.widthPixels - lp.x + 50,420);
+                return false;
+            }
+        });
+
     }
 
     private void initSearch(){
