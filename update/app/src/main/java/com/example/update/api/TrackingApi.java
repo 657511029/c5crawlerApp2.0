@@ -1,5 +1,6 @@
 package com.example.update.api;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.update.entity.Jewelry;
@@ -676,6 +677,7 @@ public class TrackingApi {
                     }
                     Jewelry jewelry = new Jewelry();
                     String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
+
                     if(jewelryName == null){
                         jewelry.setJewelryName(jewelryIDList.get(i));
                     }else {
