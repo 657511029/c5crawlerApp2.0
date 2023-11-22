@@ -234,7 +234,7 @@ public class TrackingService extends Service {
                 pi2 = PendingIntent.getBroadcast(TrackingService.this,point,intent2,PendingIntent.FLAG_IMMUTABLE);
 //                pi3 = PendingIntent.getBroadcast(TrackingService.this,point,intent3,PendingIntent.FLAG_IMMUTABLE);
             } else {
-                pi = PendingIntent.getBroadcast(TrackingService.this, point, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                pi = PendingIntent.getBroadcast(TrackingService.this,point, intent,PendingIntent.FLAG_UPDATE_CURRENT);
                 pi2 = PendingIntent.getBroadcast(TrackingService.this,point,intent2,PendingIntent.FLAG_UPDATE_CURRENT);
 //                pi3 = PendingIntent.getBroadcast(TrackingService.this,point,intent3,PendingIntent.FLAG_UPDATE_CURRENT);
             }
@@ -248,19 +248,6 @@ public class TrackingService extends Service {
         notificationManager.notify(point, notification);
 
     }
-    private String padLeft(String inputString, int length) {
-        if (inputString.length() >= length) {
-            return inputString;
-        }
-        StringBuilder sb = new StringBuilder();
-        sb.append(inputString);
-        while (sb.length() < length) {
-            sb.append(" ");
-        }
-
-        return sb.toString();
-    }
-
     @Override
     public void onDestroy() {
         initData();

@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
+import com.example.update.view.tracking.TrackingAddJewelryListView;
 import com.example.update.view.tracking.TrackingBlockJewelryListView;
 import com.example.update.view.tracking.TrackingJewelryListView;
 
@@ -51,6 +52,8 @@ public class TrackingActivity extends AppCompatActivity {
     private TrackingJewelryListView trackingJewelryListView;
 
     private TrackingBlockJewelryListView trackingBlockJewelryListView;
+
+    private TrackingAddJewelryListView trackingAddJewelryListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +80,17 @@ public class TrackingActivity extends AppCompatActivity {
                 trackingBlockJewelryListView = new TrackingBlockJewelryListView(context);
                 trackingBlockJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+                trackingAddJewelryListView = new TrackingAddJewelryListView(context);
+                trackingAddJewelryListView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
                 tracking_list_container.addView(trackingJewelryListView);
                 tracking_switch = (SwitchCompat) findViewById(R.id.tracking_switch);
                 initSwitch();
                 tracking_topBar_items = new ArrayList<>();
                 tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item1));
                 tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item2));
+                tracking_topBar_items.add((TextView) findViewById(R.id.tracking_topBar_item3));
+
                 tracking_main_item = trackingJewelryListView;
                 tracking_main_itemId = R.id.tracking_topBar_item1;
                 clickItem(R.id.tracking_topBar_item1);
@@ -138,6 +146,9 @@ public class TrackingActivity extends AppCompatActivity {
         else if(id == R.id.tracking_topBar_item2){
             chooseItem2(R.id.tracking_topBar_item2);
         }
+        else if(id == R.id.tracking_topBar_item3){
+            chooseItem3(R.id.tracking_topBar_item3);
+        }
     }
 
     private void chooseItem1(int id){
@@ -153,6 +164,13 @@ public class TrackingActivity extends AppCompatActivity {
         tracking_main_item = trackingBlockJewelryListView;
         tracking_main_itemId = id;
     }
+    private void chooseItem3(int id){
+        tracking_list_container.removeView(tracking_main_item);
+        tracking_list_container.addView(trackingAddJewelryListView);
+        tracking_main_item = trackingAddJewelryListView;
+        tracking_main_itemId = id;
+    }
+
 
 
     private void initSwitch(){

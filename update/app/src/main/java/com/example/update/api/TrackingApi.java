@@ -670,12 +670,12 @@ public class TrackingApi {
                 jewelryIDList.remove(0);
                 Log.e("jewelryIDList",String.valueOf(jewelryIDList.size()));
                 for(int i = 0;i < jewelryIDList.size();i++){
-                    Jewelry jewelry = new Jewelry();
                     String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
-                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
                     if(!jewelryName.contains(searchStr)){
                         continue;
                     }
+                    Jewelry jewelry = new Jewelry();
+                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
                     if(jewelryName == null){
                         jewelry.setJewelryName(jewelryIDList.get(i));
                     }else {
@@ -720,12 +720,14 @@ public class TrackingApi {
                 jewelryIDList.remove(0);
                 Log.e("blockJewelryIDList",String.valueOf(jewelryIDList.size()));
                 for(int i = 0;i < jewelryIDList.size();i++){
-                    Jewelry jewelry = new Jewelry();
+
                     String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
-                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
+
                     if(!jewelryName.contains(searchStr)){
                         continue;
                     }
+                    Jewelry jewelry = new Jewelry();
+                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
                     if(jewelryName == null){
                         jewelry.setJewelryName(jewelryIDList.get(i));
                     }else {
@@ -753,32 +755,71 @@ public class TrackingApi {
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
-                    return new NotificationOfTracking("Redis服务运行失败\n当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
 
                 }
                 if (!jedis.exists(user)) {
-                    return new NotificationOfTracking("Redis服务运行失败\n当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
                 }
                 if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品列表出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
+                    return new NotificationOfTracking("饰品列表出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
 
 
                 }
                 if (!jedis.exists(jedis.hget(user,"blockJewelryIDList"))) {
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品黑名单出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
+                    return new NotificationOfTracking("饰品黑名单出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
 
                 }
                 if(jedis.zscore(jedis.hget(user,"jewelryIDList"),jewelryID) == null){
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品不存在于饰品列表", 10001, "Redis服务", "Redis服务",0.00);
+                    return new NotificationOfTracking("饰品不存在于饰品列表", 10001, "Redis服务", "Redis服务",0.00);
                 }
                 if(jedis.zscore(jedis.hget(user,"blockJewelryIDList"),jewelryID) != null){
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品已存在于饰品黑名单", 10001, "Redis服务", "Redis服务",0.00);
+                    return new NotificationOfTracking("饰品已存在于饰品黑名单", 10001, "Redis服务", "Redis服务",0.00);
 
                 }
                 jedis.zrem(jedis.hget(user,"jewelryIDList"),jewelryID);
                 Set<String> sort = jedis.zrevrange(jedis.hget(user,"blockJewelryIDList"),0,-1);
                 double score = jedis.zscore(jedis.hget(user,"blockJewelryIDList"),sort.iterator().next());
                 jedis.zadd(jedis.hget(user,"blockJewelryIDList"),score + 1,jewelryID);
+                return "success";
+//                createNotification("Redis服务运行成功\n饰品已拉黑 " + user, 10001, "Redis服务", "Redis服务");
+            } else {
+                return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务",0.00);
+
+            }
+        } catch (Exception e) {
+            return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务",0.00);
+        }
+
+    }
+    public static Object deleteJewelry(String user,String jewelryID){
+        try {
+            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+            //如果 Redis 服务设置了密码，需要添加下面这行代码
+            jedis.auth("Lenshanshan521!");
+            jedis.select(255);
+            //调用ping()方法查看 Redis 服务是否运行
+            if (jedis.ping().equals("PONG")) {
+                if (!jedis.sismember("user", user)) {
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
+
+                }
+                if (!jedis.exists(user)) {
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
+                }
+                if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
+                    return new NotificationOfTracking("饰品列表出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
+
+
+                }
+                if (!jedis.exists(jedis.hget(user,"blockJewelryIDList"))) {
+                    return new NotificationOfTracking("饰品黑名单出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
+
+                }
+                if(jedis.zscore(jedis.hget(user,"jewelryIDList"),jewelryID) == null){
+                    return new NotificationOfTracking("饰品不存在于饰品列表", 10001, "Redis服务", "Redis服务",0.00);
+                }
+                jedis.zrem(jedis.hget(user,"jewelryIDList"),jewelryID);
                 return "success";
 //                createNotification("Redis服务运行成功\n饰品已拉黑 " + user, 10001, "Redis服务", "Redis服务");
             } else {
@@ -799,26 +840,26 @@ public class TrackingApi {
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
-                    return new NotificationOfTracking("Redis服务运行失败\n当前用户不存在", 10001, "Redis服务", "Redis服务", 0.00);
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务", 0.00);
 
                 }
                 if (!jedis.exists(user)) {
-                    return new NotificationOfTracking("Redis服务运行失败\n当前用户不存在", 10001, "Redis服务", "Redis服务", 0.00);
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务", 0.00);
                 }
                 if (!jedis.exists(jedis.hget(user, "jewelryIDList"))) {
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品列表出错，请联系管理员", 10001, "Redis服务", "Redis服务", 0.00);
+                    return new NotificationOfTracking("饰品列表出错，请联系管理员", 10001, "Redis服务", "Redis服务", 0.00);
 
 
                 }
                 if (!jedis.exists(jedis.hget(user, "blockJewelryIDList"))) {
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品黑名单出错，请联系管理员", 10001, "Redis服务", "Redis服务", 0.00);
+                    return new NotificationOfTracking("饰品黑名单出错，请联系管理员", 10001, "Redis服务", "Redis服务", 0.00);
 
                 }
                 if (jedis.zscore(jedis.hget(user, "jewelryIDList"), jewelryID) != null) {
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品已存在于饰品列表", 10001, "Redis服务", "Redis服务", 0.00);
+                    return new NotificationOfTracking("饰品已存在于饰品列表", 10001, "Redis服务", "Redis服务", 0.00);
                 }
                 if (jedis.zscore(jedis.hget(user, "blockJewelryIDList"), jewelryID) == null) {
-                    return new NotificationOfTracking("Redis服务运行失败\n饰品不存在于饰品黑名单", 10001, "Redis服务", "Redis服务", 0.00);
+                    return new NotificationOfTracking("饰品不存在于饰品黑名单", 10001, "Redis服务", "Redis服务", 0.00);
 
                 }
                 jedis.zrem(jedis.hget(user, "blockJewelryIDList"), jewelryID);
@@ -834,5 +875,54 @@ public class TrackingApi {
         } catch (Exception e) {
             return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务", 0.00);
         }
+    }
+    public static Object addJewelry(String user,Jewelry jewelry){
+        String jewelryID = jewelry.getC5ID();
+        String jewelryName = jewelry.getJewelryName();
+        String imageUrl = jewelry.getImageUrl();
+        try {
+            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+            //如果 Redis 服务设置了密码，需要添加下面这行代码
+            jedis.auth("Lenshanshan521!");
+            jedis.select(255);
+            //调用ping()方法查看 Redis 服务是否运行
+            if (jedis.ping().equals("PONG")) {
+                if (!jedis.sismember("user", user)) {
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
+
+                }
+                if (!jedis.exists(user)) {
+                    return new NotificationOfTracking("当前用户不存在", 10001, "Redis服务", "Redis服务",0.00);
+                }
+                if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
+                    return new NotificationOfTracking("饰品列表出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
+
+
+                }
+                if (!jedis.exists(jedis.hget(user,"blockJewelryIDList"))) {
+                    return new NotificationOfTracking("饰品黑名单出错，请联系管理员", 10001, "Redis服务", "Redis服务",0.00);
+
+                }
+                if(jedis.zscore(jedis.hget(user,"jewelryIDList"),jewelryID) != null){
+                    return new NotificationOfTracking("饰品已存在于饰品列表", 10001, "Redis服务", "Redis服务",0.00);
+                }
+                if(jedis.zscore(jedis.hget(user,"blockJewelryIDList"),jewelryID) != null){
+                    return new NotificationOfTracking("饰品已存在于饰品黑名单", 10001, "Redis服务", "Redis服务",0.00);
+                }
+                Set<String> sort = jedis.zrevrange(jedis.hget(user,"jewelryIDList"),0,-1);
+                double score = jedis.zscore(jedis.hget(user,"jewelryIDList"),sort.iterator().next());
+                jedis.zadd(jedis.hget(user,"jewelryIDList"),score + 1,jewelryID);
+                jedis.hsetnx("jewelryMap",jewelryID,jewelryName);
+                jedis.hsetnx("jewelryImageUrlMap",jewelryID,imageUrl);
+                return "success";
+//                createNotification("Redis服务运行成功\n饰品已拉黑 " + user, 10001, "Redis服务", "Redis服务");
+            } else {
+                return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务",0.00);
+
+            }
+        } catch (Exception e) {
+            return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务",0.00);
+        }
+
     }
 }

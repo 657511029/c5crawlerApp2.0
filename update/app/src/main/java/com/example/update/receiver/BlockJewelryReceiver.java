@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -29,8 +30,7 @@ public class BlockJewelryReceiver extends BroadcastReceiver {
     private NotificationManager notificationManager;
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO: This method is called when the BroadcastReceiver is receiving
-        // an Intent broadcast.
+        Log.e("ERROR","blockJewelryReceiver");
         String jewelryID = intent.getStringExtra("jewelryID");
         user = intent.getStringExtra("user");
         int point = intent.getIntExtra("point",-1);
@@ -50,6 +50,7 @@ public class BlockJewelryReceiver extends BroadcastReceiver {
         notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
     private void blockThread(String jewelryID){
+        Log.e("ERROR","blockThread");
         new Thread(new Runnable() {
             @Override
             public void run() {

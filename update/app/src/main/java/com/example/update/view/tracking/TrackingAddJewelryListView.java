@@ -31,25 +31,27 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.update.R;
+import com.example.update.api.HomeApi;
 import com.example.update.api.TrackingApi;
 import com.example.update.entity.Jewelry;
 import com.example.update.entity.NotificationOfTracking;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrackingBlockJewelryListView extends ConstraintLayout {
-    private static final String TAG = TrackingBlockJewelryListView.class.getSimpleName();
+public class TrackingAddJewelryListView extends ConstraintLayout {
+    private static final String TAG = TrackingAddJewelryListView.class.getSimpleName();
 
     private Context context;
     private  String element;
 
     private int showView;
-    private TrackingBlockJewelryListView trackingBlockJewelryListView;
+    private TrackingAddJewelryListView trackingAddJewelryListView;
 
-    private TrackingBlockJewelryListViewAdapter trackingBlockJewelryListViewAdapter;
+    private TrackingAddJewelryListViewAdapter trackingAddJewelryListViewAdapter;
 
-    private TextView tracking_block_jewelry_list_number;
+    private TextView tracking_add_jewelry_list_number;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -60,24 +62,24 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
     private String searchStr;
 
 
-    private List<Jewelry> jewelryList = null;
+    private List<Jewelry> jewelryList = new ArrayList<>();
     private List<Jewelry> dataList = new ArrayList<>();
 
 
-    public TrackingBlockJewelryListView(Context context) {
+    public TrackingAddJewelryListView(Context context) {
         super(context);
         this.context = context;
         initView(context);
 
     }
-    public TrackingBlockJewelryListView(Context context, @Nullable AttributeSet attrs) {
+    public TrackingAddJewelryListView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         initView(context);
         initAttrs(context,attrs);
 
     }
-    public TrackingBlockJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public TrackingAddJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
         this.context = context;
         initView(context);
@@ -85,19 +87,18 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public TrackingBlockJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TrackingAddJewelryListView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs);
         this.context = context;
         initView(context);
         initAttrs(context,attrs);
     }
     private void initView(Context context) {
-        trackingBlockJewelryListView = (TrackingBlockJewelryListView) LayoutInflater.from(context).inflate(R.layout.tracking_block_jewelry_list, this,true);
-        tracking_block_jewelry_list_number = (TextView) trackingBlockJewelryListView.findViewById(R.id.tracking_block_jewelry_list_number);
-        swipeRefreshLayout = (SwipeRefreshLayout)  trackingBlockJewelryListView.findViewById(R.id.tracking_block_jewelry_list_refresh);
-        search = (EditText)trackingBlockJewelryListView.findViewById(R.id.tracking_block_jewelry_list_search);
-        listView = (ListView) trackingBlockJewelryListView.findViewById(R.id.tracking_block_jewelry_list_result);
-        initList();
+        trackingAddJewelryListView = (TrackingAddJewelryListView) LayoutInflater.from(context).inflate(R.layout.tracking_add_jewelry_list, this,true);
+        tracking_add_jewelry_list_number = (TextView) trackingAddJewelryListView.findViewById(R.id.tracking_add_jewelry_list_number);
+        swipeRefreshLayout = (SwipeRefreshLayout)  trackingAddJewelryListView.findViewById(R.id.tracking_add_jewelry_list_refresh);
+        search = (EditText)trackingAddJewelryListView.findViewById(R.id.tracking_add_jewelry_list_search);
+        listView = (ListView) trackingAddJewelryListView.findViewById(R.id.tracking_add_jewelry_list_result);
         initSearch();
         initRefresh();
         initListView();
@@ -109,7 +110,7 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
 
             }
         });
-        final String items[] = {"解除拉黑"};
+        final String items[] = {"追踪"};
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -123,25 +124,13 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
                             public void onClick(DialogInterface dialog, int which) {
                                 SharedPreferences sharedPreferences = context.getSharedPreferences("user", context.MODE_PRIVATE);
                                 String user = sharedPreferences.getString("user","");
-                                if(items[which].equals("解除拉黑")){
+                                if(items[which].equals("追踪")){
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Object object = TrackingApi.cancelBlockJewelry(user,dataList.get(position).getC5ID());
+                                            Object object = TrackingApi.addJewelry(user,dataList.get(position));
                                             if(object instanceof String){
-                                                dataList.remove(position);
-                                                trackingBlockJewelryListView.post(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        if (trackingBlockJewelryListViewAdapter != null) {
-                                                            trackingBlockJewelryListViewAdapter.notifyDataSetChanged();
-                                                        } else {
-                                                            trackingBlockJewelryListViewAdapter = new TrackingBlockJewelryListViewAdapter(context, dataList);
-                                                            listView.setAdapter(trackingBlockJewelryListViewAdapter);
-                                                        }
-                                                        tracking_block_jewelry_list_number.setText("件数:" + dataList.size());
-                                                    }
-                                                });
+                                                toastMessage("饰品:" + dataList.get(position).getJewelryName() + " 成功加入追踪名单");
                                             }
                                             else if(object instanceof NotificationOfTracking){
                                                 toastMessage(((NotificationOfTracking) object).getMessage());
@@ -180,23 +169,29 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
                     dataList.clear();
                     setAllEnabled(false);
                     swipeRefreshLayout.setEnabled(false);
-                    tracking_block_jewelry_list_number.setText("搜索中");
+                    tracking_add_jewelry_list_number.setText("搜索中");
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            getList(searchStr);
-                            trackingBlockJewelryListView.post(new Runnable() {
+                            try {
+                                getList(searchStr);
+                            } catch (UnsupportedEncodingException e) {
+                                setAllEnabled(true);
+                                swipeRefreshLayout.setEnabled(true);
+                                throw new RuntimeException(e);
+                            }
+                            trackingAddJewelryListView.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (trackingBlockJewelryListViewAdapter != null) {
-                                        trackingBlockJewelryListViewAdapter.notifyDataSetChanged();
+                                    if (trackingAddJewelryListViewAdapter != null) {
+                                        trackingAddJewelryListViewAdapter.notifyDataSetChanged();
                                     } else {
-                                        trackingBlockJewelryListViewAdapter = new TrackingBlockJewelryListViewAdapter(context, dataList);
-                                        listView.setAdapter(trackingBlockJewelryListViewAdapter);
+                                        trackingAddJewelryListViewAdapter = new TrackingAddJewelryListViewAdapter(context, dataList);
+                                        listView.setAdapter(trackingAddJewelryListViewAdapter);
                                     }
                                     setAllEnabled(true);
                                     swipeRefreshLayout.setEnabled(true);
-                                    tracking_block_jewelry_list_number.setText("件数:" + dataList.size());
+                                    tracking_add_jewelry_list_number.setText("件数:" + dataList.size());
                                 }
                             });
                             Log.e("error",String.valueOf(dataList.size()));
@@ -217,24 +212,35 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
             @Override
             public void onRefresh() {
                 searchStr = search.getText().toString();
+                if(searchStr == null || searchStr.equals("")){
+                    swipeRefreshLayout.setRefreshing(false);
+                    return;
+                }
                 dataList.clear();
                 setAllEnabled(false);
-                tracking_block_jewelry_list_number.setText("搜索中");
+                tracking_add_jewelry_list_number.setText("搜索中");
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        getList(searchStr);
-                        trackingBlockJewelryListView.post(new Runnable() {
+                        try {
+                            getList(searchStr);
+                        } catch (UnsupportedEncodingException e) {
+                            setAllEnabled(true);
+                            swipeRefreshLayout.setRefreshing(false);
+                            throw new RuntimeException(e);
+
+                        }
+                        trackingAddJewelryListView.post(new Runnable() {
                             @Override
                             public void run() {
-                                if (trackingBlockJewelryListViewAdapter != null) {
-                                    trackingBlockJewelryListViewAdapter.notifyDataSetChanged();
+                                if (trackingAddJewelryListViewAdapter != null) {
+                                    trackingAddJewelryListViewAdapter.notifyDataSetChanged();
                                 } else {
-                                    trackingBlockJewelryListViewAdapter = new TrackingBlockJewelryListViewAdapter(context, dataList);
-                                    listView.setAdapter(trackingBlockJewelryListViewAdapter);
+                                    trackingAddJewelryListViewAdapter = new TrackingAddJewelryListViewAdapter(context, dataList);
+                                    listView.setAdapter(trackingAddJewelryListViewAdapter);
                                 }
                                 setAllEnabled(true);
-                                tracking_block_jewelry_list_number.setText("件数:" + dataList.size());
+                                tracking_add_jewelry_list_number.setText("件数:" + dataList.size());
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
@@ -246,52 +252,15 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
         });
     }
 
-    private void initList(){
-        dataList.clear();
-        setAllEnabled(false);
-        swipeRefreshLayout.setEnabled(false);
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                getList(searchStr);
-                trackingBlockJewelryListView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (trackingBlockJewelryListViewAdapter != null) {
-                            trackingBlockJewelryListViewAdapter.notifyDataSetChanged();
-                        } else {
-                            trackingBlockJewelryListViewAdapter = new TrackingBlockJewelryListViewAdapter(context, dataList);
-                            listView.setAdapter(trackingBlockJewelryListViewAdapter);
-                        }
-                        setAllEnabled(true);
-                        swipeRefreshLayout.setEnabled(true);
-                        tracking_block_jewelry_list_number.setText("件数:" + dataList.size());
-                    }
-                });
-                Log.e("error",String.valueOf(dataList.size()));
-            }
-        });
-        thread.start();
-    }
 
-    private void getList(String searchStr){
+    private void getList(String searchStr) throws UnsupportedEncodingException {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         String user = sharedPreferences.getString("user","");
-        if(TextUtils.isEmpty(searchStr)){
-            while (jewelryList == null){
-                jewelryList = TrackingApi.getBlockJewelryListBySearch(user,"");
-            }
-        }
-        else {
-            while (jewelryList == null){
-                jewelryList = TrackingApi.getBlockJewelryListBySearch(user,searchStr);
-            }
-        }
-
+        jewelryList = HomeApi.getJewelryList(searchStr);
         for(Jewelry jewelry: jewelryList){
             dataList.add(jewelry);
         }
-        jewelryList = null;
+        jewelryList.clear();
     }
 
 
@@ -315,7 +284,7 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
     }
 
     private void toastMessage(String message){
-        trackingBlockJewelryListView.post(new Runnable() {
+        trackingAddJewelryListView.post(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
@@ -324,6 +293,7 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
     }
 
 }
+
 
 
 

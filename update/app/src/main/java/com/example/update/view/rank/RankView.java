@@ -129,6 +129,8 @@ public class RankView extends ConstraintLayout {
                 spinnerCount++;
                 setAllEnabled(false);
                 if(spinnerCount < 6){
+                    setAllEnabled(true);
+                    swipeRefreshLayout.setRefreshing(false);
                     return;
                 }
                 rank_jewelryList.clear();
@@ -254,6 +256,7 @@ public class RankView extends ConstraintLayout {
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             spinnerCount++;
             setAllEnabled(false);
+            swipeRefreshLayout.setEnabled(false);
             if(spinnerCount < 6){
                 return;
             }
@@ -273,6 +276,8 @@ public class RankView extends ConstraintLayout {
                                 listView.setAdapter(rankListViewAdapter);
                             }
                             setAllEnabled(true);
+
+                            swipeRefreshLayout.setEnabled(true);
                         }
                     });
                     Log.e("error",String.valueOf(rank_jewelryList.size()));

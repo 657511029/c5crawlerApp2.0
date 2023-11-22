@@ -75,6 +75,8 @@ public class TrackingJewelryListView extends ConstraintLayout {
     private List<Jewelry> jewelryList = null;
     private List<Jewelry> dataList = new ArrayList<>();
 
+    int jewelryCount = 0;
+
 
     public TrackingJewelryListView(Context context) {
         super(context);
@@ -136,8 +138,8 @@ public class TrackingJewelryListView extends ConstraintLayout {
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferences sharedPreferences = context.getSharedPreferences("user", context.MODE_PRIVATE);
                         String user = sharedPreferences.getString("user","");
+
                         if(items[which].equals("拉黑")){
-//                            toastMessage(((TextView)view.findViewById(R.id.tracking_jewelry_list_item_name)).getText().toString() + dataList.get(position).getC5ID());
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -164,7 +166,30 @@ public class TrackingJewelryListView extends ConstraintLayout {
                             }).start();
                         }
                         else if(items[which].equals("删除")){
-                            toastMessage("功能暂未开放");
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Object object = TrackingApi.deleteJewelry(user,dataList.get(position).getC5ID());
+                                    if(object instanceof String){
+                                        dataList.remove(position);
+                                        trackingJewelryListView.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (trackingJewelryListViewAdapter != null) {
+                                                    trackingJewelryListViewAdapter.notifyDataSetChanged();
+                                                } else {
+                                                    trackingJewelryListViewAdapter = new TrackingJewelryListViewAdapter(context, dataList);
+                                                    listView.setAdapter(trackingJewelryListViewAdapter);
+                                                }
+                                                tracking_jewelry_list_number.setText("件数:" + dataList.size());
+                                            }
+                                        });
+                                    }
+                                    else if(object instanceof NotificationOfTracking){
+                                        toastMessage(((NotificationOfTracking) object).getMessage());
+                                    }
+                                }
+                            }).start();
                         }
                     }
                 }).create();
@@ -194,6 +219,8 @@ public class TrackingJewelryListView extends ConstraintLayout {
                     inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
                     searchStr = search.getText().toString();
                     dataList.clear();
+                    setAllEnabled(false);
+                    swipeRefreshLayout.setEnabled(false);
                     tracking_jewelry_list_number.setText("搜索中");
                     Thread thread = new Thread(new Runnable() {
                         @Override
@@ -208,6 +235,8 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                         trackingJewelryListViewAdapter = new TrackingJewelryListViewAdapter(context, dataList);
                                         listView.setAdapter(trackingJewelryListViewAdapter);
                                     }
+                                    setAllEnabled(true);
+                                    swipeRefreshLayout.setEnabled(true);
                                     tracking_jewelry_list_number.setText("件数:" + dataList.size());
                                 }
                             });
@@ -261,6 +290,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
     private void initList(){
         dataList.clear();
         setAllEnabled(false);
+        swipeRefreshLayout.setEnabled(false);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -275,6 +305,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                             listView.setAdapter(trackingJewelryListViewAdapter);
                         }
                         setAllEnabled(true);
+                        swipeRefreshLayout.setEnabled(true);
                         tracking_jewelry_list_number.setText("件数:" + dataList.size());
                     }
                 });

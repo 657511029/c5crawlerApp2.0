@@ -11,6 +11,7 @@
 
     <string name="tracking_title1">追踪名单</string>
     <string name="tracking_title2">追踪黑名单</string>
+    <string name="tracking_title3">快速追踪</string>
 
 
 </resources>

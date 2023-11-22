@@ -85,6 +85,17 @@
             android:text="@string/tracking_title2"
             android:textColor="@color/home_topBar_item" />
 
+        <TextView
+            android:id="@+id/tracking_topBar_item3"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:paddingHorizontal="20dp"
+            android:text="@string/tracking_title3"
+            android:textColor="@color/home_topBar_item" />
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

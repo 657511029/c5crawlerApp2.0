@@ -109,18 +109,22 @@ public class HangknifeView extends ConstraintLayout {
             public void onRefresh() {
                 if(hangknife_edits_min.getText().toString() == null || hangknife_edits_min.getText().toString().equals("")){
                     toastMessage("最小价格不能为空");
+                    swipeRefreshLayout.setRefreshing(false);
                     return;
                 }
                 if(hangknife_edits_max.getText().toString() == null || hangknife_edits_max.getText().toString().equals("")){
                     toastMessage("最大价格不能为空");
+                    swipeRefreshLayout.setRefreshing(false);
                     return;
                 }
                 if(hangknife_edits_change.getText().toString() == null || hangknife_edits_change.getText().toString().equals("")){
                     toastMessage("最小日交易量不能为空");
+                    swipeRefreshLayout.setRefreshing(false);
                     return;
                 }
                 if(Integer.parseInt(hangknife_edits_min.getText().toString()) >= Integer.parseInt(hangknife_edits_max.getText().toString())){
                     toastMessage("最小价格不能大于等于最大价格");
+                    swipeRefreshLayout.setRefreshing(false);
                     return;
                 }
                 setAllEnabled(false);
@@ -176,6 +180,7 @@ public class HangknifeView extends ConstraintLayout {
         hangknife_edits_max.setEnabled(enabled);
         hangknife_edits_change.setEnabled(enabled);
         hangknife_edits_search.setEnabled(enabled);
+        hangknife_edits_clean.setEnabled(enabled);
     }
     class MyClickListener implements View.OnClickListener {
 
@@ -198,6 +203,7 @@ public class HangknifeView extends ConstraintLayout {
                 return;
             }
             setAllEnabled(false);
+            swipeRefreshLayout.setEnabled(false);
             hangknife_jewelryList.clear();
             dataList.clear();
             Thread thread = new Thread(new Runnable() {
@@ -214,6 +220,7 @@ public class HangknifeView extends ConstraintLayout {
                                 listView.setAdapter(hangknifeListViewAdapter);
                             }
                             setAllEnabled(true);
+                            swipeRefreshLayout.setEnabled(true);
                         }
                     });
                     Log.e("error",String.valueOf(hangknife_jewelryList.size()));
@@ -232,6 +239,7 @@ public class HangknifeView extends ConstraintLayout {
             hangknife_edits_change.setText(null);
 
             setAllEnabled(false);
+            swipeRefreshLayout.setEnabled(false);
             hangknife_jewelryList.clear();
             dataList.clear();
 
@@ -241,19 +249,18 @@ public class HangknifeView extends ConstraintLayout {
                 hangknifeListViewAdapter = new HangknifeListViewAdapter(context, dataList);
                 listView.setAdapter(hangknifeListViewAdapter);
             }
-
+            setAllEnabled(true);
+            swipeRefreshLayout.setEnabled(true);
         }
     }
 
     private void getList(){
         try {
-            while (hangknife_jewelryList.size() == 0){
                 hangknife_jewelryList = HomeApi.getHangknifeJewelryList(
                         hangknife_edits_min.getText().toString(),
                         hangknife_edits_max.getText().toString(),
                         hangknife_edits_change.getText().toString()
                 );
-            }
             Hangknife_jewelry hangknife_Jewelry = new Hangknife_jewelry();
             hangknife_Jewelry.setJewelryName("饰品名称");
             hangknife_Jewelry.setMin_sell("最低售价");
