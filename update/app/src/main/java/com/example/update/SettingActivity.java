@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.update.api.InfoApi;
+import com.example.update.service.FloatViewService;
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
 import com.example.update.view.HomeView;
@@ -108,6 +109,8 @@ public class SettingActivity extends AppCompatActivity {
         editor.putString("user", "");
         editor.commit();
         Intent intent = new Intent(SettingActivity.this,MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("point",3);
         startActivity(intent);
     }
@@ -165,9 +168,11 @@ public class SettingActivity extends AppCompatActivity {
             //将获取过来的值放入文件
             editor.putString("tracking", "false");
             editor.commit();
-            Intent intent = new Intent(SettingActivity.this, FloatingWindowService.class);
-            Intent intent2 = new Intent(SettingActivity.this, TrackingService.class);
+//            Intent intent = new Intent(SettingActivity.this, FloatingWindowService.class);
+//            stopService(intent);
+            Intent intent = new Intent(SettingActivity.this, FloatViewService.class);
             stopService(intent);
+            Intent intent2 = new Intent(SettingActivity.this, TrackingService.class);
             stopService(intent2);
             loginOut();
         }

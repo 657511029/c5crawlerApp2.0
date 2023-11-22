@@ -26,6 +26,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.update.service.FloatViewService;
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
 import com.example.update.view.tracking.TrackingAddJewelryListView;
@@ -275,15 +276,25 @@ public class TrackingActivity extends AppCompatActivity {
 
     private void controlTracking(boolean control){
         if(control){
-            Intent intent = new Intent(this, FloatingWindowService.class);
-            Intent intent2 = new Intent(this, TrackingService.class);
+//            Intent intent = new Intent(this, FloatingWindowService.class);
+//
+//            startService(intent);
+            Intent intent = new Intent(this, FloatViewService.class);
+
             startService(intent);
+            Intent intent2 = new Intent(this, TrackingService.class);
             startService(intent2);
+
+
         }
         else {
-            Intent intent = new Intent(this, FloatingWindowService.class);
-            Intent intent2 = new Intent(this, TrackingService.class);
+//            Intent intent = new Intent(this, FloatingWindowService.class);
+//
+//            stopService(intent);
+            Intent intent = new Intent(this, FloatViewService.class);
+
             stopService(intent);
+            Intent intent2 = new Intent(this, TrackingService.class);
             stopService(intent2);
         }
     }

@@ -59,6 +59,8 @@ public class TrackingService extends Service {
 
     private String defaultChannelId;
 
+    private boolean isDestory = false;
+
 
     @Override
     public void onCreate() {
@@ -262,6 +264,7 @@ public class TrackingService extends Service {
         notificationManager.cancelAll();
         // 移除悬浮窗 View
     }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

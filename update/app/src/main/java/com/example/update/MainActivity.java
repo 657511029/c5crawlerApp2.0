@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.update.service.FloatViewService;
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
 import com.example.update.view.HomeView;
@@ -43,11 +44,18 @@ public class MainActivity extends AppCompatActivity {
 
     private Context context;
 
+    private boolean isDestory = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+        //获取Editor对象的引用
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //将获取过来的值放入文件
+        editor.putString("tracking", "false");
+        editor.commit();
         initData();
         initComponent();
         initNotificationChannel();
@@ -55,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initData(){
         context = MainActivity.this;
-        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
-        //获取Editor对象的引用
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //将获取过来的值放入文件
-        editor.putString("tracking", "false");
-        editor.commit();
+//        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+//        //获取Editor对象的引用
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        //将获取过来的值放入文件
+//        editor.putString("tracking", "false");
+//        editor.commit();
     }
 
     private void initComponent(){
@@ -145,20 +153,46 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private void destory(){
+        if (!isDestory){
+            //释放资源
+            SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+            //获取Editor对象的引用
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            //将获取过来的值放入文件
+            editor.putString("tracking", "false");
+            editor.commit();
+//            Intent intent = new Intent(this, FloatingWindowService.class);
+//            stopService(intent);
+            Intent intent = new Intent(this, FloatViewService.class);
+            stopService(intent);
+            Intent intent2 = new Intent(this, TrackingService.class);
+
+            stopService(intent2);
+            isDestory = true;
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (isFinishing()){
+            destory();//释放资源
+        }
+    }
+
     @Override
     protected void onDestroy() {
-        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
-        //获取Editor对象的引用
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //将获取过来的值放入文件
-        editor.putString("tracking", "false");
-        editor.commit();
-        Intent intent = new Intent(this, FloatingWindowService.class);
-        Intent intent2 = new Intent(this, TrackingService.class);
-        stopService(intent);
-        stopService(intent2);
         super.onDestroy();
+        destory();//释放资源,在onDestroy检测释放回收
     }
+//    @Override
+//    protected void onDestroy() {
+//
+//        super.onDestroy();
+//    }
 
     private void toastMessage(String message){
         runOnUiThread(new Runnable() {

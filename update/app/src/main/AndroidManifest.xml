@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -44,11 +45,17 @@
             android:name=".service.FloatingWindowService"
             android:enabled="true"
             android:exported="true" />
+        <service android:name=".service.FloatViewService"
+            android:enabled="true"
+            android:exported="true"
+            />
 
         <activity
             android:name=".TrackingActivity"
             android:exported="false"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".ModifyInfoItemActivity"
             android:exported="false"
@@ -67,6 +74,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="stateVisible|adjustPan"
+
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

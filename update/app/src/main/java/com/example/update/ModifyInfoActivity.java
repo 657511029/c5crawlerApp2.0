@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.update.adapter.InfoArrayAdapter;
 import com.example.update.api.InfoApi;
 import com.example.update.entity.UserInfo;
+import com.example.update.service.FloatViewService;
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
 
@@ -145,9 +146,11 @@ public class ModifyInfoActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(ModifyInfoActivity.this, FloatingWindowService.class);
-                        Intent intent2 = new Intent(ModifyInfoActivity.this, TrackingService.class);
+//                        Intent intent = new Intent(ModifyInfoActivity.this, FloatingWindowService.class);
+//                        stopService(intent);
+                        Intent intent = new Intent(ModifyInfoActivity.this, FloatViewService.class);
                         stopService(intent);
+                        Intent intent2 = new Intent(ModifyInfoActivity.this, TrackingService.class);
                         stopService(intent2);
                         
                         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
@@ -157,6 +160,8 @@ public class ModifyInfoActivity extends AppCompatActivity {
                         editor.putString("user", "");
                         editor.commit();
                         Intent intent3 = new Intent(ModifyInfoActivity.this,MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent3.putExtra("point",3);
                         startActivity(intent3);
                     }

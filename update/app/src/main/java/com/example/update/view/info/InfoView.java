@@ -28,6 +28,7 @@ import com.example.update.R;
 import com.example.update.SettingActivity;
 import com.example.update.TrackingActivity;
 import com.example.update.api.InfoApi;
+import com.example.update.service.FloatViewService;
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
 
@@ -272,9 +273,11 @@ public class InfoView extends ConstraintLayout {
                 //将获取过来的值放入文件
                 editor.putString("tracking", "false");
                 editor.commit();
-                Intent intent = new Intent(context, FloatingWindowService.class);
-                Intent intent2 = new Intent(context, TrackingService.class);
+//                Intent intent = new Intent(context, FloatingWindowService.class);
+//                context.stopService(intent);
+                Intent intent = new Intent(context, FloatViewService.class);
                 context.stopService(intent);
+                Intent intent2 = new Intent(context, TrackingService.class);
                 context.stopService(intent2);
             }
         });
