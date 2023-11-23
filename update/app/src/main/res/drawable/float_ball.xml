@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            android:shape="oval"
+            android:useLevel="true">
+            <size
+                android:width="40dp"
+                android:height="40dp" />
+
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="3dp"
+                android:color="#111111" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="3dp"
+        android:left="3dp"
+        android:right="3dp"
+        android:top="3dp"
+       >
+        <shape
+            android:shape="oval"
+            android:useLevel="true">
+<!--            <size-->
+<!--                android:width="50dp"-->
+<!--                android:height="50dp" />-->
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="3dp"
+                android:color="#5A5B5F" />
+        </shape>
+    </item>
+    <item
+        android:bottom="6dp"
+        android:left="6dp"
+        android:right="6dp"
+        android:top="6dp"
+        >
+        <shape
+            android:shape="oval"
+            android:useLevel="true">
+            <!--            <size-->
+            <!--                android:width="50dp"-->
+            <!--                android:height="50dp" />-->
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="3dp"
+                android:color="#92929A" />
+        </shape>
+    </item>
+    <item
+        android:bottom="9dp"
+        android:left="9dp"
+        android:right="9dp"
+        android:top="9dp"
+        >
+        <shape
+            android:shape="oval"
+            android:useLevel="true">
+            <!--            <size-->
+            <!--                android:width="50dp"-->
+            <!--                android:height="50dp" />-->
+            <solid android:color="@android:color/white" />
+
+        </shape>
+    </item>
+
+</layer-list>

@@ -1,5 +1,7 @@
 plugins {
     id("com.android.application")
+//    id("com.buyi.huxq17.AgencyPlugin")
+
 }
 
 android {
@@ -29,14 +31,12 @@ android {
 }
 
 dependencies {
-//    implementation("androidx.javascriptengine:javascriptengine:1.0.0-alpha04")
-//    implementation("org.graalvm.sdk:graal-sdk:21.0.0")
-//    implementation("org.graalvm.js:js:21.0.0")
-//    implementation("org.openjdk.nashorn:nashorn-core:15.4.1")
+
+//    implementation("com.buyi.huxq17:agencyplugin:1.1.2")
     implementation(files("libs\\jsoup-1.16.1.jar"))
     implementation(files("libs\\jedis-2.9.0.jar"))
-    implementation("io.apisense:rhino-android:1.1.1")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+    implementation("io.apisense:rhino-android:1.2.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     implementation("com.github.iammert:ReadableBottomBar:0.2")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")

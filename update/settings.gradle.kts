@@ -2,7 +2,9 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
-        gradlePluginPortal()
+        jcenter()
+////        gradlePluginPortal()
+//        maven { url=uri("https://maven.aliyun.com/repository/jcenter/")}
 //        maven { url=uri("https://jitpack.io") }
     }
 }
@@ -11,6 +13,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
         maven { url=uri("https://jitpack.io") }
 //        maven { url=uri("https://maven.aliyun.com/repository/public/")}
 //        maven { url=uri("https://maven.aliyun.com/repository/google/")}
