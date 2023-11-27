@@ -46,7 +46,10 @@ public class TrackingApi {
                 if (!jedis.exists(user)) {
                     return new NotificationOfTracking("Redis服务运行失败\n当前用户不存在", 10002, "Redis服务", "Redis服务",0.00);
                 }
-                if (!jedis.exists(jedis.hget(user,"scale"))) {
+                if (!jedis.exists(jedis.hget(user,"scale_c5"))) {
+                    return new NotificationOfTracking("Redis服务运行失败\n追踪比例信息出错，请联系管理员", 10002, "Redis服务", "Redis服务",0.00);
+                }
+                if (!jedis.exists(jedis.hget(user,"scale_ig"))) {
                     return new NotificationOfTracking("Redis服务运行失败\n追踪比例信息出错，请联系管理员", 10002, "Redis服务", "Redis服务",0.00);
                 }
                 if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
@@ -57,18 +60,26 @@ public class TrackingApi {
                 String userName = jedis.hget(user, "username");
                 String uuAccount = jedis.hget(user,"uuAccount");
                 String password = jedis.hget(user, "uuPassword");
-                String percentage1 = jedis.hget(jedis.hget(user, "scale"),"0-50");
-                String percentage2 = jedis.hget(jedis.hget(user, "scale"),"50-100");
-                String percentage3 = jedis.hget(jedis.hget(user, "scale"),"100-500");
-                String percentage4 = jedis.hget(jedis.hget(user, "scale"),"500-");
+                String percentage1_c5 = jedis.hget(jedis.hget(user, "scale_c5"),"0-50");
+                String percentage2_c5 = jedis.hget(jedis.hget(user, "scale_c5"),"50-100");
+                String percentage3_c5 = jedis.hget(jedis.hget(user, "scale_c5"),"100-500");
+                String percentage4_c5 = jedis.hget(jedis.hget(user, "scale_c5"),"500-");
+                String percentage1_ig = jedis.hget(jedis.hget(user, "scale_ig"),"0-50");
+                String percentage2_ig = jedis.hget(jedis.hget(user, "scale_ig"),"50-100");
+                String percentage3_ig = jedis.hget(jedis.hget(user, "scale_ig"),"100-500");
+                String percentage4_ig = jedis.hget(jedis.hget(user, "scale_ig"),"500-");
 
                 userInfo.setUserName(userName);
                 userInfo.setUuAccount(uuAccount);
                 userInfo.setUuPassword(password);
-                userInfo.setScale1(percentage1);
-                userInfo.setScale2(percentage2);
-                userInfo.setScale3(percentage3);
-                userInfo.setScale4(percentage4);
+                userInfo.setScale1_c5(percentage1_c5);
+                userInfo.setScale2_c5(percentage2_c5);
+                userInfo.setScale3_c5(percentage3_c5);
+                userInfo.setScale4_c5(percentage4_c5);
+                userInfo.setScale1_ig(percentage1_ig);
+                userInfo.setScale2_ig(percentage2_ig);
+                userInfo.setScale3_ig(percentage3_ig);
+                userInfo.setScale4_ig(percentage4_ig);
                 Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
                 List<String> jewelryIDList = new ArrayList<>(sort);
                 jewelryIDList.remove(0);
@@ -143,10 +154,14 @@ public class TrackingApi {
 
     public static Map<String,Object> getC5Price(String jewelryID,
                                                  int point,
-                                                 double  percentage1,
-                                                 double  percentage2,
-                                                 double  percentage3,
-                                                 double  percentage4,
+                                                 double  percentage1_c5,
+                                                 double  percentage2_c5,
+                                                 double  percentage3_c5,
+                                                 double  percentage4_c5,
+                                                double  percentage1_ig,
+                                                double  percentage2_ig,
+                                                double  percentage3_ig,
+                                                double  percentage4_ig,
                                                  String token,
                                                  int roundNumber,
                                                  int exceptionNumber,
@@ -159,10 +174,14 @@ public class TrackingApi {
                 httpArg,
                 httpUrlEnd,
                 point,
-                percentage1,
-                percentage2,
-                percentage3,
-                percentage4,
+                percentage1_c5,
+                percentage2_c5,
+                percentage3_c5,
+                percentage4_c5,
+                percentage1_ig,
+                percentage2_ig,
+                percentage3_ig,
+                percentage4_ig,
                 token,
                 roundNumber,
                 exceptionNumber,
@@ -173,10 +192,14 @@ public class TrackingApi {
                                                           String httpArg,
                                                           String httpUrlEnd,
                                                           int point,
-                                                          double  percentage1,
-                                                          double  percentage2,
-                                                          double  percentage3,
-                                                          double  percentage4,
+                                                          double  percentage1_c5,
+                                                          double  percentage2_c5,
+                                                          double  percentage3_c5,
+                                                          double  percentage4_c5,
+                                                          double  percentage1_ig,
+                                                          double  percentage2_ig,
+                                                          double  percentage3_ig,
+                                                          double  percentage4_ig,
                                                           String token,
                                                           int roundNumber,
                                                           int exceptionNumber,
@@ -229,10 +252,14 @@ public class TrackingApi {
                             name,
                             price,
                             point,
-                            percentage1,
-                            percentage2,
-                            percentage3,
-                            percentage4,
+                            percentage1_c5,
+                            percentage2_c5,
+                            percentage3_c5,
+                            percentage4_c5,
+                            percentage1_ig,
+                            percentage2_ig,
+                            percentage3_ig,
+                            percentage4_ig,
                             token,
                             roundNumber,
                             exceptionNumber,
@@ -275,10 +302,14 @@ public class TrackingApi {
     private static Map<String,Object> requestOfGetUUJewelryList(String name,
                                                                 double price,
                                                                 int point,
-                                                                double  percentage1,
-                                                                double  percentage2,
-                                                                double  percentage3,
-                                                                double  percentage4,
+                                                                double  percentage1_c5,
+                                                                double  percentage2_c5,
+                                                                double  percentage3_c5,
+                                                                double  percentage4_c5,
+                                                                double  percentage1_ig,
+                                                                double  percentage2_ig,
+                                                                double  percentage3_ig,
+                                                                double  percentage4_ig,
                                                                 String token,
                                                                 int roundNumber,
                                                                 int exceptionNumber,
@@ -338,10 +369,14 @@ public class TrackingApi {
                             price,
                             jewelryID,
                             point,
-                            percentage1,
-                            percentage2,
-                            percentage3,
-                            percentage4,
+                            percentage1_c5,
+                            percentage2_c5,
+                            percentage3_c5,
+                            percentage4_c5,
+                            percentage1_ig,
+                            percentage2_ig,
+                            percentage3_ig,
+                            percentage4_ig,
                             token,
                             roundNumber,
                             exceptionNumber,
@@ -382,10 +417,14 @@ public class TrackingApi {
                                                         double price,
                                                         String jewelryID,
                                                         int point,
-                                                        double  percentage1,
-                                                        double  percentage2,
-                                                        double  percentage3,
-                                                        double  percentage4,
+                                                        double  percentage1_c5,
+                                                        double  percentage2_c5,
+                                                        double  percentage3_c5,
+                                                        double  percentage4_c5,
+                                                        double  percentage1_ig,
+                                                        double  percentage2_ig,
+                                                        double  percentage3_ig,
+                                                        double  percentage4_ig,
                                                         String token,
                                                         int roundNumber,
                                                         int exceptionNumber,
@@ -439,7 +478,7 @@ public class TrackingApi {
                     uuBuyPrice = priceList.getJSONObject(0).getDouble("unitPrice")/100.00;
                 }
                 if (price <= uuBuyPrice){
-                    if(price < 50 && price >=0 && uuBuyPrice/price >= percentage1){
+                    if(price < 50 && price >=0 && uuBuyPrice/price >= percentage1_c5){
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -447,21 +486,21 @@ public class TrackingApi {
                         );
                         return map;
                     }
-                    else if(price < 100 && price >= 50 && uuBuyPrice/price >= percentage2) {
+                    else if(price < 100 && price >= 50 && uuBuyPrice/price >= percentage2_c5) {
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
                                 new NotificationOfTracking(jewelryName + ": " + price + "  " + uuBuyPrice, point + 20000, "c5饰品捡漏", jewelryName,price)
                         );
                         return map;
-                    }else if(price < 500 && price >= 100 && uuBuyPrice/price >= percentage3){
+                    }else if(price < 500 && price >= 100 && uuBuyPrice/price >= percentage3_c5){
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
                                 new NotificationOfTracking(jewelryName + ": " + price + "  " + uuBuyPrice, point + 20000, "c5饰品捡漏", jewelryName,price)
                         );
                         return map;
-                    }else if(price >= 500 && uuBuyPrice/price >= percentage4){
+                    }else if(price >= 500 && uuBuyPrice/price >= percentage4_c5){
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -474,10 +513,14 @@ public class TrackingApi {
                         jewelryName,
                         uuBuyPrice,
                         point,
-                        percentage1,
-                        percentage2,
-                        percentage3,
-                        percentage4,
+                        percentage1_c5,
+                        percentage2_c5,
+                        percentage3_c5,
+                        percentage4_c5,
+                        percentage1_ig,
+                        percentage2_ig,
+                        percentage3_ig,
+                        percentage4_ig,
                         token,
                         roundNumber,
                         exceptionNumber,
@@ -516,10 +559,14 @@ public class TrackingApi {
     private static Map<String,Object> compareIgxePrice(String jewelryName,
                                                        double uuBuyPrice,
                                                        int point,
-                                                       double  percentage1,
-                                                       double  percentage2,
-                                                       double  percentage3,
-                                                       double  percentage4,
+                                                       double  percentage1_c5,
+                                                       double  percentage2_c5,
+                                                       double  percentage3_c5,
+                                                       double  percentage4_c5,
+                                                       double  percentage1_ig,
+                                                       double  percentage2_ig,
+                                                       double  percentage3_ig,
+                                                       double  percentage4_ig,
                                                        String token,
                                                        int roundNumber,
                                                        int exceptionNumber,
@@ -577,7 +624,7 @@ public class TrackingApi {
                 String priceStr = a_elementList.get(0).getElementsByClass("price").get(0).text();
                 double igxePrice = Double.parseDouble(priceStr.substring(1));
                 if(igxePrice != 0.00 && uuBuyPrice >= igxePrice){
-                    if(igxePrice < 50 && igxePrice >=0 && uuBuyPrice/igxePrice >= percentage1){
+                    if(igxePrice < 50 && igxePrice >=0 && uuBuyPrice/igxePrice >= percentage1_ig){
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -585,7 +632,7 @@ public class TrackingApi {
                                 );
                         return map;
                     }
-                    else if(igxePrice < 100 && igxePrice >= 50 && uuBuyPrice/igxePrice >= percentage2) {
+                    else if(igxePrice < 100 && igxePrice >= 50 && uuBuyPrice/igxePrice >= percentage2_ig) {
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -594,7 +641,7 @@ public class TrackingApi {
                         return map;
 
                     }
-                    else if(igxePrice < 500 && igxePrice >= 100 && uuBuyPrice/igxePrice >= percentage3) {
+                    else if(igxePrice < 500 && igxePrice >= 100 && uuBuyPrice/igxePrice >= percentage3_ig) {
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -602,7 +649,7 @@ public class TrackingApi {
                         );
                         return map;
 
-                    }else if(igxePrice >= 500 && uuBuyPrice/igxePrice >= percentage4){
+                    }else if(igxePrice >= 500 && uuBuyPrice/igxePrice >= percentage4_ig){
                         Map<String,Object> map = new HashMap<>();
                         map.put("exceptionNumber",exceptionNumber);
                         map.put("NotificationOfTracking",
@@ -659,7 +706,10 @@ public class TrackingApi {
                 if (!jedis.exists(user)) {
                     return null;
                 }
-                if (!jedis.exists(jedis.hget(user,"scale"))) {
+                if (!jedis.exists(jedis.hget(user,"scale_c5"))) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"scale_ig"))) {
                     return null;
                 }
                 if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
@@ -710,7 +760,10 @@ public class TrackingApi {
                 if (!jedis.exists(user)) {
                     return null;
                 }
-                if (!jedis.exists(jedis.hget(user,"scale"))) {
+                if (!jedis.exists(jedis.hget(user,"scale_c5"))) {
+                    return null;
+                }
+                if (!jedis.exists(jedis.hget(user,"scale_ig"))) {
                     return null;
                 }
                 if (!jedis.exists(jedis.hget(user,"blockJewelryIDList"))) {

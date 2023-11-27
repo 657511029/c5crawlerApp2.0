@@ -98,52 +98,99 @@ public class ModifyInfoItemActivity extends AppCompatActivity {
                                 userInfo.setUuAccount(message);
                                 continue;
                             }
-                            if(name.equals("0-50")){
-                                if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
-                                    toastMessage("百分比填写非法，更新失败");
-                                    return;
+                            if(title.equals("修改c5追踪比例")){
+                                if(name.equals("0-50")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale1_c5(message);
+                                    continue;
                                 }
-                                userInfo.setScale1(message);
-                                continue;
+                                if(name.equals("50-100")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale2_c5(message);
+                                    continue;
+                                }
+                                if(name.equals("100-500")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale3_c5(message);
+                                    continue;
+                                }
+                                if(name.equals("500-")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale4_c5(message);
+                                    continue;
+                                }
                             }
-                            if(name.equals("50-100")){
-                                if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
-                                    toastMessage("百分比填写非法，更新失败");
-                                    return;
+                            if(title.equals("修改ig追踪比例")){
+                                if(name.equals("0-50")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale1_ig(message);
+                                    continue;
                                 }
-                                userInfo.setScale2(message);
-                                continue;
-                            }
-                            if(name.equals("100-500")){
-                                if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
-                                    toastMessage("百分比填写非法，更新失败");
-                                    return;
+                                if(name.equals("50-100")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale2_ig(message);
+                                    continue;
                                 }
-                                userInfo.setScale3(message);
-                                continue;
-                            }
-                            if(name.equals("500-")){
-                                if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
-                                    toastMessage("百分比填写非法，更新失败");
-                                    return;
+                                if(name.equals("100-500")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale3_ig(message);
+                                    continue;
                                 }
-                                userInfo.setScale4(message);
-                                continue;
+                                if(name.equals("500-")){
+                                    if(!message.matches("(^[1-9]\\d*\\.\\d+$|^0\\.\\d+$|^[1-9]\\d*$|^0$)")){
+                                        toastMessage("百分比填写非法，更新失败");
+                                        return;
+                                    }
+                                    userInfo.setScale4_ig(message);
+                                    continue;
+                                }
                             }
                         }
-                        submit(user,userInfo);
+                        if(title.equals("修改昵称")){
+                            submit(user,userInfo,"昵称");
+                        }
+                        else if(title.equals("修改uu账户绑定")){
+                            submit(user,userInfo,"uu账户");
+                        }
+                        else if(title.equals("修改c5追踪比例")){
+                            submit(user,userInfo,"c5");
+                        }
+                        else if(title.equals("修改ig追踪比例")){
+                            submit(user,userInfo,"ig");
+                        }
                     }
                 });
             }
         });
     }
 
-    private void submit(String user,UserInfo userInfo){
+    private void submit(String user,UserInfo userInfo,String flag){
 
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(!InfoApi.submitInfo(user,userInfo)){
+                if(!InfoApi.submitInfo(user,userInfo,flag)){
                     toastMessage("修改失败,用户不存在");
                     return;
                 }

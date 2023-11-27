@@ -31,13 +31,21 @@ public class TrackingService extends Service {
 
     private String password;
 
-    private double  percentage1;
+    private double  percentage1_c5;
 
-    private double  percentage2;
+    private double  percentage2_c5;
 
-    private double  percentage3;
+    private double  percentage3_c5;
 
-    private double  percentage4;
+    private double  percentage4_c5;
+
+    private double  percentage1_ig;
+
+    private double  percentage2_ig;
+
+    private double  percentage3_ig;
+
+    private double  percentage4_ig;
 
     private String token;
 
@@ -74,10 +82,14 @@ public class TrackingService extends Service {
         illegalList = new String[]{"纪念品", "伽马多普勒", "★", "StatTrak"};
         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
         user = sharedPreferences.getString("user","");
-        percentage1 = 1.00;
-        percentage2 = 1.00;
-        percentage3 = 1.00;
-        percentage4 = 1.00;
+        percentage1_c5 = 1.00;
+        percentage2_c5 = 1.00;
+        percentage3_c5 = 1.00;
+        percentage4_c5 = 1.00;
+        percentage1_ig = 1.00;
+        percentage2_ig = 1.00;
+        percentage3_ig = 1.00;
+        percentage4_ig = 1.00;
         userName = "";
         password = "";
         token = "";
@@ -136,10 +148,14 @@ public class TrackingService extends Service {
             List<String> jewelryIDList = (List<String>) map.get("jewelryIDList");
             userName = userInfo.getUuAccount();
             password = userInfo.getUuPassword();
-            percentage1 = 1 + Double.parseDouble(userInfo.getScale1());
-            percentage2 = 1 + Double.parseDouble(userInfo.getScale2());
-            percentage3 = 1 + Double.parseDouble(userInfo.getScale3());
-            percentage4 = 1 + Double.parseDouble(userInfo.getScale4());
+            percentage1_c5 = 1 + Double.parseDouble(userInfo.getScale1_c5());
+            percentage2_c5 = 1 + Double.parseDouble(userInfo.getScale2_c5());
+            percentage3_c5 = 1 + Double.parseDouble(userInfo.getScale3_c5());
+            percentage4_c5 = 1 + Double.parseDouble(userInfo.getScale4_c5());
+            percentage1_ig = 1 + Double.parseDouble(userInfo.getScale1_ig());
+            percentage2_ig = 1 + Double.parseDouble(userInfo.getScale2_ig());
+            percentage3_ig = 1 + Double.parseDouble(userInfo.getScale3_ig());
+            percentage4_ig = 1 + Double.parseDouble(userInfo.getScale4_ig());
             this.jewelryIDList = jewelryIDList;
         }
         return object;
@@ -172,10 +188,14 @@ public class TrackingService extends Service {
                 Map<String,Object> map = TrackingApi.getC5Price(
                         jewelryID,
                         point,
-                        percentage1,
-                        percentage2,
-                        percentage3,
-                        percentage4,
+                        percentage1_c5,
+                        percentage2_c5,
+                        percentage3_c5,
+                        percentage4_c5,
+                        percentage1_ig,
+                        percentage2_ig,
+                        percentage3_ig,
+                        percentage4_ig,
                         token,
                         roundNumber,
                         exceptionNumber,
