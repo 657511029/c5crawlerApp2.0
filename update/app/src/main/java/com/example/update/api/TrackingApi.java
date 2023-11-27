@@ -691,7 +691,7 @@ public class TrackingApi {
         return map;
     }
 
-    public static List<Jewelry> getJewelryListBySearch(String user,String searchStr){
+    public static Map<String,Object> getJewelryListBySearch(String user,String searchStr,String offset,int count,int addCount){
         List<Jewelry> jewelryList = new ArrayList<>();
         try {
             Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
@@ -716,18 +716,52 @@ public class TrackingApi {
                     return null;
                 }
 
-                Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
+//                Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
+//
+//                List<String> jewelryIDList = new ArrayList<>(sort);
+//                jewelryIDList.remove(0);
+//                Log.e("jewelryIDList",String.valueOf(jewelryIDList.size()));
+//                for(int i = 0;i < jewelryIDList.size();i++){
+//                    String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
+//                    if(!jewelryName.contains(searchStr)){
+//                        continue;
+//                    }
+//                    Jewelry jewelry = new Jewelry();
+//                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
+//
+//                    if(jewelryName == null){
+//                        jewelry.setJewelryName(jewelryIDList.get(i));
+//                    }else {
+//                        jewelry.setJewelryName(jewelryName);
+//                    }
+//                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
+//                    jewelry.setC5ID(jewelryIDList.get(i));
+//                    jewelryList.add(jewelry);
+//                }
+                Set<String> sort;
+                if(offset == "-"){
+                     sort = jedis.zrangeByScore(jedis.hget(user,"jewelryIDList"),"-inf","+inf");
+
+                }
+                else {
+                     sort = jedis.zrangeByScore(jedis.hget(user,"jewelryIDList"),"(" + jedis.zscore(jedis.hget(user,"jewelryIDList"),offset),"+inf");
+
+                }
                 List<String> jewelryIDList = new ArrayList<>(sort);
-                jewelryIDList.remove(0);
+                jewelryIDList.remove("饰品ID");
                 Log.e("jewelryIDList",String.valueOf(jewelryIDList.size()));
+                int point = 0;
                 for(int i = 0;i < jewelryIDList.size();i++){
                     String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
                     if(!jewelryName.contains(searchStr)){
                         continue;
                     }
+                    point++;
+                    if(jewelryList.size() >= count){
+                        continue;
+                    }
                     Jewelry jewelry = new Jewelry();
                     String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
-
                     if(jewelryName == null){
                         jewelry.setJewelryName(jewelryIDList.get(i));
                     }else {
@@ -737,7 +771,11 @@ public class TrackingApi {
                     jewelry.setC5ID(jewelryIDList.get(i));
                     jewelryList.add(jewelry);
                 }
-                return jewelryList;
+
+                Map<String,Object> map = new HashMap<>();
+                map.put("number",point + addCount);
+                map.put("jewelryList",jewelryList);
+                return map;
             } else {
                 return null;
             }
