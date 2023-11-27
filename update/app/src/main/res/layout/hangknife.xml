@@ -123,6 +123,7 @@
             android:id="@+id/hangknife_list_result"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scrollbars="none"
             android:layout_marginTop="10dp"
             android:dividerHeight="5dp"
             />

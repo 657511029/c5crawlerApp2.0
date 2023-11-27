@@ -74,13 +74,17 @@ public class ListViewAdapter extends BaseAdapter {
             viewHolder.jewelryHomeViewLeft.setName(jewelry_left.getShortName());
             viewHolder.jewelryHomeViewLeft.setImage(jewelry_left.getBitmap() );
             viewHolder.jewelryHomeViewLeft.setDesc(jewelry_left.getExteriorColor(),jewelry_left.getExteriorName(),jewelry_left.getQualityColor(),jewelry_left.getQualityName());
+            viewHolder.jewelryHomeViewLeft.setPrice(jewelry_left.getPrice());
+            viewHolder.jewelryHomeViewLeft.setQuantity(jewelry_left.getQuantity());
         }
-        if(TextUtils.isEmpty(dataList.get(position).get("jewelry_right").getJewelryName())){
+        if(TextUtils.isEmpty(jewelry_right.getJewelryName())){
             viewHolder.jewelryHomeViewRight.setVisibility(View.GONE);
         }{
-            viewHolder.jewelryHomeViewRight.setName(dataList.get(position).get("jewelry_right").getShortName());
-            viewHolder.jewelryHomeViewRight.setImage(dataList.get(position).get("jewelry_right").getBitmap());
+            viewHolder.jewelryHomeViewRight.setName(jewelry_right.getShortName());
+            viewHolder.jewelryHomeViewRight.setImage(jewelry_right.getBitmap());
             viewHolder.jewelryHomeViewRight.setDesc(jewelry_right.getExteriorColor(),jewelry_right.getExteriorName(),jewelry_right.getQualityColor(),jewelry_right.getQualityName());
+            viewHolder.jewelryHomeViewRight.setPrice(jewelry_right.getPrice());
+            viewHolder.jewelryHomeViewRight.setQuantity(jewelry_right.getQuantity());
         }
 
         return convertView;

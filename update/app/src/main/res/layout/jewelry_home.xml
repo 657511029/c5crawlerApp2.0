@@ -8,12 +8,12 @@
     android:layout_height="match_parent"
     >
     <LinearLayout
-        android:layout_width="160dp"
+        android:layout_width="165dp"
         android:layout_height="105dp"
         android:orientation="vertical"
-        android:background="@drawable/goods_detail_bg">
+        android:background="@drawable/item_bg">
         <LinearLayout
-            android:layout_width="160dp"
+            android:layout_width="165dp"
             android:layout_height="15dp"
             android:orientation="horizontal"
             android:background="@drawable/shape_jewelry_desc"
@@ -43,7 +43,7 @@
         </LinearLayout>
         <ImageView
             android:id="@+id/image"
-            android:layout_width="160dp"
+            android:layout_width="165dp"
             android:layout_height="90dp"
             android:layout_gravity="center"
             android:scaleType="centerInside"
@@ -53,15 +53,45 @@
 
     <TextView
         android:id="@+id/home_jewelry_name"
-        android:layout_width="160dp"
-        android:layout_height="25dp"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
         android:maxLines="1"
         android:maxEms="15"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:textSize="13dp"
+        android:textSize="11dp"
         android:paddingStart="2dp"
+        android:paddingTop="2dp"
         android:text="home_jewelry_name"
         android:background="@drawable/shape_jewelry_text"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingTop="2dp"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jewelry_price"
+            android:textSize="12dp"
+            android:textColor="#D69E2D"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jewelry_quantity"
+            android:textSize="10dp"
+            android:textColor="#949494"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

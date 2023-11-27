@@ -70,6 +70,7 @@
             android:background="@drawable/shape_refresh_top"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:scrollbars="none"
             android:dividerHeight="1dp"
             />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

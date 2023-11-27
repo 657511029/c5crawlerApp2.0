@@ -33,6 +33,10 @@ public class JewelryHomeView extends ConstraintLayout {
 
     private TextView jewelry_statTrak;
 
+    private TextView jewelry_price;
+
+    private TextView jewelry_quantity;
+
     public JewelryHomeView(Context context) {
         super(context);
         this.context = context;
@@ -65,6 +69,8 @@ public class JewelryHomeView extends ConstraintLayout {
         textView = (TextView) jewelryHomeView.findViewById(R.id.home_jewelry_name);
         jewelry_abrasion = (TextView) jewelryHomeView.findViewById(R.id.jewelry_abrasion);
         jewelry_statTrak = (TextView) jewelryHomeView.findViewById(R.id.jewelry_statTrak);
+        jewelry_price = (TextView) jewelryHomeView.findViewById(R.id.jewelry_price);
+        jewelry_quantity = (TextView) jewelryHomeView.findViewById(R.id.jewelry_quantity);
     }
 
     public void setName(String name){
@@ -85,6 +91,14 @@ public class JewelryHomeView extends ConstraintLayout {
         if(!TextUtils.isEmpty(qualityColor)){
             jewelry_statTrak.setTextColor(Color.parseColor(qualityColor));
         }
+    }
+
+    public void setPrice(double price){
+        jewelry_price.setText( "￥" + String.valueOf(price));
+    }
+
+    public void setQuantity(int quantity){
+        jewelry_quantity.setText("在售 " + String.valueOf(quantity) + " 件");
     }
 
     public String getName(){

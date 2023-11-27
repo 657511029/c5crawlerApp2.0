@@ -15,6 +15,10 @@ public class Jewelry {
 
     private String shortName;
 
+    private double price;
+
+    private int quantity;
+
     private String exteriorColor;
 
     private String exteriorName;
@@ -112,5 +116,21 @@ public class Jewelry {
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

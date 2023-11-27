@@ -54,13 +54,13 @@
             android:name=".TrackingActivity"
             android:exported="false"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan"
+            android:windowSoftInputMode="stateHidden|adjustPan"
             android:launchMode="singleTask"/>
         <activity
             android:name=".ModifyInfoItemActivity"
             android:exported="false"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ModifyInfoActivity"
             android:exported="false"
@@ -73,8 +73,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateVisible|adjustPan"
-
+            android:windowSoftInputMode="stateHidden|adjustPan"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

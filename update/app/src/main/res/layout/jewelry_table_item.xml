@@ -8,8 +8,8 @@
 
     <com.example.update.view.JewelryHomeView
         android:id="@+id/jewelry_table_item_left"
-        android:layout_width="160dp"
-        android:layout_height="130dp"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/jewelry_table_item_right"
         app:layout_constraintHorizontal_bias="0.05"
@@ -19,8 +19,8 @@
 
     <com.example.update.view.JewelryHomeView
         android:id="@+id/jewelry_table_item_right"
-        android:layout_width="160dp"
-        android:layout_height="130dp"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"

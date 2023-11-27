@@ -83,6 +83,8 @@ public class HomeApi {
                     String itemId = item.getString("itemId");
                     String imageUrl = item.getString("imageUrl");
                     String shortName = item.getString("shortName");
+                    double price = item.getDouble("price");
+                    int quantity = item.getInt("quantity");
                     JSONObject itemInfo = item.getJSONObject("itemInfo");
                     String exteriorColor = itemInfo.getString("exteriorColor");
 
@@ -96,6 +98,8 @@ public class HomeApi {
                     jewelry.setJewelryName(itemName);
                     jewelry.setImageUrl(imageUrl);
                     jewelry.setShortName(shortName);
+                    jewelry.setPrice(price);
+                    jewelry.setQuantity(quantity);
                     jewelry.setExteriorColor(exteriorColor);
                     jewelry.setExteriorName(exteriorName);
                     jewelry.setQualityColor(qualityColor);

@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JewelryListView extends ConstraintLayout {
+public class  JewelryListView extends ConstraintLayout {
     private static final String TAG = JewelryListView.class.getSimpleName();
 
     private Context context;
