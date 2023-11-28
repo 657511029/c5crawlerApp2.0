@@ -10,7 +10,7 @@ public class OrdersItem {
 
     private double average;
 
-    private String image;
+    private String imageUrl;
 
     private Bitmap bitmap;
 
@@ -58,12 +58,12 @@ public class OrdersItem {
         this.average = average;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Bitmap getBitmap() {

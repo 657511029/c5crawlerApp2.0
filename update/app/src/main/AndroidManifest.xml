@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -29,14 +28,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Update"
         tools:targetApi="31">
+
         <receiver
             android:name=".receiver.NotificationClickReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
         <receiver
             android:name=".receiver.BlockJewelryReceiver"
             android:enabled="true"
             android:exported="true" />
+
         <service
             android:name=".service.TrackingService"
             android:enabled="true"
@@ -45,22 +46,29 @@
             android:name=".service.FloatingWindowService"
             android:enabled="true"
             android:exported="true" />
-        <service android:name=".service.FloatViewService"
+        <service
+            android:name=".service.FloatViewService"
             android:enabled="true"
-            android:exported="true"
-            />
+            android:exported="true" />
+
+        <activity
+            android:name=".THelperActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
             android:name=".TrackingActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:launchMode="singleTask"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ModifyInfoItemActivity"
             android:exported="false"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ModifyInfoActivity"
             android:exported="false"
@@ -68,13 +76,11 @@
         <activity
             android:name=".SettingActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            />
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            >
+            android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
