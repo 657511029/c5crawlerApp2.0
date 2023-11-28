@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingVertical="20dp"
     android:textSize="13dp"
-    android:textColor="#268C36"
+    android:textColor="@color/green_268C36"
     android:text="正在加载中"
     android:gravity="center">
 

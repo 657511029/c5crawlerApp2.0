@@ -84,6 +84,27 @@ public class TrackingJewelryListView extends ConstraintLayout {
 
     private int jewelryNumber = 0;
 
+    //状态:初始化中
+    private final int initializing = 0;
+
+    //状态:检索中
+    private final int searching = 1;
+
+    //状态:刷新中
+    private final int refreshing = 2;
+
+
+    //状态:加载更多中
+    private final int loading = 3;
+
+    //状态:正常
+    private final int common = 4;
+
+    private final int blocking = 5;
+
+    private final int deleting = 6;
+
+
     private int flag;
 
 
@@ -137,7 +158,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                     case SCROLL_STATE_IDLE:
                         // 判断是否滚动到底部
                         if (view.getLastVisiblePosition() == (view.getCount() - 1)) {
-                            if(flag == 1){
+                            if(flag != 4){
                                 return;
                             }
                             if (dataList.size() < jewelryNumber) {
@@ -148,12 +169,12 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                     footText.setTextSize(12);
                                 }
                                 else {
+                                    flag = 3;
                                     setAllEnabled(false);
                                     swipeRefreshLayout.setEnabled(false);
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            flag = 1;
                                             getList(searchStr, dataList.get(dataList.size() - 1).getC5ID());
                                             trackingJewelryListView.post(new Runnable() {
                                                 @Override
@@ -168,7 +189,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                                     tracking_jewelry_list_number.setText("件数:" + jewelryNumber);
                                                     setAllEnabled(true);
                                                     swipeRefreshLayout.setEnabled(true);
-                                                    flag = 0;
+                                                    flag = 4;
                                                 }
                                             });
                                         }
@@ -214,8 +235,12 @@ public class TrackingJewelryListView extends ConstraintLayout {
                     public void onClick(DialogInterface dialog, int which) {
                         SharedPreferences sharedPreferences = context.getSharedPreferences("user", context.MODE_PRIVATE);
                         String user = sharedPreferences.getString("user","");
-
+                        if(flag != 4){
+                            return;
+                        }
                         if(items[which].equals("拉黑")){
+
+                            flag = 5;
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -234,6 +259,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                                     listView.addFooterView(footText);
                                                 }
                                                 tracking_jewelry_list_number.setText("件数:" + jewelryNumber);
+                                                flag = 4;
                                             }
                                         });
                                     }
@@ -244,6 +270,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                             }).start();
                         }
                         else if(items[which].equals("删除")){
+                            flag = 6;
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -262,6 +289,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                                     listView.addFooterView(footText);
                                                 }
                                                 tracking_jewelry_list_number.setText("件数:" + jewelryNumber);
+                                                flag = 4;
                                             }
                                         });
                                     }
@@ -298,7 +326,12 @@ public class TrackingJewelryListView extends ConstraintLayout {
                     InputMethodManager inputMethodManager = (InputMethodManager)context.getSystemService(context.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
                     searchStr = search.getText().toString();
+                    if(flag != 4){
+                        return false;
+                    }
+                    flag = 1;
                     dataList.clear();
+                    trackingJewelryListViewAdapter.notifyDataSetChanged();
                     footText.setVisibility(View.GONE);
                     setAllEnabled(false);
                     swipeRefreshLayout.setEnabled(false);
@@ -323,9 +356,14 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                         footText.setText("没有更多饰品");
                                         footText.setTextColor(getResources().getColor(R.color.gray_CDCDCD));
                                         footText.setTextSize(12);
+                                    }else {
+                                        footText.setText("正在加载中");
+                                        footText.setTextColor(getResources().getColor(R.color.green_268C36));
+                                        footText.setTextSize(13);
                                     }
                                     footText.setVisibility(View.VISIBLE);
                                     tracking_jewelry_list_number.setText("件数:" + jewelryNumber);
+                                    flag = 4;
                                 }
                             });
                             Log.e("error",String.valueOf(dataList.size()));
@@ -346,7 +384,12 @@ public class TrackingJewelryListView extends ConstraintLayout {
             @Override
             public void onRefresh() {
                 searchStr = search.getText().toString();
+                if(flag != 4){
+                    return;
+                }
+                flag = 2;
                 dataList.clear();
+                trackingJewelryListViewAdapter.notifyDataSetChanged();
                 footText.setVisibility(View.GONE);
                 setAllEnabled(false);
                 tracking_jewelry_list_number.setText("搜索中");
@@ -369,13 +412,17 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                     footText.setText("没有更多饰品");
                                     footText.setTextColor(getResources().getColor(R.color.gray_CDCDCD));
                                     footText.setTextSize(12);
+                                }else {
+                                    footText.setText("正在加载中");
+                                    footText.setTextColor(getResources().getColor(R.color.green_268C36));
+                                    footText.setTextSize(13);
                                 }
                                 footText.setVisibility(View.VISIBLE);
                                 tracking_jewelry_list_number.setText("件数:" + jewelryNumber);
                                 swipeRefreshLayout.setRefreshing(false);
+                                flag = 4;
                             }
                         });
-                        Log.e("error",String.valueOf(dataList.size()));
                     }
                 });
                 thread.start();
@@ -385,8 +432,10 @@ public class TrackingJewelryListView extends ConstraintLayout {
 
     private void initList(){
         dataList.clear();
+        
         setAllEnabled(false);
         swipeRefreshLayout.setEnabled(false);
+        flag = 0;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -407,8 +456,13 @@ public class TrackingJewelryListView extends ConstraintLayout {
                             footText.setText("没有更多饰品");
                             footText.setTextColor(getResources().getColor(R.color.gray_CDCDCD));
                             footText.setTextSize(12);
+                        }else {
+                            footText.setText("正在加载中");
+                            footText.setTextColor(getResources().getColor(R.color.green_268C36));
+                            footText.setTextSize(13);
                         }
                         tracking_jewelry_list_number.setText("件数:" + jewelryNumber);
+                        flag = 4;
                     }
                 });
                 Log.e("error",String.valueOf(dataList.size()));

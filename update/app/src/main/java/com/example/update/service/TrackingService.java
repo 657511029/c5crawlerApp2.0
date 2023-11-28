@@ -188,6 +188,7 @@ public class TrackingService extends Service {
                 Map<String,Object> map = TrackingApi.getC5Price(
                         jewelryID,
                         point,
+                        point,
                         percentage1_c5,
                         percentage2_c5,
                         percentage3_c5,

@@ -154,6 +154,7 @@ public class TrackingApi {
 
     public static Map<String,Object> getC5Price(String jewelryID,
                                                  int point,
+                                                int notificationFlag,
                                                  double  percentage1_c5,
                                                  double  percentage2_c5,
                                                  double  percentage3_c5,
@@ -174,6 +175,7 @@ public class TrackingApi {
                 httpArg,
                 httpUrlEnd,
                 point,
+                notificationFlag,
                 percentage1_c5,
                 percentage2_c5,
                 percentage3_c5,
@@ -192,6 +194,7 @@ public class TrackingApi {
                                                           String httpArg,
                                                           String httpUrlEnd,
                                                           int point,
+                                                          int notificationFlag,
                                                           double  percentage1_c5,
                                                           double  percentage2_c5,
                                                           double  percentage3_c5,
@@ -252,6 +255,7 @@ public class TrackingApi {
                             name,
                             price,
                             point,
+                            notificationFlag,
                             percentage1_c5,
                             percentage2_c5,
                             percentage3_c5,
@@ -302,6 +306,7 @@ public class TrackingApi {
     private static Map<String,Object> requestOfGetUUJewelryList(String name,
                                                                 double price,
                                                                 int point,
+                                                                int notificationFlag,
                                                                 double  percentage1_c5,
                                                                 double  percentage2_c5,
                                                                 double  percentage3_c5,
@@ -369,6 +374,7 @@ public class TrackingApi {
                             price,
                             jewelryID,
                             point,
+                            notificationFlag,
                             percentage1_c5,
                             percentage2_c5,
                             percentage3_c5,
@@ -417,6 +423,7 @@ public class TrackingApi {
                                                         double price,
                                                         String jewelryID,
                                                         int point,
+                                                        int notificationFlag,
                                                         double  percentage1_c5,
                                                         double  percentage2_c5,
                                                         double  percentage3_c5,
@@ -513,6 +520,7 @@ public class TrackingApi {
                         jewelryName,
                         uuBuyPrice,
                         point,
+                        notificationFlag,
                         percentage1_c5,
                         percentage2_c5,
                         percentage3_c5,
@@ -559,6 +567,7 @@ public class TrackingApi {
     private static Map<String,Object> compareIgxePrice(String jewelryName,
                                                        double uuBuyPrice,
                                                        int point,
+                                                       int notificationFlag,
                                                        double  percentage1_c5,
                                                        double  percentage2_c5,
                                                        double  percentage3_c5,
@@ -715,7 +724,6 @@ public class TrackingApi {
                 if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
                     return null;
                 }
-
 //                Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
 //
 //                List<String> jewelryIDList = new ArrayList<>(sort);
