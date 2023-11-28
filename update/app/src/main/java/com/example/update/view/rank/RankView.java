@@ -135,6 +135,7 @@ public class RankView extends ConstraintLayout {
                 }
                 rank_jewelryList.clear();
                 dataList.clear();
+                rankListViewAdapter.notifyDataSetChanged();
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -262,6 +263,7 @@ public class RankView extends ConstraintLayout {
             }
             rank_jewelryList.clear();
             dataList.clear();
+            rankListViewAdapter.notifyDataSetChanged();
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {

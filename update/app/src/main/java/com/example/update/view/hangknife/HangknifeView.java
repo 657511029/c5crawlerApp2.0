@@ -130,6 +130,7 @@ public class HangknifeView extends ConstraintLayout {
                 setAllEnabled(false);
                 hangknife_jewelryList.clear();
                 dataList.clear();
+                hangknifeListViewAdapter.notifyDataSetChanged();
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -206,6 +207,7 @@ public class HangknifeView extends ConstraintLayout {
             swipeRefreshLayout.setEnabled(false);
             hangknife_jewelryList.clear();
             dataList.clear();
+            hangknifeListViewAdapter.notifyDataSetChanged();
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {

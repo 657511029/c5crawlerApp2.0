@@ -432,7 +432,6 @@ public class TrackingJewelryListView extends ConstraintLayout {
 
     private void initList(){
         dataList.clear();
-        
         setAllEnabled(false);
         swipeRefreshLayout.setEnabled(false);
         flag = 0;

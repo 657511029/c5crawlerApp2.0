@@ -1,11 +1,15 @@
 package com.example.update.entity;
 
+import android.graphics.Bitmap;
+
 import java.util.Date;
 
 public class OrdersTimeItem {
     private double price;
 
     private String date;
+
+
 
     public double getPrice() {
         return price;
@@ -22,4 +26,6 @@ public class OrdersTimeItem {
     public void setDate(String date) {
         this.date = date;
     }
+
+
 }

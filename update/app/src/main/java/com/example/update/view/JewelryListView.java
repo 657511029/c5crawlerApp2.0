@@ -127,6 +127,7 @@ public class  JewelryListView extends ConstraintLayout {
     }
     private void getDataList(String keyword) throws UnsupportedEncodingException, InterruptedException {
         dataList.clear();
+        listViewAdapter.notifyDataSetChanged();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {

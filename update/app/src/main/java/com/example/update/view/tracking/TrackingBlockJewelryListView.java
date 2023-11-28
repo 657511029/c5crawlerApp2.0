@@ -178,6 +178,7 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
                     inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
                     searchStr = search.getText().toString();
                     dataList.clear();
+                    trackingBlockJewelryListViewAdapter.notifyDataSetChanged();
                     setAllEnabled(false);
                     swipeRefreshLayout.setEnabled(false);
                     tracking_block_jewelry_list_number.setText("搜索中");
@@ -218,6 +219,7 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
             public void onRefresh() {
                 searchStr = search.getText().toString();
                 dataList.clear();
+                trackingBlockJewelryListViewAdapter.notifyDataSetChanged();
                 setAllEnabled(false);
                 tracking_block_jewelry_list_number.setText("搜索中");
                 Thread thread = new Thread(new Runnable() {
