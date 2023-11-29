@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -56,9 +57,9 @@ public class HangknifeView extends ConstraintLayout {
 
     private EditText hangknife_edits_max;
 
-    private Button hangknife_edits_search;
+    private TextView hangknife_edits_search;
 
-    private Button hangknife_edits_clean;
+    private TextView hangknife_edits_clean;
     private int showView;
     private HangknifeListViewAdapter hangknifeListViewAdapter;
 
