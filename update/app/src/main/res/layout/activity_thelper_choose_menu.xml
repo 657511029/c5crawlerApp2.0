@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/thelper_choose_menu_background"
+    tools:context=".THelperChooseMenuActivity">
+
+    <LinearLayout
+        android:id="@+id/THelper_choose_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/THelper_choose_menu_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:weightSum="2"
+        android:paddingVertical="10dp"
+        android:background="@drawable/t_helper_choose_menu_buttons_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/THelper_choose_menu"
+        app:layout_constraintVertical_bias="1.0"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0.0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/THelper_choose_menu_buttons_restart"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:text="重置"
+                android:textColor="@color/white"
+                android:background="@drawable/t_helper_choose_menu_buttons_restart_mask"
+                android:textSize="14dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0.0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/THelper_choose_menu_buttons_finish"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:text="完成"
+                android:textColor="@color/white"
+                android:background="@drawable/t_helper_choose_menu_buttons_finish_mask"
+                android:textSize="14dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

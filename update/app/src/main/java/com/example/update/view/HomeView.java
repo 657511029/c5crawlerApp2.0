@@ -99,35 +99,12 @@ public class HomeView extends ConstraintLayout {
         home_main_item = jewelryListView;
         home_main_itemId = R.id.home_topBar_item1;
         clickItem(R.id.home_topBar_item1);
-//        home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item4));
-        setTitleTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                TextView home_topBar_item = (TextView) findViewById(view.getId());
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        view.setBackground(getResources().getDrawable(R.drawable.border_active));
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        view.setBackground(getResources().getDrawable(R.drawable.border));
-
-//                        chooseItem(view.getId());
-                        break;
-                }
-                return false;
-            }
-        });
         setTitleClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 clickItem(view.getId());
             }
         });
-    }
-    private void setTitleTouchListener(OnTouchListener onTouchListener) {
-        for(TextView home_topBar_item: home_topBar_items){
-            home_topBar_item.setOnTouchListener(onTouchListener);
-        }
     }
     private void setTitleClickListener(OnClickListener onClickListener) {
         for(TextView home_topBar_item: home_topBar_items){

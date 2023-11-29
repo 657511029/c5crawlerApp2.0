@@ -28,6 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Update"
         tools:targetApi="31">
+        <activity
+            android:name=".THelperChooseMenuActivity"
+            android:exported="false" />
 
         <receiver
             android:name=".receiver.NotificationClickReceiver"
@@ -57,7 +60,6 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".TrackingActivity"
             android:exported="false"

@@ -97,21 +97,7 @@ public class TrackingActivity extends AppCompatActivity {
                 tracking_main_item = trackingJewelryListView;
                 tracking_main_itemId = R.id.tracking_topBar_item1;
                 clickItem(R.id.tracking_topBar_item1);
-                setTitleTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        TextView tracking_topBar_item = (TextView) findViewById(view.getId());
-                        switch (event.getAction()) {
-                            case MotionEvent.ACTION_DOWN:
-                                view.setBackground(getResources().getDrawable(R.drawable.border_active));
-                                break;
-                            case MotionEvent.ACTION_UP:
-                                view.setBackground(getResources().getDrawable(R.drawable.border));
-                                break;
-                        }
-                        return false;
-                    }
-                });
+
                 setTitleClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -120,11 +106,6 @@ public class TrackingActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-    private void setTitleTouchListener(View.OnTouchListener onTouchListener) {
-        for(TextView tracking_topBar_item: tracking_topBar_items){
-            tracking_topBar_item.setOnTouchListener(onTouchListener);
-        }
     }
     private void setTitleClickListener(View.OnClickListener onClickListener) {
         for(TextView tracking_topBar_item: tracking_topBar_items){
