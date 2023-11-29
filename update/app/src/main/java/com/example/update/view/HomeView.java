@@ -110,17 +110,28 @@ public class HomeView extends ConstraintLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         view.setBackground(getResources().getDrawable(R.drawable.border));
-                        clickItem(view.getId());
+
 //                        chooseItem(view.getId());
                         break;
                 }
-                return true;
+                return false;
+            }
+        });
+        setTitleClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickItem(view.getId());
             }
         });
     }
     private void setTitleTouchListener(OnTouchListener onTouchListener) {
         for(TextView home_topBar_item: home_topBar_items){
             home_topBar_item.setOnTouchListener(onTouchListener);
+        }
+    }
+    private void setTitleClickListener(OnClickListener onClickListener) {
+        for(TextView home_topBar_item: home_topBar_items){
+            home_topBar_item.setOnClickListener(onClickListener);
         }
     }
 

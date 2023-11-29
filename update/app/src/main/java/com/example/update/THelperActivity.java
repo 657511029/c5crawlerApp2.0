@@ -2,6 +2,7 @@ package com.example.update;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
@@ -11,8 +12,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +44,8 @@ public class THelperActivity extends AppCompatActivity {
     private THelperAdapter tHelperAdapter;
 
     private EditText search;
+
+    private ImageButton chooseMenu;
     private String searchStr;
 
     private Map<String, OrdersItem> ordersItemMap = null;
@@ -62,6 +67,16 @@ public class THelperActivity extends AppCompatActivity {
 
     private void initComponent(){
         search = (EditText) findViewById(R.id.THelper_order_list_search);
+        chooseMenu = (ImageButton) findViewById(R.id.THelper_choose_menu);
+//        int size = getResources().getDimensionPixelSize(R.dimen.chooseMenuSize);
+//
+//        Log.e("size",String.valueOf(size));
+//        search.setWidth(search.getWidth() - size);
+//        ConstraintLayout.LayoutParams params_1= (ConstraintLayout.LayoutParams) search.getLayoutParams();
+//        Log.e("width",String.valueOf(params_1.width));
+//        params_1.width = params_1.width - size;
+//        Log.e("width",String.valueOf(params_1.width));
+//        search.setLayoutParams(params_1);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.THelper_order_list_refresh);
         listView = (ListView) findViewById(R.id.THelper_order_list_result);
         initList();
@@ -108,7 +123,14 @@ public class THelperActivity extends AppCompatActivity {
             toastMessage("用户C5信息错误");
             return;
         }
-        long start = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 7,"冬令时");
+        int dateNumber = 0;
+        if(TextUtils.isEmpty(searchStr)){
+            dateNumber = 1;
+        }
+        else {
+            dateNumber = Integer.parseInt(searchStr);
+        }
+        long start = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - dateNumber,"冬令时");
         long end = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),"冬令时");
 
         Log.e("start",String.valueOf(start));
@@ -178,6 +200,17 @@ public class THelperActivity extends AppCompatActivity {
             actionBar.setDisplayShowCustomEnabled(true);// 使自定义的普通View能在title栏显示，即actionBar.setCustomView能起作用
             actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.white)));
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void toastMessage(String message){

@@ -128,9 +128,15 @@ public class InfoView extends ConstraintLayout {
                     toastMessage("尚未登录");
                     return;
                 }
-                Intent intent = new Intent(context, THelperActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
+                SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+                String user = sharedPreferences.getString("user","");
+                if(user.equals("admin")){
+                    Intent intent = new Intent(context, THelperActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }else {
+                    toastMessage("当前账号未有权限");
+                }
             }
         });
     }

@@ -189,7 +189,17 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                                     tracking_jewelry_list_number.setText("件数:" + jewelryNumber);
                                                     setAllEnabled(true);
                                                     swipeRefreshLayout.setEnabled(true);
+                                                    if(dataList.size() >= jewelryNumber){
+                                                        footText.setText("没有更多饰品");
+                                                        footText.setTextColor(getResources().getColor(R.color.gray_CDCDCD));
+                                                        footText.setTextSize(12);
+                                                    }else {
+                                                        footText.setText("正在加载中");
+                                                        footText.setTextColor(getResources().getColor(R.color.green_268C36));
+                                                        footText.setTextSize(13);
+                                                    }
                                                     flag = 4;
+
                                                 }
                                             });
                                         }

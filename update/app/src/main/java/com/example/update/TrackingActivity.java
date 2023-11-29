@@ -107,10 +107,15 @@ public class TrackingActivity extends AppCompatActivity {
                                 break;
                             case MotionEvent.ACTION_UP:
                                 view.setBackground(getResources().getDrawable(R.drawable.border));
-                                clickItem(view.getId());
                                 break;
                         }
-                        return true;
+                        return false;
+                    }
+                });
+                setTitleClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        clickItem(view.getId());
                     }
                 });
             }
@@ -119,6 +124,11 @@ public class TrackingActivity extends AppCompatActivity {
     private void setTitleTouchListener(View.OnTouchListener onTouchListener) {
         for(TextView tracking_topBar_item: tracking_topBar_items){
             tracking_topBar_item.setOnTouchListener(onTouchListener);
+        }
+    }
+    private void setTitleClickListener(View.OnClickListener onClickListener) {
+        for(TextView tracking_topBar_item: tracking_topBar_items){
+            tracking_topBar_item.setOnClickListener(onClickListener);
         }
     }
 
