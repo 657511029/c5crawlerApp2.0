@@ -94,6 +94,13 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar now = Calendar.getInstance();
+                try {
+                    start = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 7,"冬令时");
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
                 Intent intent = new Intent(THelperChooseMenuActivity.this,THelperActivity.class);
                 intent.putExtra("start",start);
                 intent.putExtra("end",end);

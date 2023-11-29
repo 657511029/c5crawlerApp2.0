@@ -27,11 +27,16 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.update.R;
 import com.example.update.SettingActivity;
 import com.example.update.THelperActivity;
+import com.example.update.THelperChooseMenuActivity;
 import com.example.update.TrackingActivity;
 import com.example.update.api.InfoApi;
+import com.example.update.api.THelperApi;
 import com.example.update.service.FloatViewService;
 import com.example.update.service.FloatingWindowService;
 import com.example.update.service.TrackingService;
+
+import java.text.ParseException;
+import java.util.Calendar;
 
 
 public class InfoView extends ConstraintLayout {

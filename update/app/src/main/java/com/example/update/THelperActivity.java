@@ -64,14 +64,30 @@ public class THelperActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thelper);
+        initActionBar("做T助手");
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        Log.e("onCreate","onCreate");
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        // 是否需要刷新数据
         try {
             initData();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        initActionBar("做T助手");
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         initComponent();
+        Log.e("onStart","onStart");
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        Log.e("newIntent","newIntent");
     }
 
     private void initData() throws ParseException {
@@ -79,6 +95,7 @@ public class THelperActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Calendar now = Calendar.getInstance();
         start = intent.getLongExtra("start",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,"冬令时"));
+        Log.e("start",String.valueOf(start));
         end = intent.getLongExtra("end",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),"冬令时"));
         count = intent.getIntExtra("count",500);
         searchStr = intent.getStringExtra("searchStr");
