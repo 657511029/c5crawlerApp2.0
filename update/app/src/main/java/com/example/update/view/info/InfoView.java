@@ -269,7 +269,12 @@ public class InfoView extends ConstraintLayout {
                         toastMessage("登录失败");
                         closeInput();
                     }
-                    setEnabled(true);
+                    infoView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            setEnabled(true);
+                        }
+                    });
                 }
             });
             thread.start();
