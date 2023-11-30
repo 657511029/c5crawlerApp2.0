@@ -55,7 +55,7 @@ public class InfoView extends ConstraintLayout {
 
     private TextView info_top_person_user;
 
-    private TextView info_top_function_2;
+    private TextView info_top_function_tHelper;
 
     private TextView info_top_function_3;
 
@@ -93,8 +93,8 @@ public class InfoView extends ConstraintLayout {
         infoView = (InfoView) LayoutInflater.from(context).inflate(R.layout.info, this,true);
         info_top_function_tracking = (TextView) infoView.findViewById(R.id.info_top_function_tracking);
         initTracking();
-        info_top_function_2 = (TextView)infoView.findViewById(R.id.info_top_function_2);
-        initFunction2();
+        info_top_function_tHelper = (TextView)infoView.findViewById(R.id.info_top_function_tHelper);
+        initTHelper();
         info_top_function_3 = (TextView)infoView.findViewById(R.id.info_top_function_3);
         initFunction3();
         info_top_tool_setting = (ImageView)infoView.findViewById(R.id.info_top_tool_setting);
@@ -125,8 +125,8 @@ public class InfoView extends ConstraintLayout {
             }
         });
     }
-    private void initFunction2(){
-        info_top_function_2.setOnClickListener(new OnClickListener() {
+    private void initTHelper(){
+        info_top_function_tHelper.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!userExist()){
@@ -135,7 +135,7 @@ public class InfoView extends ConstraintLayout {
                 }
                 SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
                 String user = sharedPreferences.getString("user","");
-                if(user.equals("admin")){
+                if(user.equals("admin") || user.equals("gozezey")){
                     Intent intent = new Intent(context, THelperActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
@@ -253,6 +253,7 @@ public class InfoView extends ConstraintLayout {
         @Override
         public void onClick(DialogInterface dialog,int which)
         {
+            setEnabled(false);
             user_edit = (EditText)login.findViewById(R.id.user_edit);
 
             Thread thread = new Thread(new Runnable() {
@@ -264,11 +265,11 @@ public class InfoView extends ConstraintLayout {
                         dialog.cancel();
                         closeInput();
                     }
-
                     else{
                         toastMessage("登录失败");
                         closeInput();
                     }
+                    setEnabled(true);
                 }
             });
             thread.start();
@@ -296,6 +297,13 @@ public class InfoView extends ConstraintLayout {
             }
         });
 
+    }
+    public void setEnabled(boolean enabled){
+        info_top_tool_setting.setEnabled(enabled);
+        info_top_person_user.setEnabled(enabled);
+        info_top_function_tracking.setEnabled(enabled);
+        info_top_function_tHelper.setEnabled(enabled);
+        info_top_function_3.setEnabled(enabled);
     }
     private void closeInput(){
         infoView.post(new Runnable() {
