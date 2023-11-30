@@ -7,6 +7,10 @@ public class UserInfo {
 
     private String uuPassword;
 
+    private String c5Account;
+
+    private String c5Password;
+
     private String scale1_c5;
 
     private String scale2_c5;
@@ -112,5 +116,21 @@ public class UserInfo {
 
     public void setScale4_ig(String scale4_ig) {
         this.scale4_ig = scale4_ig;
+    }
+
+    public String getC5Account() {
+        return c5Account;
+    }
+
+    public void setC5Account(String c5Account) {
+        this.c5Account = c5Account;
+    }
+
+    public String getC5Password() {
+        return c5Password;
+    }
+
+    public void setC5Password(String c5Password) {
+        this.c5Password = c5Password;
     }
 }

@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.update.adapter.THelperAdapter;
 import com.example.update.api.THelperApi;
 import com.example.update.entity.OrdersItem;
+import com.example.update.entity.UserInfo;
 import com.example.update.view.tracking.TrackingJewelryListViewAdapter;
 
 import java.text.ParseException;
@@ -66,19 +67,18 @@ public class THelperActivity extends AppCompatActivity {
         setContentView(R.layout.activity_thelper);
         initActionBar("做T助手");
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        Log.e("onCreate","onCreate");
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        // 是否需要刷新数据
         try {
             initData();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
         initComponent();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        // 是否需要刷新数据
         Log.e("onStart","onStart");
 
     }
@@ -87,6 +87,12 @@ public class THelperActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        try {
+            initData();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        initComponent();
         Log.e("newIntent","newIntent");
     }
 
@@ -137,7 +143,10 @@ public class THelperActivity extends AppCompatActivity {
     }
 
     private void initList(){
+        tHelperAdapter = new THelperAdapter(context, dataList);
+        listView.setAdapter(tHelperAdapter);
         dataList.clear();
+        tHelperAdapter.notifyDataSetChanged();
         setAllEnabled(false);
         swipeRefreshLayout.setEnabled(false);
         Thread thread = new Thread(new Runnable() {
@@ -169,19 +178,28 @@ public class THelperActivity extends AppCompatActivity {
     private void getList(String searchStr) throws ParseException {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         String user = sharedPreferences.getString("user","");
-        String token = THelperApi.getToken("17346697622","Lenshanshan521");
+        UserInfo userInfo = THelperApi.getUserC5Info(user);
+        if(userInfo == null){
+            toastMessage("用户不存在");
+            return;
+        }
+        String token = THelperApi.getToken(userInfo.getC5Account(),userInfo.getC5Password());
 //
         if(TextUtils.isEmpty(token)){
             toastMessage("用户C5信息错误");
             return;
         }
-//        Calendar now = Calendar.getInstance();
-//        long start = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - dateNumber,"冬令时");
-//        long end = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),"冬令时");
-//
-        while (ordersItemMap == null){
-            ordersItemMap = THelperApi.getSellList(start,end,count,token);
+        if(TextUtils.isEmpty(searchStr)){
+            while (ordersItemMap == null){
+                ordersItemMap = THelperApi.getSellList(start,end,count,token);
+            }
         }
+        else {
+            while (ordersItemMap == null){
+                ordersItemMap = THelperApi.getSellList(start,end,count,token);
+            }
+        }
+
         List<OrdersItem> ordersItemList = ordersItemMap.values().stream().collect(Collectors.toList());
         for(int i = 0;i < ordersItemList.size();i++){
             dataList.add(ordersItemList.get(i));

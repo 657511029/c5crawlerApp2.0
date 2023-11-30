@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.update.entity.OrdersItem;
 import com.example.update.entity.OrdersTimeItem;
 import com.example.update.entity.Rank_jewelry;
+import com.example.update.entity.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import redis.clients.jedis.Jedis;
+
 public class THelperApi {
     public static long getDataTime(int year,int month,int day,String TimingOrder) throws ParseException {
         String time = year + "-" + month + "-" + day + " " + "16:00:00";
@@ -38,6 +41,43 @@ public class THelperApi {
 //        LocalDateTime localDateTime = LocalDateTime.of(year,month,day,hour,0,0);
 //        long seconds = localDateTime.toEpochSecond(ZoneOffset.UTC);
         return timestamp;
+    }
+
+    public static UserInfo getUserC5Info(String user){
+        UserInfo userInfo = new UserInfo();
+        try {
+            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+            //如果 Redis 服务设置了密码，需要添加下面这行代码
+            jedis.auth("Lenshanshan521!");
+            jedis.select(255);
+            //调用ping()方法查看 Redis 服务是否运行
+            if (jedis.ping().equals("PONG")) {
+                if (!jedis.sismember("user", user)) {
+                    return null;
+                }
+                if (!jedis.exists(user)) {
+                    return null;
+                }
+                userInfo.setUserName(user);
+                if(jedis.hexists(user,"username")){
+                    userInfo.setUserName(jedis.hget(user,"username"));
+                }
+                if(!jedis.hexists(user,"c5Account")){
+                    return null;
+                }
+                userInfo.setC5Account(jedis.hget(user,"c5Account"));
+
+                if(!jedis.hexists(user,"c5Password")){
+                   return null;
+                }
+                userInfo.setC5Password(jedis.hget(user,"c5Password"));
+                return userInfo;
+            } else {
+                return null;
+            }
+        }catch (Exception e){
+            return null;
+        }
     }
 
     public static String getToken(String phone,String password){
@@ -91,7 +131,6 @@ public class THelperApi {
                 is.close();
                 reader.close();
                 result = sbf.toString();
-                Log.e("string",result);
                 JSONObject obj = new JSONObject(result);
                 if(!obj.getBoolean("success")){
                     return token;
@@ -143,7 +182,6 @@ public class THelperApi {
                 is.close();
                 reader.close();
                 result = sbf.toString();
-                Log.e("string",result);
                 JSONObject obj = new JSONObject(result);
                 if(!obj.getBoolean("success")){
                     return null;
