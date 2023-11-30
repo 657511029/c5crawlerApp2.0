@@ -104,6 +104,8 @@ public class TrackingAddJewelryListView extends ConstraintLayout {
         initListView();
     }
     private void initListView(){
+        trackingAddJewelryListViewAdapter = new TrackingAddJewelryListViewAdapter(context, dataList);
+        listView.setAdapter(trackingAddJewelryListViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

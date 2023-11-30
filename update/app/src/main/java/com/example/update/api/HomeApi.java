@@ -83,8 +83,14 @@ public class HomeApi {
                     String itemId = item.getString("itemId");
                     String imageUrl = item.getString("imageUrl");
                     String shortName = item.getString("shortName");
-                    double price = item.getDouble("price");
-                    int quantity = item.getInt("quantity");
+                    double price = 0.0;
+                    if(item.get("price") != null && !item.isNull("price")){
+                        price = item.getDouble("price");
+                    }
+                    int quantity = 0;
+                    if(item.get("quantity") != null && !item.isNull("quantity")){
+                        quantity  = item.getInt("quantity");
+                    }
                     JSONObject itemInfo = item.getJSONObject("itemInfo");
                     String exteriorColor = itemInfo.getString("exteriorColor");
 
@@ -148,6 +154,7 @@ public class HomeApi {
             connection.connect();
             /* 4. 处理输入输出 */
             // 写入参数到请求中
+
             Map subscribeMessage = new HashMap<String, Object>();
             subscribeMessage.put("platfrom", platform);
             subscribeMessage.put("type", type);
@@ -155,6 +162,11 @@ public class HomeApi {
             subscribeMessage.put("mode", mode);
             subscribeMessage.put("day", day);
             subscribeMessage.put("assort",assort);
+            subscribeMessage.put("attrit","全部");
+            subscribeMessage.put("price","全部");
+            subscribeMessage.put("quality","全部");
+            subscribeMessage.put("rarity","全部");
+
 
             JSONObject subscribeMessageJson = new JSONObject(subscribeMessage);
             String params = subscribeMessageJson.toString();
@@ -180,7 +192,9 @@ public class HomeApi {
                 JSONArray items = obj.getJSONArray("data");
                 for(int i = 0;i < items.length();i++){
                     JSONObject item = items.getJSONObject(i);
-                    JSONObject full = item.getJSONObject("full");
+                    JSONObject min_sell = item.getJSONObject("min_sell");
+                    JSONObject sell_count = item.getJSONObject("sell_count");
+                    JSONObject buy_count = item.getJSONObject("buy_count");
                     JSONObject info = item.getJSONObject("info");
                     Rank_jewelry rankJewelry = new Rank_jewelry();
 
@@ -193,17 +207,26 @@ public class HomeApi {
 
                     rankJewelry.setColor(info.getString("color"));
 
-                    rankJewelry.setPrice(full.getDouble("min_sell"));
+                    rankJewelry.setPrice(min_sell.getDouble("value"));
 
-                    rankJewelry.setBalance(full.getString("balance"));
+                    rankJewelry.setBuy_number(buy_count.getInt("value"));
 
-                    rankJewelry.setBuy_number(full.getInt("buy_count"));
+                    rankJewelry.setSell_number(sell_count.getInt("value"));
 
-                    rankJewelry.setSell_number(full.getInt("sell_count"));
+                    if(type.equals("min_sell")){
+                        rankJewelry.setBalance(String.format("%.2f", min_sell.getDouble("balance")));
+                        rankJewelry.setScale(String.format("%.2f", min_sell.getDouble("scale")));
+                    }
+                    if(type.equals("sell_count")){
+                        rankJewelry.setBalance(String.format("%.2f", sell_count.getDouble("balance")));
+                        rankJewelry.setScale(String.format("%.2f", sell_count.getDouble("scale")));
+                    }
 
-                    rankJewelry.setScale(full.getString("scale"));
+
                     rankJewelryList.add(rankJewelry);
                 }
+            }else {
+                Log.e("message",connection.getResponseMessage());
             }
             return rankJewelryList;
 
@@ -275,12 +298,14 @@ public class HomeApi {
                 }
                 JSONArray items = obj.getJSONArray("data");
                 for(int i = 0;i < items.length();i++){
-                    JSONArray item = items.getJSONArray(i);
+                    JSONObject item = items.getJSONObject(i);
+                    JSONObject info = item.getJSONObject("info");
+                    JSONArray scale = item.getJSONArray("scale");
                     Hangknife_jewelry hangknifeJewelry = new Hangknife_jewelry();
-                    hangknifeJewelry.setJewelryName(item.getString(0));
-                    hangknifeJewelry.setTrade_count_day(String.valueOf(item.getInt(1)));
-                    hangknifeJewelry.setMin_sell(item.getString(2));
-                    hangknifeJewelry.setFast_scale(item.getString(3));
+                    hangknifeJewelry.setJewelryName(info.getString("name"));
+                    hangknifeJewelry.setTrade_count_day(String.valueOf(scale.getInt(0)));
+                    hangknifeJewelry.setMin_sell(scale.getString(1));
+                    hangknifeJewelry.setFast_scale(scale.getString(2));
                     hangknife_jewelries.add(hangknifeJewelry);
                 }
             }

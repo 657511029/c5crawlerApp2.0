@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -118,7 +119,7 @@ public class HomeView extends ConstraintLayout {
 //                home_topBar_item.setTypeface(Typeface.DEFAULT_BOLD);
                 home_topBar_item.setTextColor(this.getResources().getColor(R.color.home_topBar_item_active));
 //                home_topBar_item.setBackgroundColor(this.getResources().getColor(R.color.home_topBar_item_background_active));
-                home_topBar_item.setTextSize(18);
+                home_topBar_item.setTextSize(17);
             }
             else {
 //                home_topBar_item.setTypeface(Typeface.DEFAULT);

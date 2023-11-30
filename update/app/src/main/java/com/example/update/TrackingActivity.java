@@ -119,7 +119,7 @@ public class TrackingActivity extends AppCompatActivity {
 //                home_topBar_item.setTypeface(Typeface.DEFAULT_BOLD);
                 tracking_topBar_item.setTextColor(this.getResources().getColor(R.color.home_topBar_item_active));
 //                home_topBar_item.setBackgroundColor(this.getResources().getColor(R.color.home_topBar_item_background_active));
-                tracking_topBar_item.setTextSize(18);
+                tracking_topBar_item.setTextSize(17);
             }
             else {
 //                home_topBar_item.setTypeface(Typeface.DEFAULT);

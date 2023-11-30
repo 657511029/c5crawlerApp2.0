@@ -70,6 +70,8 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/border"
             android:gravity="center"
+            android:textSize="15dp"
+            android:includeFontPadding="false"
             android:paddingHorizontal="20dp"
             android:text="@string/tracking_title1"
             android:textColor="@color/home_topBar_item" />
@@ -81,6 +83,8 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/border"
             android:gravity="center"
+            android:textSize="15dp"
+            android:includeFontPadding="false"
             android:paddingHorizontal="20dp"
             android:text="@string/tracking_title2"
             android:textColor="@color/home_topBar_item" />
@@ -92,6 +96,8 @@
             android:layout_marginLeft="5dp"
             android:background="@drawable/border"
             android:gravity="center"
+            android:textSize="15dp"
+            android:includeFontPadding="false"
             android:paddingHorizontal="20dp"
             android:text="@string/tracking_title3"
             android:textColor="@color/home_topBar_item" />
