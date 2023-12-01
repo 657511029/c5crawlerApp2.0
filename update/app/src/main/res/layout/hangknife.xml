@@ -27,6 +27,8 @@
             android:hint="最低价格"
             android:inputType="number"
             android:singleLine="true"
+            android:gravity="left|bottom"
+            android:theme="@style/MyEditText"
             android:textColorHint="#95A1AA"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +42,8 @@
             android:layout_height="wrap_content"
             android:hint="最高价格"
             android:inputType="number"
-
+            android:gravity="left|bottom"
+            android:theme="@style/MyEditText"
             android:singleLine="true"
             android:textColorHint="#95A1AA"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -55,8 +58,9 @@
             android:layout_height="wrap_content"
             android:hint="日交易量"
             android:inputType="number"
-
             android:singleLine="true"
+            android:gravity="left|bottom"
+            android:theme="@style/MyEditText"
             android:textColorHint="#95A1AA"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -109,9 +113,9 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/hangknife_list_refresh"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="105dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -121,8 +125,8 @@
 
         <ListView
             android:id="@+id/hangknife_list_result"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scrollbars="none"
             android:layout_marginTop="10dp"
             android:dividerHeight="5dp"

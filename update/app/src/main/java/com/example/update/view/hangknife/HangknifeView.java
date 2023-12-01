@@ -2,6 +2,7 @@ package com.example.update.view.hangknife;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.ViewCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.update.MainActivity;
@@ -171,6 +173,70 @@ public class HangknifeView extends ConstraintLayout {
         hangknife_edits_min = hangknifeView.findViewById(R.id.hangknife_edits_min);
         hangknife_edits_max = hangknifeView.findViewById(R.id.hangknife_edits_max);
         hangknife_edits_change = hangknifeView.findViewById(R.id.hangknife_edits_change);
+
+        hangknife_edits_min.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        hangknife_edits_min.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(hangknife_edits_min, ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    }
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        hangknife_edits_min.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(hangknife_edits_min, ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    }
+                }
+            }
+        });
+
+        hangknife_edits_max.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        hangknife_edits_max.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(hangknife_edits_max, ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    }
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        hangknife_edits_max.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(hangknife_edits_max, ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    }
+                }
+            }
+        });
+
+        hangknife_edits_change.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        hangknife_edits_change.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(hangknife_edits_change, ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    }
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        hangknife_edits_change.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(hangknife_edits_change, ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    }
+                }
+            }
+        });
+
         hangknife_edits_search = hangknifeView.findViewById(R.id.hangknife_edits_search);
         hangknife_edits_search.setOnClickListener(new MyClickListener());
         hangknife_edits_clean = hangknifeView.findViewById(R.id.hangknife_edits_clean);

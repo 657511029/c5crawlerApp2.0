@@ -13,6 +13,9 @@
         android:layout_height="63dp"
         android:ems="10"
         android:inputType="text"
+        android:singleLine="true"
+        android:gravity="left|bottom"
+        android:theme="@style/MyEditText"
         android:hint="搜索"
         android:textColorHint="@color/gray"
         android:imeOptions="actionSearch"
@@ -26,9 +29,9 @@
 
     <ListView
         android:id="@+id/jewelry_list_result"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="73dp"
         android:divider="@null"
         android:dividerHeight="20dp"
         android:scrollbars="none"

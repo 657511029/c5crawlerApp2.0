@@ -276,6 +276,7 @@ public class TrackingActivity extends AppCompatActivity {
 
             startService(intent);
             Intent intent2 = new Intent(this, TrackingService.class);
+            intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startService(intent2);
 
 

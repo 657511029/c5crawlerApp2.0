@@ -1,6 +1,8 @@
 package com.example.update.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 
 import com.example.update.R;
 
@@ -83,6 +86,26 @@ public class InfoItemArrayAdapter extends BaseAdapter {
 
             modifyInfoItem_list_item_name = (TextView) view.findViewById(R.id.modifyInfoItem_list_item_name);
             modifyInfoItem_list_item_message = (EditText) view.findViewById(R.id.modifyInfoItem_list_item_message);
+            modifyInfoItem_list_item_message.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            modifyInfoItem_list_item_message.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.blue_4875C6)));
+                        } else {
+                            // For older versions of Android, you can try using the support library
+                            ViewCompat.setBackgroundTintList(modifyInfoItem_list_item_message, ColorStateList.valueOf(context.getResources().getColor(R.color.blue_4875C6)));
+                        }
+                    } else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            modifyInfoItem_list_item_message.setBackgroundTintList(ColorStateList.valueOf(context.getResources().getColor(R.color.gray_C8C8C8)));
+                        } else {
+                            // For older versions of Android, you can try using the support library
+                            ViewCompat.setBackgroundTintList(modifyInfoItem_list_item_message, ColorStateList.valueOf(context.getResources().getColor(R.color.gray_C8C8C8)));
+                        }
+                    }
+                }
+            });
         }
     }
 

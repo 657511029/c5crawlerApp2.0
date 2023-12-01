@@ -10,6 +10,7 @@
     <color name="home_topBar_item_background_active">#E3E3E3</color>
     <color name="back_icon_color">#3E3E3E</color>
     <color name="blue_4875C6">#4875C6</color>
+    <color name="blue_4872C4">#4872C4</color>
     <color name="blue_537AC7">#537AC7</color>
     <color name="gray_CDCDCD">#CDCDCD</color>
     <color name="green_268C36">#268C36</color>
@@ -20,4 +21,5 @@
     <color name="blue_A5B8E3">#A5B8E3</color>
     <color name="gray_d8d8d8">#d8d8d8</color>
     <color name="gray_979797">#979797</color>
+    <color name="gray_C8C8C8">#C8C8C8</color>
 </resources>

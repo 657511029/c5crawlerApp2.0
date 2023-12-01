@@ -23,6 +23,7 @@ import com.example.update.view.JewelryListView;
 import com.example.update.view.hangknife.HangknifeView;
 import com.example.update.view.rank.RankView;
 import com.example.update.view.thelper.DateView;
+import com.example.update.view.thelper.MinNumberView;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -54,6 +55,8 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
 
 
     private DateView dateView;
+
+    private MinNumberView minNumberView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,9 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
 
         dateView  = new DateView(context);
         dateView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+
+        minNumberView  = new MinNumberView(context);
+        minNumberView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
 
         t_helper_menu_main_container.addView(dateView);
 
@@ -152,10 +158,10 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
     }
 
     private void chooseItem2(int id){
-//        home_main_container.removeView(home_main_item);
-//        home_main_container.addView(rankView);
+        t_helper_menu_main_container.removeView(t_helper_menu_main_item);
+        t_helper_menu_main_container.addView(minNumberView);
 
-//        home_main_item =  rankView;
+        t_helper_menu_main_item =  minNumberView;
         t_helper_menu_main_itemId = id;
     }
     private void chooseItem3(int id){

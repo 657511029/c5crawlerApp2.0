@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                         getWindow().setStatusBarColor(getResources().getColor(R.color.white));
                         break;
                     case 3:
-                        getWindow().setStatusBarColor(getResources().getColor(R.color.blue_537AC7));
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.blue_4872C4));
                         constraintLayout.removeView(mainView);
                         constraintLayout.addView(infoView);
                         mainPoint = i;

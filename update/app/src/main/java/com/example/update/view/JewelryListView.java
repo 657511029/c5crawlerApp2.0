@@ -1,6 +1,7 @@
 package com.example.update.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.ViewCompat;
 
 import com.example.update.R;
 import com.example.update.api.HomeApi;
@@ -123,7 +125,26 @@ public class  JewelryListView extends ConstraintLayout {
                 return false;
             }
         });
-
+        search.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        search.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(search, ColorStateList.valueOf(getResources().getColor(R.color.blue_4875C6)));
+                    }
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        search.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    } else {
+                        // For older versions of Android, you can try using the support library
+                        ViewCompat.setBackgroundTintList(search, ColorStateList.valueOf(getResources().getColor(R.color.gray_C8C8C8)));
+                    }
+                }
+            }
+        });
     }
     private void getDataList(String keyword) throws UnsupportedEncodingException, InterruptedException {
         dataList.clear();
