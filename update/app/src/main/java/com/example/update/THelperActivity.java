@@ -13,9 +13,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -26,8 +29,11 @@ import com.example.update.adapter.THelperAdapter;
 import com.example.update.api.THelperApi;
 import com.example.update.entity.OrdersItem;
 import com.example.update.entity.UserInfo;
+import com.example.update.view.tracking.TrackingAddJewelryListViewAdapter;
 import com.example.update.view.tracking.TrackingJewelryListViewAdapter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -116,8 +122,56 @@ public class THelperActivity extends AppCompatActivity {
         initChooseMenu();
         initList();
         initRefresh();
+        initSearch();
     }
 
+    private void initSearch(){
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){//搜索按键action
+//                    hideKeyboard(getContext(),search);
+                    InputMethodManager inputMethodManager = (InputMethodManager)context.getSystemService(context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
+                    searchStr = search.getText().toString();
+                    dataList.clear();
+                    tHelperAdapter.notifyDataSetChanged();
+                    setAllEnabled(false);
+                    swipeRefreshLayout.setEnabled(false);
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                getList(searchStr);
+                            } catch (UnsupportedEncodingException | ParseException e) {
+                                setAllEnabled(true);
+                                swipeRefreshLayout.setEnabled(true);
+                                throw new RuntimeException(e);
+                            }
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (tHelperAdapter != null) {
+                                        tHelperAdapter.notifyDataSetChanged();
+                                    } else {
+                                        tHelperAdapter = new THelperAdapter(context, dataList);
+                                        listView.setAdapter(tHelperAdapter);
+                                    }
+                                    setAllEnabled(true);
+                                    swipeRefreshLayout.setEnabled(true);
+                                }
+                            });
+                        }
+                    });
+                    thread.start();
+                    //通知ListView更改数据源
+
+                }
+                return false;
+            }
+        });
+    }
     private void initChooseMenu(){
         chooseMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +199,7 @@ public class THelperActivity extends AppCompatActivity {
             public void run() {
                 try {
                     getList(searchStr);
-                } catch (ParseException e) {
+                } catch (ParseException | UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
                 runOnUiThread(new Runnable() {
@@ -166,7 +220,7 @@ public class THelperActivity extends AppCompatActivity {
         thread.start();
     }
 
-    private void getList(String searchStr) throws ParseException {
+    private void getList(String searchStr) throws ParseException, UnsupportedEncodingException {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
         String user = sharedPreferences.getString("user","");
         UserInfo userInfo = THelperApi.getUserC5Info(user);
@@ -182,12 +236,12 @@ public class THelperActivity extends AppCompatActivity {
         }
         if(TextUtils.isEmpty(searchStr)){
             while (ordersItemMap == null){
-                ordersItemMap = THelperApi.getSellList(start,end,count,token);
+                ordersItemMap = THelperApi.getSellList(start,end,count,token,"");
             }
         }
         else {
             while (ordersItemMap == null){
-                ordersItemMap = THelperApi.getSellList(start,end,count,token);
+                ordersItemMap = THelperApi.getSellList(start,end,count,token, URLEncoder.encode(searchStr, "UTF-8").replace("%20", "+").replace("%28", "(").replace("%29", ")"));
             }
         }
 
@@ -205,7 +259,6 @@ public class THelperActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 searchStr = search.getText().toString();
-
                 dataList.clear();
                 tHelperAdapter.notifyDataSetChanged();
                 setAllEnabled(false);
@@ -214,7 +267,7 @@ public class THelperActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             getList(searchStr);
-                        } catch (ParseException e) {
+                        } catch (ParseException | UnsupportedEncodingException e) {
                             throw new RuntimeException(e);
                         }
                         runOnUiThread(new Runnable() {

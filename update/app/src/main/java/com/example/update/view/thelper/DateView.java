@@ -112,7 +112,6 @@ public class DateView extends LinearLayout {
                                 }
                                 startTime = newStartTime;
                                 endTime = THelperApi.getDataTime(year,month,dayOfMonth + 1,timingOrder);
-                                Log.e("time",startTime + "---" + endTime);
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }

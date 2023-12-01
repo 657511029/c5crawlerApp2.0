@@ -146,9 +146,9 @@ public class THelperApi {
             return token;
         }
     }
-    public static Map<String,OrdersItem> getSellList(long start, long end, int number, String token){
+    public static Map<String,OrdersItem> getSellList(long start, long end, int number, String token,String keyword){
         Map<String,OrdersItem> map = new HashMap<>();
-        String httpUrl = "https://www.c5game.com/napi/trade/steamtrade/sts/order/v3/seller-list?page=1&limit=" + number +"&appId=730&type=&status=3";
+        String httpUrl = "https://www.c5game.com/napi/trade/steamtrade/sts/order/v3/seller-list?page=1&limit=" + number +"&appId=730&type=&status=3&keyword=" + keyword;
         BufferedReader reader = null;
         String result = null;
         StringBuffer sbf = new StringBuffer();
