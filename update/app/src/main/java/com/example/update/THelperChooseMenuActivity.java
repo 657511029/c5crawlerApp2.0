@@ -6,6 +6,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,6 +25,7 @@ import com.example.update.view.hangknife.HangknifeView;
 import com.example.update.view.rank.RankView;
 import com.example.update.view.thelper.DateView;
 import com.example.update.view.thelper.MinNumberView;
+import com.example.update.view.thelper.TimingOrderView;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -58,6 +60,8 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
 
     private MinNumberView minNumberView;
 
+    private TimingOrderView timingOrderView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,10 +77,12 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
 
     private void initData() throws ParseException {
         context = THelperChooseMenuActivity.this;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("params", Context.MODE_PRIVATE);
+        String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
         Intent intent = getIntent();
         Calendar now = Calendar.getInstance();
-        start = intent.getLongExtra("start", THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,"冬令时"));
-        end = intent.getLongExtra("end",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),"冬令时"));
+        start = intent.getLongExtra("start", THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,timingOrder));
+        end = intent.getLongExtra("end",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),timingOrder));
         count = intent.getIntExtra("count",500);
         searchStr = intent.getStringExtra("searchStr");
     }
@@ -94,6 +100,14 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
 
         minNumberView  = new MinNumberView(context);
         minNumberView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        minNumberView.setNumber(count);
+
+        timingOrderView  = new TimingOrderView(context,dateView);
+        timingOrderView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        SharedPreferences sharedPreferences = context.getSharedPreferences("params", Context.MODE_PRIVATE);
+        String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
+        timingOrderView.choose(timingOrder);
+
 
         t_helper_menu_main_container.addView(dateView);
 
@@ -165,10 +179,10 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
         t_helper_menu_main_itemId = id;
     }
     private void chooseItem3(int id){
-//        home_main_container.removeView(home_main_item);
-//        home_main_container.addView(hangknifeView);
-//
-//        home_main_item =  hangknifeView;
+        t_helper_menu_main_container.removeView(t_helper_menu_main_item);
+        t_helper_menu_main_container.addView(timingOrderView);
+
+        t_helper_menu_main_item =  timingOrderView;
         t_helper_menu_main_itemId = id;
     }
 
@@ -177,9 +191,11 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
+                SharedPreferences sharedPreferences = context.getSharedPreferences("params", Context.MODE_PRIVATE);
+                String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
                 try {
-                    start = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,"冬令时");
-                    end = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),"冬令时");
+                    start = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,timingOrder);
+                    end = THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),timingOrder);
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -203,8 +219,13 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
                 Calendar now = Calendar.getInstance();
                 start = dateView.getStartTime();
                 end = dateView.getEndTime();
+                count = minNumberView.getNumber();
                 if(start == -1 || end == -1){
                     toastMessage("未选择日期");
+                    return;
+                }
+                if(count == 0){
+                    toastMessage("查询数量不能为0");
                     return;
                 }
                 Intent intent = new Intent(THelperChooseMenuActivity.this,THelperActivity.class);

@@ -3,6 +3,7 @@ package com.example.update.view.thelper;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -97,11 +98,12 @@ public class DateView extends LinearLayout {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
-
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("params", Context.MODE_PRIVATE);
+                        String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
                         if(startDate.getText().toString().equals("开始日期")){
                             try {
                                 long newStartTime = THelperApi.getDataTime(year,month,dayOfMonth,"冬令时");
-                                if(newStartTime > THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,"冬令时")){
+                                if(newStartTime > THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,timingOrder)){
                                     toastMessage("开始时间不能大于前一天");
                                     return;
                                 }
@@ -117,7 +119,7 @@ public class DateView extends LinearLayout {
                         }
                         else {
                             try {
-                                long newStartTime = THelperApi.getDataTime(year,month,dayOfMonth,"冬令时");
+                                long newStartTime = THelperApi.getDataTime(year,month,dayOfMonth,timingOrder);
                                 if(newStartTime >= endTime){
                                     toastMessage("开始时间不能大于等于结束时间");
                                     return;
@@ -194,14 +196,18 @@ public class DateView extends LinearLayout {
         clean.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startDate.setText("开始日期");
-                endDate.setText("结束日期");
-                startDate.setTextColor(Color.parseColor("#C8C8C8"));
-                endDate.setTextColor(Color.parseColor("#C8C8C8"));
-                startTime = -1;
-                endTime = -1;
+                init();
             }
         });
+    }
+
+    public void init(){
+        startDate.setText("开始日期");
+        endDate.setText("结束日期");
+        startDate.setTextColor(Color.parseColor("#C8C8C8"));
+        endDate.setTextColor(Color.parseColor("#C8C8C8"));
+        startTime = -1;
+        endTime = -1;
     }
 
     public long getStartTime(){

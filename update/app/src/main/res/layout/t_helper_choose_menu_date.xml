@@ -12,7 +12,17 @@
         android:textColor="@color/black"
         android:textSize="13dp"
         android:gravity="center"
-        android:paddingVertical="15dp"
+        android:paddingVertical="12dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最短查找时间跨度为一天"
+        android:textColor="#C8C8C8"
+        android:textSize="12dp"
+        android:gravity="center"
+        android:paddingVertical="10dp"
         />
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,13 +62,13 @@
         android:id="@+id/t_helper_choose_menu_date_clean"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:text="清除"
         android:textColor="#4D77C3"
         android:textSize="12dp"
         android:gravity="center"
         android:background="@drawable/shape_clean"
         android:paddingVertical="5dp"
-        android:paddingHorizontal="10dp"
+        android:paddingHorizontal="15dp"
         />
 </LinearLayout>

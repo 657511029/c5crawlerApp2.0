@@ -58,6 +58,7 @@ public class THelperActivity extends AppCompatActivity {
     private int count;
 
 
+
     private Map<String, OrdersItem> ordersItemMap = null;
 
     private List<OrdersItem> dataList = new ArrayList<>();
@@ -98,11 +99,13 @@ public class THelperActivity extends AppCompatActivity {
 
     private void initData() throws ParseException {
         context = THelperActivity.this;
+        SharedPreferences sharedPreferences = context.getSharedPreferences("params", Context.MODE_PRIVATE);
+        String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
         Intent intent = getIntent();
         Calendar now = Calendar.getInstance();
-        start = intent.getLongExtra("start",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,"冬令时"));
+        start = intent.getLongExtra("start",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,timingOrder));
         Log.e("start",String.valueOf(start));
-        end = intent.getLongExtra("end",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),"冬令时"));
+        end = intent.getLongExtra("end",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),timingOrder));
         count = intent.getIntExtra("count",500);
         searchStr = intent.getStringExtra("searchStr");
     }
@@ -111,15 +114,6 @@ public class THelperActivity extends AppCompatActivity {
         search = (EditText) findViewById(R.id.THelper_order_list_search);
         search.setText(searchStr);
         chooseMenu = (ImageButton) findViewById(R.id.THelper_choose_menu);
-//        int size = getResources().getDimensionPixelSize(R.dimen.chooseMenuSize);
-//
-//        Log.e("size",String.valueOf(size));
-//        search.setWidth(search.getWidth() - size);
-//        ConstraintLayout.LayoutParams params_1= (ConstraintLayout.LayoutParams) search.getLayoutParams();
-//        Log.e("width",String.valueOf(params_1.width));
-//        params_1.width = params_1.width - size;
-//        Log.e("width",String.valueOf(params_1.width));
-//        search.setLayoutParams(params_1);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.THelper_order_list_refresh);
         listView = (ListView) findViewById(R.id.THelper_order_list_result);
         initChooseMenu();

@@ -43,7 +43,7 @@ public class MinNumberView extends LinearLayout {
 
     private TextView min_number;
 
-    private int count;
+    private int number;
 
 
     private TextView clean;
@@ -80,9 +80,8 @@ public class MinNumberView extends LinearLayout {
         minNumberView = (MinNumberView) LayoutInflater.from(context).inflate(R.layout.t_helper_choose_menu_min_number, this,true);
         min_number = (EditText) minNumberView.findViewById(R.id.t_helper_choose_menu_min_number_count);
         initMinNumber();
-        count = 0;
+        number = 0;
         clean = (TextView) minNumberView.findViewById(R.id.t_helper_choose_menu_min_number_clean);
-
         initClean();
     }
 
@@ -103,9 +102,10 @@ public class MinNumberView extends LinearLayout {
                 if (!m.matches()) {
                     //提示
                     toastMessage("输入数量语法错误或超出最大数量限制");
+                    setNumber(0);
                 }
                 else {
-                 setCount(Integer.parseInt(tel));
+                  number = Integer.parseInt(tel);
                 }
             }
             //改变之后会执行的方法、注意,在此写验证方法将导致死循环,请不要在这里进行验证操作
@@ -140,18 +140,20 @@ public class MinNumberView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 min_number.setText("");
-                count = 0;
+                number = 0;
             }
         });
     }
 
-    public int getCount(){
-        return count;
+    public int getNumber(){
+        return number;
     }
 
-    public void setCount(int count){
-        this.count = count;
+    public void setNumber(int number){
+        this.number = number;
+        min_number.setText(String.valueOf(number));
     }
+
     private void initAttrs(Context context, AttributeSet attrs) {
         TypedArray mTypedArray = context.obtainStyledAttributes(attrs, R.styleable.HeaderBar);
         //获取title_text属性
