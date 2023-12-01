@@ -153,7 +153,6 @@ public class RankView extends ConstraintLayout {
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
-                        Log.e("error",String.valueOf(rank_jewelryList.size()));
                     }
                 });
                 thread.start();
@@ -282,7 +281,6 @@ public class RankView extends ConstraintLayout {
                             swipeRefreshLayout.setEnabled(true);
                         }
                     });
-                    Log.e("error",String.valueOf(rank_jewelryList.size()));
                 }
             });
             thread.start();

@@ -376,7 +376,6 @@ public class TrackingJewelryListView extends ConstraintLayout {
                                     flag = common;
                                 }
                             });
-                            Log.e("error",String.valueOf(dataList.size()));
                         }
                     });
                     thread.start();
@@ -474,7 +473,6 @@ public class TrackingJewelryListView extends ConstraintLayout {
                         flag = common;
                     }
                 });
-                Log.e("error",String.valueOf(dataList.size()));
             }
         });
         thread.start();

@@ -86,7 +86,6 @@ public class TimingOrderView extends LinearLayout {
         summer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("夏令时","夏令时");
                 if(!timing.equals("夏令时")){
                     clickItem("夏令时");
                     dateView.init();
@@ -99,7 +98,6 @@ public class TimingOrderView extends LinearLayout {
         winter.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("冬令时","冬令时");
                 if(!timing.equals("冬令时")){
                     clickItem("冬令时");
                     dateView.init();
@@ -109,7 +107,6 @@ public class TimingOrderView extends LinearLayout {
     }
 
     private void clickItem(String timing){
-        Log.e("令时",timing);
         if(timing.equals("夏令时")){
             summer.setTextColor(context.getResources().getColor(R.color.white));
             summer.setBackground(context.getResources().getDrawable(R.drawable.timing_order_choose_mask));

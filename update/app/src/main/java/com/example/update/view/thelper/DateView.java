@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -26,7 +27,9 @@ import com.example.update.R;
 import com.example.update.api.THelperApi;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateView extends LinearLayout {
     private static final String TAG = DateView.class.getSimpleName();
@@ -102,18 +105,20 @@ public class DateView extends LinearLayout {
                         String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
                         if(startDate.getText().toString().equals("开始日期")){
                             try {
-                                long newStartTime = THelperApi.getDataTime(year,month,dayOfMonth,"冬令时");
+                                long newStartTime = THelperApi.getDataTime(year,month,dayOfMonth,timingOrder);
                                 if(newStartTime > THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,timingOrder)){
                                     toastMessage("开始时间不能大于前一天");
                                     return;
                                 }
                                 startTime = newStartTime;
-                                endTime = THelperApi.getDataTime(year,month,dayOfMonth + 1,"冬令时");
+                                endTime = THelperApi.getDataTime(year,month,dayOfMonth + 1,timingOrder);
+                                Log.e("time",startTime + "---" + endTime);
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
                             startDate.setText(year + "-" + month + "-" + dayOfMonth);
-                            endDate.setText(year + "-" + month + "-" + (dayOfMonth + 1));
+                            Date date = new Date(endTime * 1000);
+                            endDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(date).toString());
                             startDate.setTextColor(Color.BLACK);
                             endDate.setTextColor(Color.BLACK);
                         }
@@ -128,9 +133,7 @@ public class DateView extends LinearLayout {
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
-
                             startDate.setText(year + "-" + month + "-" + dayOfMonth);
-
                         }
                     }
                 };
@@ -149,21 +152,22 @@ public class DateView extends LinearLayout {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         month = month + 1;
-
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("params", Context.MODE_PRIVATE);
+                        String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
                         if(endDate.getText().toString().equals("结束日期")){
                             try {
-                                long newEndTime = THelperApi.getDataTime(year,month,dayOfMonth,"冬令时");
-                                if(newEndTime > THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),"冬令时")){
+                                long newEndTime = THelperApi.getDataTime(year,month,dayOfMonth,timingOrder);
+                                if(newEndTime > THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),timingOrder)){
                                     toastMessage("结束时间不能大于当前日期");
                                     return;
                                 }
                                 endTime = newEndTime;
-                                startTime = THelperApi.getDataTime(year,month,dayOfMonth - 1,"冬令时");
+                                startTime = THelperApi.getDataTime(year,month,dayOfMonth - 1,timingOrder);
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
-                            startDate.setText(year + "-" + month + "-" + (dayOfMonth - 1));
-
+                            Date date = new Date(startTime * 1000);
+                            startDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(date).toString());
                             endDate.setText(year + "-" + month + "-" + dayOfMonth);
                             startDate.setTextColor(Color.BLACK);
                             endDate.setTextColor(Color.BLACK);

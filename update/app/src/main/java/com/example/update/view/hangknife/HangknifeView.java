@@ -151,7 +151,7 @@ public class HangknifeView extends ConstraintLayout {
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
-                        Log.e("error",String.valueOf(hangknife_jewelryList.size()));
+
                     }
                 });
                 thread.start();
@@ -292,7 +292,6 @@ public class HangknifeView extends ConstraintLayout {
                             swipeRefreshLayout.setEnabled(true);
                         }
                     });
-                    Log.e("error",String.valueOf(hangknife_jewelryList.size()));
                 }
             });
             thread.start();

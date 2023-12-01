@@ -200,7 +200,6 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
                                     tracking_block_jewelry_list_number.setText("件数:" + dataList.size());
                                 }
                             });
-                            Log.e("error",String.valueOf(dataList.size()));
                         }
                     });
                     thread.start();
@@ -240,7 +239,6 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
                                 swipeRefreshLayout.setRefreshing(false);
                             }
                         });
-                        Log.e("error",String.valueOf(dataList.size()));
                     }
                 });
                 thread.start();
@@ -270,7 +268,6 @@ public class TrackingBlockJewelryListView extends ConstraintLayout {
                         tracking_block_jewelry_list_number.setText("件数:" + dataList.size());
                     }
                 });
-                Log.e("error",String.valueOf(dataList.size()));
             }
         });
         thread.start();

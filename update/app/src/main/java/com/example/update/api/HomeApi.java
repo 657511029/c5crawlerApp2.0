@@ -118,7 +118,6 @@ public class HomeApi {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("error",e.toString());
             return jewelryList;
         }
     }
@@ -225,8 +224,6 @@ public class HomeApi {
 
                     rankJewelryList.add(rankJewelry);
                 }
-            }else {
-                Log.e("message",connection.getResponseMessage());
             }
             return rankJewelryList;
 

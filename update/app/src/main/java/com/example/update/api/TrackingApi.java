@@ -724,28 +724,7 @@ public class TrackingApi {
                 if (!jedis.exists(jedis.hget(user,"jewelryIDList"))) {
                     return null;
                 }
-//                Set<String> sort = jedis.zrange(jedis.hget(user,"jewelryIDList"),0,-1);
-//
-//                List<String> jewelryIDList = new ArrayList<>(sort);
-//                jewelryIDList.remove(0);
-//                Log.e("jewelryIDList",String.valueOf(jewelryIDList.size()));
-//                for(int i = 0;i < jewelryIDList.size();i++){
-//                    String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
-//                    if(!jewelryName.contains(searchStr)){
-//                        continue;
-//                    }
-//                    Jewelry jewelry = new Jewelry();
-//                    String imageUrl = jedis.hget("jewelryImageUrlMap",jewelryIDList.get(i));
-//
-//                    if(jewelryName == null){
-//                        jewelry.setJewelryName(jewelryIDList.get(i));
-//                    }else {
-//                        jewelry.setJewelryName(jewelryName);
-//                    }
-//                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
-//                    jewelry.setC5ID(jewelryIDList.get(i));
-//                    jewelryList.add(jewelry);
-//                }
+
                 Set<String> sort;
                 if(offset == "-"){
                      sort = jedis.zrangeByScore(jedis.hget(user,"jewelryIDList"),"-inf","+inf");
@@ -757,7 +736,7 @@ public class TrackingApi {
                 }
                 List<String> jewelryIDList = new ArrayList<>(sort);
                 jewelryIDList.remove("饰品ID");
-                Log.e("jewelryIDList",String.valueOf(jewelryIDList.size()));
+
                 int point = 0;
                 for(int i = 0;i < jewelryIDList.size();i++){
                     String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));
@@ -819,7 +798,6 @@ public class TrackingApi {
                 Set<String> sort = jedis.zrange(jedis.hget(user,"blockJewelryIDList"),0,-1);
                 List<String> jewelryIDList = new ArrayList<>(sort);
                 jewelryIDList.remove(0);
-                Log.e("blockJewelryIDList",String.valueOf(jewelryIDList.size()));
                 for(int i = 0;i < jewelryIDList.size();i++){
 
                     String jewelryName = jedis.hget("jewelryMap",jewelryIDList.get(i));

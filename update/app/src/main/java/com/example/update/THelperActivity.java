@@ -80,7 +80,6 @@ public class THelperActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         // 是否需要刷新数据
-        Log.e("onStart","onStart");
 
     }
 
@@ -94,7 +93,6 @@ public class THelperActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
         initComponent();
-        Log.e("newIntent","newIntent");
     }
 
     private void initData() throws ParseException {
@@ -104,7 +102,6 @@ public class THelperActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Calendar now = Calendar.getInstance();
         start = intent.getLongExtra("start",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH) - 1,timingOrder));
-        Log.e("start",String.valueOf(start));
         end = intent.getLongExtra("end",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),timingOrder));
         count = intent.getIntExtra("count",500);
         searchStr = intent.getStringExtra("searchStr");
