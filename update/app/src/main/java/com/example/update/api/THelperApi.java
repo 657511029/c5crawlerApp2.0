@@ -147,6 +147,7 @@ public class THelperApi {
         }
     }
     public static Map<String,OrdersItem> getSellList(long start, long end, int number, String token,String keyword){
+        Log.e("number",String.valueOf(number));
         Map<String,OrdersItem> map = new HashMap<>();
         String httpUrl = "https://www.c5game.com/napi/trade/steamtrade/sts/order/v3/seller-list?page=1&limit=" + number +"&appId=730&type=&status=3&keyword=" + keyword;
         BufferedReader reader = null;
@@ -182,6 +183,7 @@ public class THelperApi {
                 is.close();
                 reader.close();
                 result = sbf.toString();
+                Log.e("result",result);
                 JSONObject obj = new JSONObject(result);
                 if(!obj.getBoolean("success")){
                     return null;
@@ -219,7 +221,7 @@ public class THelperApi {
                         OrdersItem ordersItem = new OrdersItem();
                         ordersItem.setJewelryName(jewelryName);
                         ordersItem.setImageUrl(imageUrl);
-                        ordersItem.setBitmap(HomeApi.urlToBitmap(imageUrl));
+//                        ordersItem.setBitmap(HomeApi.urlToBitmap(imageUrl));
                         ordersItem.setQualityName(qualityName);
                         ordersItem.setQualityColor(qualityColor);
                         ordersItem.setExteriorName(exteriorName);

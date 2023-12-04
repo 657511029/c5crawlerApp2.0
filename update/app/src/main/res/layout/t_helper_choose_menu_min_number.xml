@@ -8,11 +8,20 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="最小数量"
+        android:text="数量范围"
         android:textColor="@color/black"
         android:textSize="13dp"
         android:gravity="center"
         android:paddingVertical="12dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="最大数量范围为500"
+        android:textColor="#C8C8C8"
+        android:textSize="12dp"
+        android:gravity="center"
+        android:paddingVertical="10dp"
         />
     <LinearLayout
         android:layout_width="match_parent"

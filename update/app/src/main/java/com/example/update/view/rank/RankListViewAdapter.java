@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.update.R;
 import com.example.update.entity.Jewelry;
 import com.example.update.entity.Rank_jewelry;
@@ -67,7 +68,7 @@ public class RankListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         Rank_jewelry rankJewelry = dataList.get(position);
-        viewHolder.rank_item_image.setImageBitmap(rankJewelry.getBitmap());
+        viewHolder.setImage(rankJewelry.getImageUrl());
         viewHolder.rank_item_name.setText(rankJewelry.getJewelryName());
         viewHolder.rank_item_price.setText("￥" + String.valueOf(rankJewelry.getPrice()));
         viewHolder.rank_item_count.setText("出:"+ String.valueOf(rankJewelry.getSell_number()) + " 求:" + String.valueOf(rankJewelry.getBuy_number()));
@@ -105,6 +106,12 @@ public class RankListViewAdapter extends BaseAdapter {
             rank_item_count = (TextView) view.findViewById(R.id.rank_item_count);
             rank_item_addPrice = (TextView) view.findViewById(R.id.rank_item_addPrice);
             rank_item_addProportion = (TextView) view.findViewById(R.id.rank_item_addProportion);
+        }
+        public void setImage(String url){
+            Glide.with(context)
+                    .load(url)
+                    .fitCenter()
+                    .into(rank_item_image);
         }
     }
 }

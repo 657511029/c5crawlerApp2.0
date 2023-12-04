@@ -103,20 +103,18 @@ public class MinNumberView extends LinearLayout {
                 if(TextUtils.isEmpty(tel)){
                     return;
                 }
-                Pattern p = Pattern.compile("[0-9]{1,7}");//正则
+                Pattern p = Pattern.compile("[0-9]{1,3}");//正则
                 Matcher m = p.matcher(tel);
-                if (!m.matches()) {
+                if(!m.matches() || Integer.parseInt(tel) > 500) {
                     //提示
                     toastMessage("输入数量语法错误或超出最大数量限制");
                     setNumber(0);
-                    textView.setTextColor(Color.parseColor("#DEAB47"));
-                    textView.setText(String.valueOf(number));
                 }
                 else {
                   number = Integer.parseInt(tel);
-                  textView.setTextColor(Color.parseColor("#DEAB47"));
-                  textView.setText(String.valueOf(number));
                 }
+                textView.setTextColor(Color.parseColor("#DEAB47"));
+                textView.setText(String.valueOf(number));
             }
             //改变之后会执行的方法、注意,在此写验证方法将导致死循环,请不要在这里进行验证操作
             @Override
@@ -152,7 +150,7 @@ public class MinNumberView extends LinearLayout {
                 min_number.setText("");
                 number = 0;
                 textView.setTextColor(Color.parseColor("#979797"));
-                textView.setText("最小数量");
+                textView.setText("数量范围");
             }
         });
     }

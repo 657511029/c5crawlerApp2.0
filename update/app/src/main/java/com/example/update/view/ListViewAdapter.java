@@ -72,7 +72,8 @@ public class ListViewAdapter extends BaseAdapter {
 
         }{
             viewHolder.jewelryHomeViewLeft.setName(jewelry_left.getShortName());
-            viewHolder.jewelryHomeViewLeft.setImage(jewelry_left.getBitmap() );
+//            viewHolder.jewelryHomeViewLeft.setImage(jewelry_left.getBitmap());
+            viewHolder.jewelryHomeViewLeft.setImage(jewelry_left.getImageUrl());
             viewHolder.jewelryHomeViewLeft.setDesc(jewelry_left.getExteriorColor(),jewelry_left.getExteriorName(),jewelry_left.getQualityColor(),jewelry_left.getQualityName());
             viewHolder.jewelryHomeViewLeft.setPrice(jewelry_left.getPrice());
             viewHolder.jewelryHomeViewLeft.setQuantity(jewelry_left.getQuantity());
@@ -81,7 +82,8 @@ public class ListViewAdapter extends BaseAdapter {
             viewHolder.jewelryHomeViewRight.setVisibility(View.GONE);
         }{
             viewHolder.jewelryHomeViewRight.setName(jewelry_right.getShortName());
-            viewHolder.jewelryHomeViewRight.setImage(jewelry_right.getBitmap());
+//            viewHolder.jewelryHomeViewRight.setImage(jewelry_right.getBitmap());
+            viewHolder.jewelryHomeViewRight.setImage(jewelry_right.getImageUrl());
             viewHolder.jewelryHomeViewRight.setDesc(jewelry_right.getExteriorColor(),jewelry_right.getExteriorName(),jewelry_right.getQualityColor(),jewelry_right.getQualityName());
             viewHolder.jewelryHomeViewRight.setPrice(jewelry_right.getPrice());
             viewHolder.jewelryHomeViewRight.setQuantity(jewelry_right.getQuantity());

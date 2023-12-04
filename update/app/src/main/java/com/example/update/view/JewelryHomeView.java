@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.update.R;
 
 public class JewelryHomeView extends ConstraintLayout {
@@ -77,8 +78,14 @@ public class JewelryHomeView extends ConstraintLayout {
         textView.setText(name);
     }
 
-    public void setImage(Bitmap bitmap){
-        imageView.setImageBitmap(bitmap);
+//    public void setImage(Bitmap bitmap){
+//        imageView.setImageBitmap(bitmap);
+//    }
+    public void setImage(String url){
+        Glide.with(context)
+                .load(url)
+                .fitCenter()
+                .into(imageView);
     }
 
     public void setDesc(String exteriorColor, String exteriorName, String qualityColor,String qualityName){

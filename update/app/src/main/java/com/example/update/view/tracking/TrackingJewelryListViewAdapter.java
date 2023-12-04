@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.update.R;
 import com.example.update.entity.Jewelry;
 import com.example.update.entity.Rank_jewelry;
@@ -59,7 +60,7 @@ public class TrackingJewelryListViewAdapter extends BaseAdapter {
             viewHolder = (TrackingJewelryListViewAdapter.ViewHolder) convertView.getTag();
         }
         Jewelry jewelry = dataList.get(position);
-        viewHolder.tracking_jewelry_list_item_image.setImageBitmap(jewelry.getBitmap());
+        viewHolder.setImage(jewelry.getImageUrl());
         viewHolder.tracking_jewelry_list_item_name.setText(jewelry.getJewelryName());
 
         return convertView;
@@ -85,6 +86,12 @@ public class TrackingJewelryListViewAdapter extends BaseAdapter {
             tracking_jewelry_list_item_image = (ImageView) view.findViewById(R.id.tracking_jewelry_list_item_image);
             tracking_jewelry_list_item_name = (TextView) view.findViewById(R.id.tracking_jewelry_list_item_name);
 
+        }
+        public void setImage(String url){
+            Glide.with(context)
+                    .load(url)
+                    .fitCenter()
+                    .into(tracking_jewelry_list_item_image);
         }
     }
 }

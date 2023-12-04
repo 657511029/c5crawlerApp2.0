@@ -47,7 +47,6 @@
             android:layout_height="90dp"
             android:layout_gravity="center"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/capoo"
             android:background="@drawable/shape_jewelry_image"/>
     </LinearLayout>
 

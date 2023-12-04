@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        app:srcCompat="@drawable/capoo" />
+        />
 
     <TextView
         android:id="@+id/rank_item_name"
@@ -78,7 +78,7 @@
         android:id="@+id/rank_item_addProportion"
         android:layout_width="60dp"
         android:layout_height="25dp"
-        android:layout_marginStart="220dp"
+        android:layout_marginStart="240dp"
         android:layout_marginTop="8dp"
         android:maxEms="10"
         android:maxLines="1"

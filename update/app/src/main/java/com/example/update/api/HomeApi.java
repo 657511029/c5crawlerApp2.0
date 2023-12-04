@@ -110,7 +110,7 @@ public class HomeApi {
                     jewelry.setExteriorName(exteriorName);
                     jewelry.setQualityColor(qualityColor);
                     jewelry.setQualityName(qualityName);
-                    jewelry.setBitmap(urlToBitmap(imageUrl));
+//                    jewelry.setBitmap(urlToBitmap(imageUrl));
                     jewelryList.add(jewelry);
                 }
             }
@@ -202,7 +202,7 @@ public class HomeApi {
                     rankJewelry.setC5ID(info.getString("c5game_id"));
 
                     rankJewelry.setImageUrl(info.getString("icon_url"));
-                    rankJewelry.setBitmap(urlToBitmap(info.getString("icon_url")));
+//                    rankJewelry.setBitmap(urlToBitmap(info.getString("icon_url")));
 
                     rankJewelry.setColor(info.getString("color"));
 

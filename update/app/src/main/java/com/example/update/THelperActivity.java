@@ -57,11 +57,15 @@ public class THelperActivity extends AppCompatActivity {
     private ImageButton chooseMenu;
     private String searchStr;
 
+    private TextView tHelper_order_list_number;
+
     private long start;
 
     private long end;
 
     private int count;
+
+    private String jewelryAllPrice;
 
 
 
@@ -127,6 +131,7 @@ public class THelperActivity extends AppCompatActivity {
         else {
             chooseMenu.setColorFilter(Color.parseColor("#939393"));
         }
+        tHelper_order_list_number = (TextView)findViewById(R.id.THelper_order_list_number);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.THelper_order_list_refresh);
         listView = (ListView) findViewById(R.id.THelper_order_list_result);
         initChooseMenu();
@@ -148,6 +153,7 @@ public class THelperActivity extends AppCompatActivity {
                     tHelperAdapter.notifyDataSetChanged();
                     setAllEnabled(false);
                     swipeRefreshLayout.setEnabled(false);
+                    tHelper_order_list_number.setText("搜索中");
                     Thread thread = new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -170,6 +176,7 @@ public class THelperActivity extends AppCompatActivity {
                                     }
                                     setAllEnabled(true);
                                     swipeRefreshLayout.setEnabled(true);
+                                    tHelper_order_list_number.setText("价值:" + jewelryAllPrice);
                                 }
                             });
                         }
@@ -204,6 +211,7 @@ public class THelperActivity extends AppCompatActivity {
         tHelperAdapter.notifyDataSetChanged();
         setAllEnabled(false);
         swipeRefreshLayout.setEnabled(false);
+        tHelper_order_list_number.setText("搜索中");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -223,6 +231,7 @@ public class THelperActivity extends AppCompatActivity {
                         }
                         setAllEnabled(true);
                         swipeRefreshLayout.setEnabled(true);
+                        tHelper_order_list_number.setText("价值:" + jewelryAllPrice);
                     }
                 });
             }
@@ -255,10 +264,14 @@ public class THelperActivity extends AppCompatActivity {
             }
         }
 
+        double allPrice = 0;
         List<OrdersItem> ordersItemList = ordersItemMap.values().stream().collect(Collectors.toList());
         for(int i = 0;i < ordersItemList.size();i++){
-            dataList.add(ordersItemList.get(i));
+            OrdersItem ordersItem = ordersItemList.get(i);
+            allPrice += ordersItem.getAverage() * ordersItem.getList().size();
+            dataList.add(ordersItem);
         }
+        jewelryAllPrice = String.format("%.2f", allPrice);
         ordersItemMap = null;
     }
 
@@ -272,6 +285,7 @@ public class THelperActivity extends AppCompatActivity {
                 dataList.clear();
                 tHelperAdapter.notifyDataSetChanged();
                 setAllEnabled(false);
+                tHelper_order_list_number.setText("搜索中");
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -291,6 +305,7 @@ public class THelperActivity extends AppCompatActivity {
                                 }
                                 setAllEnabled(true);
                                 swipeRefreshLayout.setRefreshing(false);
+                                tHelper_order_list_number.setText("价值:" + jewelryAllPrice);
                             }
                         });
                     }

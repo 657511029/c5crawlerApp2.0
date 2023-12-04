@@ -139,7 +139,7 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
         for(TextView t_helper_menu_topBar_item: t_helper_menu_topBar_items){
             if(t_helper_menu_topBar_item.getId() == id){
                 if(t_helper_menu_topBar_item.getText().toString().equals("日期区间") ||
-                        t_helper_menu_topBar_item.getText().toString().equals("最小数量") ||
+                        t_helper_menu_topBar_item.getText().toString().equals("数量范围") ||
                         t_helper_menu_topBar_item.getText().toString().equals("令时选择")){
                     t_helper_menu_topBar_item.setTextColor(this.getResources().getColor(R.color.black));
                 }
@@ -147,7 +147,7 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
             }
             else {
                 if(t_helper_menu_topBar_item.getText().toString().equals("日期区间") ||
-                        t_helper_menu_topBar_item.getText().toString().equals("最小数量") ||
+                        t_helper_menu_topBar_item.getText().toString().equals("数量范围") ||
                         t_helper_menu_topBar_item.getText().toString().equals("令时选择")){
                     t_helper_menu_topBar_item.setTextColor(this.getResources().getColor(R.color.gray_979797));
                 }

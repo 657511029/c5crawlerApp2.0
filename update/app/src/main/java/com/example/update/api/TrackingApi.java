@@ -754,7 +754,8 @@ public class TrackingApi {
                     }else {
                         jewelry.setJewelryName(jewelryName);
                     }
-                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
+                    jewelry.setImageUrl(imageUrl);
+//                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
                     jewelry.setC5ID(jewelryIDList.get(i));
                     jewelryList.add(jewelry);
                 }
@@ -812,7 +813,8 @@ public class TrackingApi {
                     }else {
                         jewelry.setJewelryName(jewelryName);
                     }
-                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
+                    jewelry.setImageUrl(imageUrl);
+//                    jewelry.setBitmap(HomeApi.urlToBitmap(imageUrl));
                     jewelry.setC5ID(jewelryIDList.get(i));
                     jewelryList.add(jewelry);
                 }

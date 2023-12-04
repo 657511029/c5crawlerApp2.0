@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.update.R;
 import com.example.update.entity.Hangknife_jewelry;
 import com.example.update.entity.OrdersItem;
@@ -63,7 +64,7 @@ public class THelperAdapter extends BaseAdapter {
         }
         OrdersItem ordersItem = dataList.get(position);
         viewHolder.setName(ordersItem.getJewelryName());
-        viewHolder.setImage(ordersItem.getBitmap());
+        viewHolder.setImage(ordersItem.getImageUrl());
         viewHolder.setDesc(ordersItem.getExteriorColor(),ordersItem.getExteriorName(),ordersItem.getQualityColor(),ordersItem.getQualityName());
         viewHolder.t_helper_jewelry_list_item_average.setText("均价: " + String.format("%.2f", ordersItem.getAverage()));
         viewHolder.t_helper_jewelry_list_item_count.setText("售出: " + ordersItem.getList().size() + " 件");
@@ -110,8 +111,11 @@ public class THelperAdapter extends BaseAdapter {
             t_helper_jewelry_list_item_name.setText(name);
         }
 
-        public void setImage(Bitmap bitmap){
-            t_helper_image.setImageBitmap(bitmap);
+        public void setImage(String url){
+            Glide.with(context)
+                    .load(url)
+                    .fitCenter()
+                    .into(t_helper_image);
         }
 
         public void setDesc(String exteriorColor, String exteriorName, String qualityColor,String qualityName){

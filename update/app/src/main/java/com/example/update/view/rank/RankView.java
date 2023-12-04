@@ -176,8 +176,8 @@ public class RankView extends ConstraintLayout {
         spinner_value_map.put("悠悠有品","2");
         spinner_value_map.put("出售价格","min_sell");
         spinner_value_map.put("出售数量","sell_count");
-        spinner_value_map.put("差额","scale");
-        spinner_value_map.put("比例","balance");
+        spinner_value_map.put("差额","balance");
+        spinner_value_map.put("比例","scale");
         spinner_value_map.put("金额","value");
         spinner_value_map.put("正序","0");
         spinner_value_map.put("倒序","1");
