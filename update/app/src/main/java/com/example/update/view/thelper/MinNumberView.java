@@ -48,39 +48,45 @@ public class MinNumberView extends LinearLayout {
 
     private TextView clean;
 
+    private TextView textView;
 
 
-    public MinNumberView(Context context) {
+
+    public MinNumberView(Context context,int number,TextView textView) {
         super(context);
         this.context = context;
-        initView(context);
+        initView(context,number,textView);
 
     }
-    public MinNumberView(Context context, @Nullable AttributeSet attrs) {
+    public MinNumberView(Context context,int number,TextView textView, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        initView(context);
+        initView(context,number,textView);
         initAttrs(context,attrs);
     }
-    public MinNumberView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MinNumberView(Context context,int number,TextView textView, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
         this.context = context;
-        initView(context);
+        initView(context,number,textView);
         initAttrs(context,attrs);
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public MinNumberView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MinNumberView(Context context,int number,TextView textView, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs);
         this.context = context;
-        initView(context);
+        initView(context,number,textView);
         initAttrs(context,attrs);
     }
-    private void initView(Context context) {
+    private void initView(Context context,int number,TextView textView) {
         minNumberView = (MinNumberView) LayoutInflater.from(context).inflate(R.layout.t_helper_choose_menu_min_number, this,true);
         min_number = (EditText) minNumberView.findViewById(R.id.t_helper_choose_menu_min_number_count);
+        this.number = number;
+        this.textView = textView;
+        textView.setTextColor(Color.parseColor("#DEAB47"));
+        textView.setText(String.valueOf(this.number));
         initMinNumber();
-        number = 0;
+
         clean = (TextView) minNumberView.findViewById(R.id.t_helper_choose_menu_min_number_clean);
         initClean();
     }
@@ -103,9 +109,13 @@ public class MinNumberView extends LinearLayout {
                     //提示
                     toastMessage("输入数量语法错误或超出最大数量限制");
                     setNumber(0);
+                    textView.setTextColor(Color.parseColor("#DEAB47"));
+                    textView.setText(String.valueOf(number));
                 }
                 else {
                   number = Integer.parseInt(tel);
+                  textView.setTextColor(Color.parseColor("#DEAB47"));
+                  textView.setText(String.valueOf(number));
                 }
             }
             //改变之后会执行的方法、注意,在此写验证方法将导致死循环,请不要在这里进行验证操作
@@ -141,6 +151,8 @@ public class MinNumberView extends LinearLayout {
             public void onClick(View v) {
                 min_number.setText("");
                 number = 0;
+                textView.setTextColor(Color.parseColor("#979797"));
+                textView.setText("最小数量");
             }
         });
     }

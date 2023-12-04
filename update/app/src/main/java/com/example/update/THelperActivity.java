@@ -99,6 +99,7 @@ public class THelperActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
         initComponent();
+
     }
 
     private void initData() throws ParseException {
@@ -111,12 +112,21 @@ public class THelperActivity extends AppCompatActivity {
         end = intent.getLongExtra("end",THelperApi.getDataTime(now.get(Calendar.YEAR),now.get(Calendar.MONTH) + 1,now.get(Calendar.DAY_OF_MONTH),timingOrder));
         count = intent.getIntExtra("count",500);
         searchStr = intent.getStringExtra("searchStr");
+
     }
 
     private void initComponent(){
         search = (EditText) findViewById(R.id.THelper_order_list_search);
         search.setText(searchStr);
         chooseMenu = (ImageButton) findViewById(R.id.THelper_choose_menu);
+        Intent intent = getIntent();
+        String flag = intent.getStringExtra("flag");
+        if(!TextUtils.isEmpty(flag) && flag.equals("finish")){
+            chooseMenu.setColorFilter(Color.parseColor("#DEAB47"));
+        }
+        else {
+            chooseMenu.setColorFilter(Color.parseColor("#939393"));
+        }
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.THelper_order_list_refresh);
         listView = (ListView) findViewById(R.id.THelper_order_list_result);
         initChooseMenu();

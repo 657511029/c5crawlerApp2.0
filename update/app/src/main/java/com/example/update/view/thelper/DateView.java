@@ -51,41 +51,51 @@ public class DateView extends LinearLayout {
 
     private TextView clean;
 
+    private TextView textView;
 
 
-    public DateView(Context context) {
+
+    public DateView(Context context,long start,long end,TextView textView) {
         super(context);
         this.context = context;
-        initView(context);
+        initView(context,start,end,textView);
 
     }
-    public DateView(Context context, @Nullable AttributeSet attrs) {
+    public DateView(Context context,long start,long end,TextView textView, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        initView(context);
+        initView(context,start,end,textView);
         initAttrs(context,attrs);
     }
-    public DateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DateView(Context context,long start,long end,TextView textView, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
         this.context = context;
-        initView(context);
+        initView(context,start,end,textView);
         initAttrs(context,attrs);
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public DateView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DateView(Context context,long start,long end,TextView textView, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs);
         this.context = context;
-        initView(context);
+        initView(context,start,end,textView);
         initAttrs(context,attrs);
     }
-    private void initView(Context context) {
+    private void initView(Context context,long start,long end,TextView textView) {
         dateView = (DateView) LayoutInflater.from(context).inflate(R.layout.t_helper_choose_menu_date, this,true);
         startDate = (TextView) dateView.findViewById(R.id.t_helper_choose_menu_date_startTime);
         endDate = (TextView) dateView.findViewById(R.id.t_helper_choose_menu_date_endTime);
         clean = (TextView)dateView.findViewById(R.id.t_helper_choose_menu_date_clean);
-        startTime = -1;
-        endTime = -1;
+        startTime = start;
+        endTime = end;
+        startDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date(startTime * 1000)).toString());
+        endDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date(endTime * 1000)).toString());
+        this.textView = textView;
+        textView.setTextColor(Color.parseColor("#DEAB47"));
+        textView.setText(startDate.getText().toString() + "~" + endDate.getText().toString());
+        textView.setTextSize(11);
+        startDate.setTextColor(Color.BLACK);
+        endDate.setTextColor(Color.BLACK);
         initStartDate();
         initEndDate();
         initClean();
@@ -134,6 +144,9 @@ public class DateView extends LinearLayout {
                             }
                             startDate.setText(year + "-" + month + "-" + dayOfMonth);
                         }
+                        textView.setTextColor(Color.parseColor("#DEAB47"));
+                        textView.setText(startDate.getText().toString() + "~" + endDate.getText().toString());
+                        textView.setTextSize(11);
                     }
                 };
                 new DatePickerDialog(context,3,onDateSetListener,now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH)).show();
@@ -179,7 +192,7 @@ public class DateView extends LinearLayout {
                                     return;
                                 }
                                 if(startTime >= newEndTime){
-                                    toastMessage("结束日期不能小于等于开始日期");
+                                    toastMessage("结束日期须大于开始日期");
                                     return;
                                 }
                                 endTime = newEndTime;
@@ -188,6 +201,9 @@ public class DateView extends LinearLayout {
                             }
                             endDate.setText(year + "-" + month + "-" + dayOfMonth);
                         }
+                        textView.setTextColor(Color.parseColor("#DEAB47"));
+                        textView.setText(startDate.getText().toString() + "~" + endDate.getText().toString());
+                        textView.setTextSize(11);
                     }
                 };
                 new DatePickerDialog(context,3,onDateSetListener,now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DAY_OF_MONTH)).show();
@@ -211,6 +227,9 @@ public class DateView extends LinearLayout {
         endDate.setTextColor(Color.parseColor("#C8C8C8"));
         startTime = -1;
         endTime = -1;
+        textView.setTextColor(Color.parseColor("#979797"));
+        textView.setText("日期区间");
+        textView.setTextSize(13);
     }
 
     public long getStartTime(){

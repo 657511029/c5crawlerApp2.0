@@ -33,6 +33,7 @@ android {
 dependencies {
 
 //    implementation("com.buyi.huxq17:agencyplugin:1.1.2")
+    implementation("com.github.bumptech.glide:glide:3.7.0")
     implementation(files("libs\\jsoup-1.16.1.jar"))
     implementation(files("libs\\jedis-2.9.0.jar"))
     implementation("io.apisense:rhino-android:1.2.0")

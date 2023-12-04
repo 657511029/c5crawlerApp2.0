@@ -44,37 +44,40 @@ public class TimingOrderView extends LinearLayout {
 
     private DateView dateView;
 
+    private TextView textView;
 
 
 
-    public TimingOrderView(Context context,DateView dateView) {
+
+    public TimingOrderView(Context context,DateView dateView,TextView textView) {
         super(context);
         this.context = context;
-        initView(context,dateView);
+        initView(context,dateView,textView);
 
     }
-    public TimingOrderView(Context context,DateView dateView, @Nullable AttributeSet attrs) {
+    public TimingOrderView(Context context,DateView dateView,TextView textView, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        initView(context,dateView);
+        initView(context,dateView,textView);
         initAttrs(context,attrs);
     }
-    public TimingOrderView(Context context,DateView dateView, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public TimingOrderView(Context context,DateView dateView,TextView textView, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
         this.context = context;
-        initView(context,dateView);
+        initView(context,dateView,textView);
         initAttrs(context,attrs);
 
     }
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public TimingOrderView(Context context,DateView dateView, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TimingOrderView(Context context,DateView dateView,TextView textView, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs);
         this.context = context;
-        initView(context,dateView);
+        initView(context,dateView,textView);
         initAttrs(context,attrs);
     }
-    private void initView(Context context,DateView dateView) {
+    private void initView(Context context,DateView dateView,TextView textView) {
         this.dateView = dateView;
+        this.textView = textView;
         timingOrderView = (TimingOrderView) LayoutInflater.from(context).inflate(R.layout.t_helper_choose_menu_timing_order, this,true);
         summer = (TextView) timingOrderView.findViewById(R.id.t_helper_choose_menu_timing_order_summer);
         winter = (TextView) timingOrderView.findViewById(R.id.t_helper_choose_menu_timing_order_winter);
@@ -114,7 +117,6 @@ public class TimingOrderView extends LinearLayout {
             winter.setTextColor(Color.parseColor("#C8C8C8"));
             winter.setBackground(context.getResources().getDrawable(R.drawable.timing_order_choose_shape));
 
-
         }
         else {
             winter.setTextColor(context.getResources().getColor(R.color.white));
@@ -132,6 +134,8 @@ public class TimingOrderView extends LinearLayout {
         editor.putString("timingOrder", timing);
         //将获取过来的值放入文件
         editor.commit();
+        textView.setTextColor(Color.parseColor("#DEAB47"));
+        textView.setText(timing);
 
     }
     public void choose(String timingOrder){

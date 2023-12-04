@@ -88,21 +88,29 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
     }
 
     private void initComponent(){
-       restart = (TextView) findViewById(R.id.THelper_choose_menu_buttons_restart);
-       initRestart();
-       finish = (TextView) findViewById(R.id.THelper_choose_menu_buttons_finish);
-       initFinish();
+        t_helper_menu_topBar_items = new ArrayList<>();
+        t_helper_menu_topBar_items.add((TextView) findViewById(R.id.t_helper_menu_topBar_item1));
+        t_helper_menu_topBar_items.add((TextView) findViewById(R.id.t_helper_menu_topBar_item2));
+        t_helper_menu_topBar_items.add((TextView) findViewById(R.id.t_helper_menu_topBar_item3));
+        t_helper_menu_main_itemId = R.id.t_helper_menu_topBar_item1;
+        clickItem(R.id.t_helper_menu_topBar_item1);
+
+
+        restart = (TextView) findViewById(R.id.THelper_choose_menu_buttons_restart);
+        initRestart();
+        finish = (TextView) findViewById(R.id.THelper_choose_menu_buttons_finish);
+        initFinish();
 
         t_helper_menu_main_container = (ConstraintLayout) findViewById(R.id.THelper_choose_menu_container);
 
-        dateView  = new DateView(context);
+        dateView  = new DateView(context,start,end,t_helper_menu_topBar_items.get(0));
         dateView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
 
-        minNumberView  = new MinNumberView(context);
+        minNumberView  = new MinNumberView(context,count,t_helper_menu_topBar_items.get(1));
         minNumberView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
         minNumberView.setNumber(count);
 
-        timingOrderView  = new TimingOrderView(context,dateView);
+        timingOrderView  = new TimingOrderView(context,dateView,t_helper_menu_topBar_items.get(2));
         timingOrderView.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
         SharedPreferences sharedPreferences = context.getSharedPreferences("params", Context.MODE_PRIVATE);
         String timingOrder = sharedPreferences.getString("timingOrder","冬令时");
@@ -111,15 +119,9 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
 
         t_helper_menu_main_container.addView(dateView);
 
-        t_helper_menu_topBar_items = new ArrayList<>();
-        t_helper_menu_topBar_items.add((TextView) findViewById(R.id.t_helper_menu_topBar_item1));
-        t_helper_menu_topBar_items.add((TextView) findViewById(R.id.t_helper_menu_topBar_item2));
-        t_helper_menu_topBar_items.add((TextView) findViewById(R.id.t_helper_menu_topBar_item3));
-//        home_topBar_items.add((TextView) findViewById(R.id.home_topBar_item3));
-        t_helper_menu_main_itemId = R.id.t_helper_menu_topBar_item1;
+
         t_helper_menu_main_item = dateView;
 
-        clickItem(R.id.t_helper_menu_topBar_item1);
         setTitleClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,13 +138,19 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
     private void clickItem(int id){
         for(TextView t_helper_menu_topBar_item: t_helper_menu_topBar_items){
             if(t_helper_menu_topBar_item.getId() == id){
-//                home_topBar_item.setTypeface(Typeface.DEFAULT_BOLD);
-                t_helper_menu_topBar_item.setTextColor(this.getResources().getColor(R.color.black));
+                if(t_helper_menu_topBar_item.getText().toString().equals("日期区间") ||
+                        t_helper_menu_topBar_item.getText().toString().equals("最小数量") ||
+                        t_helper_menu_topBar_item.getText().toString().equals("令时选择")){
+                    t_helper_menu_topBar_item.setTextColor(this.getResources().getColor(R.color.black));
+                }
                 t_helper_menu_topBar_item.setBackground(this.getResources().getDrawable(R.drawable.t_helper_choose_menu_title_active_mask));
             }
             else {
-//                home_topBar_item.setTypeface(Typeface.DEFAULT);
-                t_helper_menu_topBar_item.setTextColor(this.getResources().getColor(R.color.gray_979797));
+                if(t_helper_menu_topBar_item.getText().toString().equals("日期区间") ||
+                        t_helper_menu_topBar_item.getText().toString().equals("最小数量") ||
+                        t_helper_menu_topBar_item.getText().toString().equals("令时选择")){
+                    t_helper_menu_topBar_item.setTextColor(this.getResources().getColor(R.color.gray_979797));
+                }
                 t_helper_menu_topBar_item.setBackground(this.getResources().getDrawable(R.drawable.t_helper_choose_menu_title_mask));
             }
         }
@@ -206,6 +214,7 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
                 intent.putExtra("end",end);
                 intent.putExtra("searchStr",searchStr);
                 intent.putExtra("count",count);
+                intent.putExtra("flag","restart");
                 startActivity(intent);
                 finish();
             }
@@ -233,6 +242,7 @@ public class THelperChooseMenuActivity extends AppCompatActivity {
                 intent.putExtra("end",end);
                 intent.putExtra("searchStr",searchStr);
                 intent.putExtra("count",count);
+                intent.putExtra("flag","finish");
                 startActivity(intent);
                 finish();
             }
