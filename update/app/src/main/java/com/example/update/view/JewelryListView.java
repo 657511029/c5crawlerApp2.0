@@ -22,10 +22,13 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.update.R;
 import com.example.update.api.HomeApi;
 import com.example.update.entity.Jewelry;
+import com.example.update.view.loading.LoadingLayout;
+import com.example.update.view.tracking.TrackingJewelryListViewAdapter;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -42,7 +45,11 @@ public class  JewelryListView extends ConstraintLayout {
 
     private int showView;
 
+    private JewelryListView jewelryListView;
+
     private ListViewAdapter listViewAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     private ListView listView;
 
@@ -50,6 +57,7 @@ public class  JewelryListView extends ConstraintLayout {
 
     private String searchStr;
 
+    private LoadingLayout loadingLayout;
     private List<Jewelry> jewelryList = new ArrayList<>();
 
     private List<Map<String,Jewelry>> dataList = new ArrayList<>();
@@ -80,11 +88,15 @@ public class  JewelryListView extends ConstraintLayout {
         initAttrs(context,attrs);
     }
     private void initView(Context context) {
-        JewelryListView jewelryListView = (JewelryListView) LayoutInflater.from(context).inflate(R.layout.jewelry_list, this,true);
+        jewelryListView = (JewelryListView) LayoutInflater.from(context).inflate(R.layout.jewelry_list, this,true);
+        swipeRefreshLayout = (SwipeRefreshLayout) jewelryListView.findViewById(R.id.jewelry_list_refresh);
         listView = (ListView) jewelryListView.findViewById(R.id.jewelry_list_result);
         search = (EditText) jewelryListView.findViewById(R.id.jewelry_list_search);
+        loadingLayout = (LoadingLayout) jewelryListView.findViewById(R.id.jewelry_list_loading);
+
         initList("");
         initSearchExit();
+        initRefresh();
 //        listView.setSelection(4);
     }
 
@@ -105,22 +117,40 @@ public class  JewelryListView extends ConstraintLayout {
                     inputMethodManager.hideSoftInputFromWindow(v.getApplicationWindowToken(),0);
                     searchStr = search.getText().toString();
                     dataList.clear();
+                    listViewAdapter.notifyDataSetChanged();
+                    setAllEnabled(false);
+                    loadingLayout.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setEnabled(false);
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!TextUtils.isEmpty(searchStr)){
+                                try {
+                                    getDataList(searchStr);
+                                } catch (UnsupportedEncodingException | InterruptedException e) {
+                                    toastMessage("获取饰品数据失败");
+                                }
+                            }
+                            jewelryListView.post(new Runnable() {
+                                @Override
+                                public void run() {
 
-                    if (!TextUtils.isEmpty(searchStr)){
-                        try {
-                            getDataList(searchStr);
-                        } catch (UnsupportedEncodingException | InterruptedException e) {
-                            toastMessage("获取饰品数据失败");
+                                    loadingLayout.setVisibility(View.GONE);
+                                    //通知ListView更改数据源
+                                    if (listViewAdapter != null) {
+                                        listViewAdapter.notifyDataSetChanged();
+                                    } else {
+                                        listViewAdapter = new ListViewAdapter(context, dataList);
+                                        listView.setAdapter(listViewAdapter);
+                                    }
+                                    setAllEnabled(true);
+                                    swipeRefreshLayout.setEnabled(true);
+                                }
+                            });
+
                         }
-                    }
-                    //通知ListView更改数据源
-                    if (listViewAdapter != null) {
-                        listViewAdapter.notifyDataSetChanged();
-                    } else {
-                        listViewAdapter = new ListViewAdapter(context, dataList);
-                        listView.setAdapter(listViewAdapter);
-                    }
-                    return true;
+                    });
+                    thread.start();
                 }
                 return false;
             }
@@ -146,12 +176,49 @@ public class  JewelryListView extends ConstraintLayout {
             }
         });
     }
-    private void getDataList(String keyword) throws UnsupportedEncodingException, InterruptedException {
-        dataList.clear();
-        listViewAdapter.notifyDataSetChanged();
-        Thread thread = new Thread(new Runnable() {
+    private void initRefresh(){
+        swipeRefreshLayout.setColorSchemeColors(Color.parseColor("#0000FF"));
+//        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.d3_bg_gray);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void run() {
+            public void onRefresh() {
+                searchStr = search.getText().toString();
+
+                dataList.clear();
+                listViewAdapter.notifyDataSetChanged();
+                setAllEnabled(false);
+
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!TextUtils.isEmpty(searchStr)){
+                            try {
+                                getDataList(searchStr);
+                            } catch (UnsupportedEncodingException | InterruptedException e) {
+                                toastMessage("获取饰品数据失败");
+                            }
+                        }
+                        jewelryListView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (listViewAdapter != null) {
+                                    listViewAdapter.notifyDataSetChanged();
+                                } else {
+                                    listViewAdapter = new ListViewAdapter(context, dataList);
+                                    listView.setAdapter(listViewAdapter);
+                                }
+                                setAllEnabled(true);
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        });
+                    }
+                });
+                thread.start();
+            }
+        });
+    }
+    private void getDataList(String keyword) throws UnsupportedEncodingException, InterruptedException {
+
                 try {
                     jewelryList = HomeApi.getJewelryList(keyword);
                     if(jewelryList.size()%2 == 1){
@@ -169,17 +236,6 @@ public class  JewelryListView extends ConstraintLayout {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }
-        });
-        thread.start();
-        thread.join();
-//        for (int i = 1; i <= 4; i++) {
-//            Map map = new HashMap();
-//            map.put("jewelry_left_name",keyword);
-//            map.put("jewelry_right_name",keyword);
-//            dataList.add(map);
-//        }
-//        dataList.get(3).put("jewelry_right_name","");
     }
     private void toastMessage(String message){
         Toast.makeText(context,message,Toast.LENGTH_SHORT).show();
@@ -195,6 +251,9 @@ public class  JewelryListView extends ConstraintLayout {
 //        showView(showView);
     }
 
+    private void setAllEnabled(boolean enabled){
+        search.setEnabled(enabled);
+    }
     private void showView(int showView) {
         //将showView转换为二进制数，根据不同位置上的值设置对应View的显示或者隐藏。
         Long data = Long.valueOf(Integer.toBinaryString(showView));

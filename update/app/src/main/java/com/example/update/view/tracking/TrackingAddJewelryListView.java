@@ -35,6 +35,7 @@ import com.example.update.api.HomeApi;
 import com.example.update.api.TrackingApi;
 import com.example.update.entity.Jewelry;
 import com.example.update.entity.NotificationOfTracking;
+import com.example.update.view.loading.LoadingLayout;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class TrackingAddJewelryListView extends ConstraintLayout {
     private EditText search;
 
     private String searchStr;
+
+    private LoadingLayout loadingLayout;
 
 
     private List<Jewelry> jewelryList = new ArrayList<>();
@@ -99,6 +102,7 @@ public class TrackingAddJewelryListView extends ConstraintLayout {
         swipeRefreshLayout = (SwipeRefreshLayout)  trackingAddJewelryListView.findViewById(R.id.tracking_add_jewelry_list_refresh);
         search = (EditText)trackingAddJewelryListView.findViewById(R.id.tracking_add_jewelry_list_search);
         listView = (ListView) trackingAddJewelryListView.findViewById(R.id.tracking_add_jewelry_list_result);
+        loadingLayout = (LoadingLayout) trackingAddJewelryListView.findViewById(R.id.tracking_add_loading);
         initSearch();
         initRefresh();
         initListView();
@@ -171,6 +175,7 @@ public class TrackingAddJewelryListView extends ConstraintLayout {
                     dataList.clear();
                     trackingAddJewelryListViewAdapter.notifyDataSetChanged();
                     setAllEnabled(false);
+                    loadingLayout.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setEnabled(false);
                     tracking_add_jewelry_list_number.setText("搜索中");
                     Thread thread = new Thread(new Runnable() {
@@ -186,6 +191,7 @@ public class TrackingAddJewelryListView extends ConstraintLayout {
                             trackingAddJewelryListView.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    loadingLayout.setVisibility(View.GONE);
                                     if (trackingAddJewelryListViewAdapter != null) {
                                         trackingAddJewelryListViewAdapter.notifyDataSetChanged();
                                     } else {

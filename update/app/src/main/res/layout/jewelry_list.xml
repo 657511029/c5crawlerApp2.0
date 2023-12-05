@@ -27,19 +27,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ListView
-        android:id="@+id/jewelry_list_result"
+    <com.example.update.view.loading.LoadingLayout
+        android:id="@+id/jewelry_list_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="73dp"
-        android:divider="@null"
-        android:dividerHeight="20dp"
-        android:scrollbars="none"
-        android:listSelector="@android:color/transparent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/jewelry_list_search"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/jewelry_list_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="73dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jewelry_list_search"
+        app:layout_constraintVertical_bias="0.0">
+        <ListView
+            android:id="@+id/jewelry_list_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="73dp"
+            android:divider="@null"
+            android:dividerHeight="20dp"
+            android:scrollbars="none"
+            android:listSelector="@android:color/transparent"
+             />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

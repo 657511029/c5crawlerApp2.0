@@ -11,4 +11,9 @@
             <flag name="center_img" value="0x20" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="LoadingLayout">
+        <attr name="loadingView" format="reference" />
+        <attr name="stateView" format="reference" />
+        <attr name="emptyView" format="reference" />
+    </declare-styleable>
 </resources>

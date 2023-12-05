@@ -32,6 +32,7 @@ import com.example.update.view.HomeView;
 import com.example.update.view.JewelryHomeView;
 import com.example.update.view.JewelryListView;
 import com.example.update.view.ListViewAdapter;
+import com.example.update.view.loading.LoadingLayout;
 
 import org.json.JSONException;
 
@@ -75,6 +76,8 @@ public class RankView extends ConstraintLayout {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private ListView listView;
+
+    private LoadingLayout loadingLayout;
     private int showView;
     private RankListViewAdapter rankListViewAdapter;
 
@@ -115,6 +118,7 @@ public class RankView extends ConstraintLayout {
         rankView = (RankView) LayoutInflater.from(context).inflate(R.layout.rank, this,true);
         initMap();
         initSpinner();
+        loadingLayout = (LoadingLayout) rankView.findViewById(R.id.ranking_loading);
         swipeRefreshLayout = (SwipeRefreshLayout)rankView.findViewById(R.id.rank_list_refresh);
         initRefresh();
         listView = (ListView) rankView.findViewById(R.id.rank_list_result);
@@ -256,6 +260,7 @@ public class RankView extends ConstraintLayout {
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             spinnerCount++;
             setAllEnabled(false);
+            loadingLayout.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setEnabled(false);
             if(spinnerCount < 6){
                 return;
@@ -270,6 +275,7 @@ public class RankView extends ConstraintLayout {
                     rankView.post(new Runnable() {
                         @Override
                         public void run() {
+                            loadingLayout.setVisibility(View.GONE);
                             if (rankListViewAdapter != null) {
                                 rankListViewAdapter.notifyDataSetChanged();
                             } else {

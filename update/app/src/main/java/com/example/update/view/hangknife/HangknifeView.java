@@ -29,6 +29,7 @@ import com.example.update.R;
 import com.example.update.api.HomeApi;
 import com.example.update.entity.Hangknife_jewelry;
 import com.example.update.entity.Rank_jewelry;
+import com.example.update.view.loading.LoadingLayout;
 import com.example.update.view.rank.RankListViewAdapter;
 
 import java.io.IOException;
@@ -62,6 +63,8 @@ public class HangknifeView extends ConstraintLayout {
     private TextView hangknife_edits_search;
 
     private TextView hangknife_edits_clean;
+
+    private LoadingLayout loadingLayout;
     private int showView;
     private HangknifeListViewAdapter hangknifeListViewAdapter;
 
@@ -99,6 +102,7 @@ public class HangknifeView extends ConstraintLayout {
     private void initView(Context context){
         hangknifeView = (HangknifeView) LayoutInflater.from(context).inflate(R.layout.hangknife, this,true);
         initEdits();
+        loadingLayout = (LoadingLayout) hangknifeView.findViewById(R.id.hangknife_loading);
         swipeRefreshLayout = (SwipeRefreshLayout)hangknifeView.findViewById(R.id.hangknife_list_refresh);
         initRefresh();
         listView = (ListView) hangknifeView.findViewById(R.id.hangknife_list_result);
@@ -271,6 +275,7 @@ public class HangknifeView extends ConstraintLayout {
                 return;
             }
             setAllEnabled(false);
+            loadingLayout.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setEnabled(false);
             hangknife_jewelryList.clear();
             dataList.clear();
@@ -282,6 +287,7 @@ public class HangknifeView extends ConstraintLayout {
                     hangknifeView.post(new Runnable() {
                         @Override
                         public void run() {
+                            loadingLayout.setVisibility(View.GONE);
                             if (hangknifeListViewAdapter != null) {
                                 hangknifeListViewAdapter.notifyDataSetChanged();
                             } else {

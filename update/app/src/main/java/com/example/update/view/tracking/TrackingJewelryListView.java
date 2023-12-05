@@ -43,6 +43,7 @@ import com.example.update.entity.NotificationOfTracking;
 import com.example.update.entity.Rank_jewelry;
 import com.example.update.view.JewelryHomeView;
 import com.example.update.view.ListViewAdapter;
+import com.example.update.view.loading.LoadingLayout;
 import com.example.update.view.rank.RankListViewAdapter;
 
 import java.io.IOException;
@@ -104,6 +105,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
 
     private final int deleting = 6;
 
+    private LoadingLayout loadingLayout;
 
     private int flag;
 
@@ -142,6 +144,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
         search = (EditText)trackingJewelryListView.findViewById(R.id.tracking_jewelry_list_search);
         listView = (ListView) trackingJewelryListView.findViewById(R.id.tracking_jewelry_list_result);
         footText = (TextView) LayoutInflater.from(context).inflate(R.layout.foot_text, null);
+        loadingLayout = (LoadingLayout) trackingJewelryListView.findViewById(R.id.tracking_loading);
         initList();
         initSearch();
         initRefresh();
@@ -344,6 +347,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                     trackingJewelryListViewAdapter.notifyDataSetChanged();
                     footText.setVisibility(View.GONE);
                     setAllEnabled(false);
+                    loadingLayout.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setEnabled(false);
                     tracking_jewelry_list_number.setText("搜索中");
                     Thread thread = new Thread(new Runnable() {
@@ -353,6 +357,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                             trackingJewelryListView.post(new Runnable() {
                                 @Override
                                 public void run() {
+                                    loadingLayout.setVisibility(View.GONE);
                                     if (trackingJewelryListViewAdapter != null) {
                                         trackingJewelryListViewAdapter.notifyDataSetChanged();
                                     } else {
@@ -442,6 +447,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
     private void initList(){
         dataList.clear();
         setAllEnabled(false);
+        loadingLayout.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setEnabled(false);
         flag = initializing;
         Thread thread = new Thread(new Runnable() {
@@ -451,6 +457,7 @@ public class TrackingJewelryListView extends ConstraintLayout {
                 trackingJewelryListView.post(new Runnable() {
                     @Override
                     public void run() {
+                        loadingLayout.setVisibility(View.GONE);
                         if (trackingJewelryListViewAdapter != null) {
                             trackingJewelryListViewAdapter.notifyDataSetChanged();
                         } else {

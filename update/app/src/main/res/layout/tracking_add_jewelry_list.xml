@@ -51,6 +51,18 @@
         app:layout_constraintTop_toBottomOf="@+id/tracking_add_jewelry_list_title"
         app:layout_constraintVertical_bias="0.0"
         />
+    <com.example.update.view.loading.LoadingLayout
+        android:id="@+id/tracking_add_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tracking_add_jewelry_list_number"
+        app:layout_constraintVertical_bias="1.0"/>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/tracking_add_jewelry_list_refresh"
         android:layout_width="match_parent"
