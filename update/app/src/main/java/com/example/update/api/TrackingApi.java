@@ -30,14 +30,22 @@ import java.util.Set;
 
 import redis.clients.jedis.Jedis;
 
+import com.example.update.BuildConfig;
+
 public class TrackingApi {
 
+    private static final String REDIS_IP = BuildConfig.REDIS_IP;
+
+    private static final String REDIS_PASSWORD = BuildConfig.REDIS_PASSWORD;
+
+    private static final int REDIS_SELECT = BuildConfig.REDIS_SELECT;
+
     public static Object TrackingConnectRedis(String user) {
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -93,6 +101,12 @@ public class TrackingApi {
         } catch (Exception e) {
             return new NotificationOfTracking("Redis服务运行失败", 10002, "Redis服务", "Redis服务",0.00);
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
     }
 
     public static Object initializeUUAccount(String userName,String password){
@@ -101,7 +115,6 @@ public class TrackingApi {
         BufferedReader reader = null;
         String result = null;
         StringBuffer sbf = new StringBuffer();
-
         try {
             URL url = new URL(httpUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -702,11 +715,11 @@ public class TrackingApi {
 
     public static Map<String,Object> getJewelryListBySearch(String user,String searchStr,String offset,int count,int addCount){
         List<Jewelry> jewelryList = new ArrayList<>();
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -770,14 +783,20 @@ public class TrackingApi {
         } catch (Exception e) {
             return null;
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
     }
     public static List<Jewelry> getBlockJewelryListBySearch(String user,String searchStr){
         List<Jewelry> jewelryList = new ArrayList<>();
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -825,14 +844,20 @@ public class TrackingApi {
         } catch (Exception e) {
             return null;
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
     }
 
     public static Object blockJewelry(String user,String jewelryID){
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -871,14 +896,21 @@ public class TrackingApi {
         } catch (Exception e) {
             return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务",0.00);
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
 
     }
     public static Object deleteJewelry(String user,String jewelryID){
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -910,14 +942,20 @@ public class TrackingApi {
         } catch (Exception e) {
             return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务",0.00);
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
 
     }
     public static Object cancelBlockJewelry(String user,String jewelryID) {
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -956,16 +994,22 @@ public class TrackingApi {
         } catch (Exception e) {
             return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务", 0.00);
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
     }
     public static Object addJewelry(String user,Jewelry jewelry){
         String jewelryID = jewelry.getC5ID();
         String jewelryName = jewelry.getJewelryName();
         String imageUrl = jewelry.getImageUrl();
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -1003,6 +1047,12 @@ public class TrackingApi {
             }
         } catch (Exception e) {
             return new NotificationOfTracking("Redis服务运行失败", 10001, "Redis服务", "Redis服务",0.00);
+        }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
         }
 
     }

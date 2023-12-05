@@ -183,7 +183,7 @@ public class THelperActivity extends AppCompatActivity {
                                     }
                                     setAllEnabled(true);
                                     swipeRefreshLayout.setEnabled(true);
-                                    tHelper_order_list_number.setText("件数:" + jewelryCount + "价值:" + jewelryAllPrice);
+                                    tHelper_order_list_number.setText("件数:" + jewelryCount + "  价值:" + jewelryAllPrice);
                                 }
                             });
                         }
@@ -240,7 +240,7 @@ public class THelperActivity extends AppCompatActivity {
                         }
                         setAllEnabled(true);
                         swipeRefreshLayout.setEnabled(true);
-                        tHelper_order_list_number.setText("件数:" + jewelryCount + "价值:" + jewelryAllPrice);
+                        tHelper_order_list_number.setText("件数:" + jewelryCount + "  价值:" + jewelryAllPrice);
                     }
                 });
             }
@@ -317,7 +317,7 @@ public class THelperActivity extends AppCompatActivity {
                                 }
                                 setAllEnabled(true);
                                 swipeRefreshLayout.setRefreshing(false);
-                                tHelper_order_list_number.setText("件数:" + jewelryCount + "价值:" + jewelryAllPrice);
+                                tHelper_order_list_number.setText("件数:" + jewelryCount + "  价值:" + jewelryAllPrice);
                             }
                         });
                     }

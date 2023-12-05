@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.update.BuildConfig;
 import com.example.update.entity.Hangknife_jewelry;
 import com.example.update.entity.Jewelry;
 import com.example.update.entity.Rank_jewelry;
@@ -48,6 +49,13 @@ import javax.script.ScriptException;
 
 
 public class HomeApi {
+
+    private static final String REDIS_IP = BuildConfig.REDIS_IP;
+
+    private static final String REDIS_PASSWORD = BuildConfig.REDIS_PASSWORD;
+
+    private static final int REDIS_SELECT = BuildConfig.REDIS_SELECT;
+
     public static List<Jewelry> getJewelryList(String keyword) throws UnsupportedEncodingException {
         List<Jewelry> jewelryList = new ArrayList<>();
         String httpUrlStart = "https://www.c5game.com/napi/trade/search/v2/items/730/search?limit=100&appId=730&page=1&sort=0&marketKeyword=";

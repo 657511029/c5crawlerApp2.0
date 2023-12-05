@@ -1,5 +1,6 @@
 package com.example.update.api;
 
+import com.example.update.BuildConfig;
 import com.example.update.entity.UserInfo;
 
 import java.util.ArrayList;
@@ -8,13 +9,17 @@ import java.util.List;
 import redis.clients.jedis.Jedis;
 
 public class InfoApi {
+    private static final String REDIS_IP = BuildConfig.REDIS_IP;
 
+    private static final String REDIS_PASSWORD = BuildConfig.REDIS_PASSWORD;
+
+    private static final int REDIS_SELECT = BuildConfig.REDIS_SELECT;
     public static boolean login(String user){
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -30,13 +35,19 @@ public class InfoApi {
         }catch (Exception e){
             return false;
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
     }
     public static boolean deleteUser(String user){
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -66,15 +77,21 @@ public class InfoApi {
         }catch (Exception e){
             return false;
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
     }
 
     public static UserInfo getUserInfo(String user){
         UserInfo userInfo = new UserInfo();
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -125,14 +142,20 @@ public class InfoApi {
         }catch (Exception e){
             return null;
         }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
+        }
     }
 
     public static boolean submitInfo(String user,UserInfo userInfo,String flag){
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -191,6 +214,12 @@ public class InfoApi {
             }
         }catch (Exception e){
             return false;
+        }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
         }
     }
 }

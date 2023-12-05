@@ -2,6 +2,7 @@ package com.example.update.api;
 
 import android.util.Log;
 
+import com.example.update.BuildConfig;
 import com.example.update.entity.OrdersItem;
 import com.example.update.entity.OrdersTimeItem;
 import com.example.update.entity.Rank_jewelry;
@@ -29,6 +30,13 @@ import java.util.Map;
 import redis.clients.jedis.Jedis;
 
 public class THelperApi {
+
+    private static final String REDIS_IP = BuildConfig.REDIS_IP;
+
+    private static final String REDIS_PASSWORD = BuildConfig.REDIS_PASSWORD;
+
+    private static final int REDIS_SELECT = BuildConfig.REDIS_SELECT;
+    
     public static long getDataTime(int year,int month,int day,String TimingOrder) throws ParseException {
         String time = year + "-" + month + "-" + day + " " + "16:00:00";
         if(TimingOrder.equals("夏令时")){
@@ -45,11 +53,12 @@ public class THelperApi {
 
     public static UserInfo getUserC5Info(String user){
         UserInfo userInfo = new UserInfo();
+        Jedis jedis = new Jedis(REDIS_IP, 6379);
         try {
-            Jedis jedis = new Jedis("r-uf6ji3jrv0oomrgi9upd.redis.rds.aliyuncs.com", 6379);
+
             //如果 Redis 服务设置了密码，需要添加下面这行代码
-            jedis.auth("Lenshanshan521!");
-            jedis.select(255);
+            jedis.auth(REDIS_PASSWORD);
+            jedis.select(REDIS_SELECT);
             //调用ping()方法查看 Redis 服务是否运行
             if (jedis.ping().equals("PONG")) {
                 if (!jedis.sismember("user", user)) {
@@ -77,6 +86,12 @@ public class THelperApi {
             }
         }catch (Exception e){
             return null;
+        }
+        finally {
+            if (jedis != null) {
+                //这里使用的close不代表关闭连接，指的是归还资源
+                jedis.close();
+            }
         }
     }
 

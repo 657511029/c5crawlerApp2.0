@@ -20,13 +20,30 @@ android {
 
     buildTypes {
         release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigField("String","REDIS_IP","\"${project.property("DATEBASE_IP")}\"")
+            buildConfigField("String","REDIS_PASSWORD","\"${project.property("DATEBASE_PASSWORD")}\"")
+            buildConfigField("int","REDIS_SELECT","${project.property("DATEBASE_SELECT")}")
+
+        }
+        debug {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigField("String","REDIS_IP","\"${project.property("DATEBASE_IP")}\"")
+            buildConfigField("String","REDIS_PASSWORD","\"${project.property("DATEBASE_PASSWORD")}\"")
+            buildConfigField("int","REDIS_SELECT","${project.property("DATEBASE_SELECT")}")
+
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+
+        buildConfig = true
     }
 }
 
